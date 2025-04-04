@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Debian系统安装服务软件 - 蓝狐狸的博客</title><meta name="author" content="蓝狐狸">
+<meta name="author-link" content="">
+<meta name="description" content="linux编译安装指令
+configure、make、make install 命令
+configure：配置，是用来检测你的安装平台的目标特征的。比如它会检测你是不是有 CC 或 GCC，并不是需要 CC 或 GCC，它是个 shell 脚本。configure 脚本负责在使用的系统上准备好软件的构建环境。确保接下来的构建和安装过程所需要的依赖准备好，并且搞清楚使用这些依赖需要的东西。
+make：构建，用来编译，它从 Makefile 中读取指令，然后编译。下载的源码包一般没有一个最终的 Makefile 文件，一般是一个模版文件，然后 configure 根据系统的参数生成一个定制化的 Makefile 文件。这个过程会执行在 Makefile 文件中定义的一系列任务将软件源代码编译成可执行文件。
+make install：安装，它也从 Makefile 中读取指令，安装到指定的位置。make install 命令就是将可执行文件、第三方依赖包和文档复制到正确的路径。
+清除 make 生成的文件：make clean
+清除 make 和 configure 生成的文件，包括 Makefile：make distclean
+apt 源安装 php 由于 debian 11 带的 php 版本是 7.4，有点老，所以我们可以使用 debian 开发者 Ondřej Surý 维护的 php 源 deb.sury.org 。
+注意：以下方式还可以安装 php 5.6 版本
+1 2 3 4 5 6 7 8 9 10 11 12 13 # 首先，使用下面的命令安装所须的软件包： apt install ca-certificates apt-transport-https software-properties-common -y # 安装所须软件包后，使用以下命令将 Sury 存储库添加到 APT： echo &#34;deb [https://packages." /><meta name="keywords" content='nginx, mysql, php' />
+  <meta itemprop="name" content="debian系统安装服务软件">
+  <meta itemprop="description" content="linux编译安装指令
+configure、make、make install 命令
+configure：配置，是用来检测你的安装平台的目标特征的。比如它会检测你是不是有 CC 或 GCC，并不是需要 CC 或 GCC，它是个 shell 脚本。configure 脚本负责在使用的系统上准备好软件的构建环境。确保接下来的构建和安装过程所需要的依赖准备好，并且搞清楚使用这些依赖需要的东西。
+make：构建，用来编译，它从 Makefile 中读取指令，然后编译。下载的源码包一般没有一个最终的 Makefile 文件，一般是一个模版文件，然后 configure 根据系统的参数生成一个定制化的 Makefile 文件。这个过程会执行在 Makefile 文件中定义的一系列任务将软件源代码编译成可执行文件。
+make install：安装，它也从 Makefile 中读取指令，安装到指定的位置。make install 命令就是将可执行文件、第三方依赖包和文档复制到正确的路径。
+清除 make 生成的文件：make clean
+清除 make 和 configure 生成的文件，包括 Makefile：make distclean
+apt 源安装 php 由于 debian 11 带的 php 版本是 7.4，有点老，所以我们可以使用 debian 开发者 Ondřej Surý 维护的 php 源 deb.sury.org 。
+注意：以下方式还可以安装 php 5.6 版本
+1 2 3 4 5 6 7 8 9 10 11 12 13 # 首先，使用下面的命令安装所须的软件包： apt install ca-certificates apt-transport-https software-properties-common -y # 安装所须软件包后，使用以下命令将 Sury 存储库添加到 APT： echo &#34;deb [https://packages.">
+  <meta itemprop="datePublished" content="2024-03-01T11:59:29+08:00">
+  <meta itemprop="dateModified" content="2024-03-01T12:59:29+08:00">
+  <meta itemprop="wordCount" content="1545">
+  <meta itemprop="keywords" content="Nginx,Mysql,Php"><meta property="og:url" content="https://example.org/8e7beb29bf97/">
+  <meta property="og:site_name" content="蓝狐狸的博客">
+  <meta property="og:title" content="debian系统安装服务软件">
+  <meta property="og:description" content="linux编译安装指令
+configure、make、make install 命令
+configure：配置，是用来检测你的安装平台的目标特征的。比如它会检测你是不是有 CC 或 GCC，并不是需要 CC 或 GCC，它是个 shell 脚本。configure 脚本负责在使用的系统上准备好软件的构建环境。确保接下来的构建和安装过程所需要的依赖准备好，并且搞清楚使用这些依赖需要的东西。
+make：构建，用来编译，它从 Makefile 中读取指令，然后编译。下载的源码包一般没有一个最终的 Makefile 文件，一般是一个模版文件，然后 configure 根据系统的参数生成一个定制化的 Makefile 文件。这个过程会执行在 Makefile 文件中定义的一系列任务将软件源代码编译成可执行文件。
+make install：安装，它也从 Makefile 中读取指令，安装到指定的位置。make install 命令就是将可执行文件、第三方依赖包和文档复制到正确的路径。
+清除 make 生成的文件：make clean
+清除 make 和 configure 生成的文件，包括 Makefile：make distclean
+apt 源安装 php 由于 debian 11 带的 php 版本是 7.4，有点老，所以我们可以使用 debian 开发者 Ondřej Surý 维护的 php 源 deb.sury.org 。
+注意：以下方式还可以安装 php 5.6 版本
+1 2 3 4 5 6 7 8 9 10 11 12 13 # 首先，使用下面的命令安装所须的软件包： apt install ca-certificates apt-transport-https software-properties-common -y # 安装所须软件包后，使用以下命令将 Sury 存储库添加到 APT： echo &#34;deb [https://packages.">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-03-01T11:59:29+08:00">
+    <meta property="article:modified_time" content="2024-03-01T12:59:29+08:00">
+    <meta property="article:tag" content="Nginx">
+    <meta property="article:tag" content="Mysql">
+    <meta property="article:tag" content="Php">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="debian系统安装服务软件">
+  <meta name="twitter:description" content="linux编译安装指令
+configure、make、make install 命令
+configure：配置，是用来检测你的安装平台的目标特征的。比如它会检测你是不是有 CC 或 GCC，并不是需要 CC 或 GCC，它是个 shell 脚本。configure 脚本负责在使用的系统上准备好软件的构建环境。确保接下来的构建和安装过程所需要的依赖准备好，并且搞清楚使用这些依赖需要的东西。
+make：构建，用来编译，它从 Makefile 中读取指令，然后编译。下载的源码包一般没有一个最终的 Makefile 文件，一般是一个模版文件，然后 configure 根据系统的参数生成一个定制化的 Makefile 文件。这个过程会执行在 Makefile 文件中定义的一系列任务将软件源代码编译成可执行文件。
+make install：安装，它也从 Makefile 中读取指令，安装到指定的位置。make install 命令就是将可执行文件、第三方依赖包和文档复制到正确的路径。
+清除 make 生成的文件：make clean
+清除 make 和 configure 生成的文件，包括 Makefile：make distclean
+apt 源安装 php 由于 debian 11 带的 php 版本是 7.4，有点老，所以我们可以使用 debian 开发者 Ondřej Surý 维护的 php 源 deb.sury.org 。
+注意：以下方式还可以安装 php 5.6 版本
+1 2 3 4 5 6 7 8 9 10 11 12 13 # 首先，使用下面的命令安装所须的软件包： apt install ca-certificates apt-transport-https software-properties-common -y # 安装所须软件包后，使用以下命令将 Sury 存储库添加到 APT： echo &#34;deb [https://packages.">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://example.org/8e7beb29bf97/" /><link rel="prev" href="https://example.org/e4880266d50b/" /><link rel="next" href="https://example.org/d72b8614ae35/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "debian系统安装服务软件",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/example.org\/8e7beb29bf97\/"
+    },"genre": "posts","keywords": "nginx, mysql, php","wordcount":  1545 ,
+    "url": "https:\/\/example.org\/8e7beb29bf97\/","datePublished": "2024-03-01T11:59:29+08:00","dateModified": "2024-03-01T12:59:29+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "蓝狐狸"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/"
+                
+                
+              ><i class="fa-solid fa-house"></i> 首页</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/"
+                  
+                  
+                ><i class="fa-solid fa-house"></i> 首页</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Debian系统安装服务软件</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - Linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Linux</a></span></div><div class="post-meta-line"><span title="发布于 2024-03-01 11:59:29"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-03-01">2024-03-01</time></span>&nbsp;<span title="更新于 2024-03-01 12:59:29"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-03-01">2024-03-01</time></span>&nbsp;<span title="1545 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1600 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 8 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#apt-源安装-php">apt 源安装 php</a></li>
+    <li><a href="#源码编译安装-php">源码编译安装 php</a></li>
+    <li><a href="#安装-nginx">安装 nginx</a>
+      <ul>
+        <li><a href="#php-相关配置">php 相关配置</a></li>
+        <li><a href="#反向代理配置">反向代理配置</a></li>
+        <li><a href="#ssl-配置">ssl 配置</a></li>
+        <li><a href="#basic-认证配置">basic 认证配置</a></li>
+      </ul>
+    </li>
+    <li><a href="#安装-mysql">安装 mysql</a>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#重置密码注意版本">重置密码（注意版本）</a></li>
+      </ul>
+    </li>
+    <li><a href="#安装-samba">安装 Samba</a></li>
+    <li><a href="#安装-frp">安装 frp</a></li>
+    <li><a href="#安装-dnsmasq">安装 dnsmasq</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2024-03-01，文中内容可能已过时。</div>
+      </div>
+    </div><p>linux编译安装指令</p>
+<p>configure、make、make install 命令</p>
+<p>configure：配置，是用来检测你的安装平台的目标特征的。比如它会检测你是不是有 CC 或 GCC，并不是需要 CC 或 GCC，它是个 shell 脚本。configure 脚本负责在使用的系统上准备好软件的构建环境。确保接下来的构建和安装过程所需要的依赖准备好，并且搞清楚使用这些依赖需要的东西。</p>
+<p>make：构建，用来编译，它从 Makefile 中读取指令，然后编译。下载的源码包一般没有一个最终的 Makefile 文件，一般是一个模版文件，然后 configure 根据系统的参数生成一个定制化的 Makefile 文件。这个过程会执行在 Makefile 文件中定义的一系列任务将软件源代码编译成可执行文件。</p>
+<p>make install：安装，它也从 Makefile 中读取指令，安装到指定的位置。make install 命令就是将可执行文件、第三方依赖包和文档复制到正确的路径。</p>
+<p>清除 make 生成的文件：<code>make clean</code></p>
+<p>清除 make 和 configure 生成的文件，包括 Makefile：<code>make distclean</code></p>
+<h2 id="apt-源安装-php" class="heading-element"><span>apt 源安装 php</span>
+  <a href="#apt-%e6%ba%90%e5%ae%89%e8%a3%85-php" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>由于 debian 11 带的 php 版本是 7.4，有点老，所以我们可以使用 debian 开发者 Ondřej Surý 维护的 php 源 deb.sury.org 。</p>
+<p>注意：以下方式还可以安装 php 5.6 版本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 首先，使用下面的命令安装所须的软件包：</span>
+</span></span><span class="line"><span class="cl">apt install ca-certificates apt-transport-https software-properties-common -y
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装所须软件包后，使用以下命令将 Sury 存储库添加到 APT：</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;deb [https://packages.sury.org/php/](https://packages.sury.org/php/) </span><span class="k">$(</span>lsb_release -sc<span class="k">)</span><span class="s2"> main&#34;</span> <span class="p">|</span> tee /etc/apt/sources.list.d/sury-php.list
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 然后，使用以下命令下载并添加 GPG 密钥：</span>
+</span></span><span class="line"><span class="cl">wget -qO - <span class="o">[</span>https://packages.sury.org/php/apt.gpg<span class="o">](</span>https://packages.sury.org/php/apt.gpg<span class="o">)</span> <span class="p">|</span> apt-key add -
+</span></span><span class="line"><span class="cl"><span class="c1"># 上述添加 GPG 密钥的命令会提示 Warning: apt-key is deprecated，但是可以执行成功，如果不想要报 Warning 可以换成下面的命令：</span>
+</span></span><span class="line"><span class="cl">wget -O /etc/apt/trusted.gpg.d/php.gpg <span class="o">[</span>https://packages.sury.org/php/apt.gpg<span class="o">](</span>https://packages.sury.org/php/apt.gpg<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 完成后，使用以下命令更新存储库，到此，sury 源添加完成。</span>
+</span></span><span class="line"><span class="cl">apt update</span></span></code></pre></td></tr></table>
+</div>
+</div><p>安装 php 指定版本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 如果要安装 php 的最新版本，可以执行：</span>
+</span></span><span class="line"><span class="cl">apt install php-fpm php-mysql php-mbstring php-curl php-dom php-imagick php-zip php-gd php-intl
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果要安装指定的版本，例如安装 php8.0，可以执行：</span>
+</span></span><span class="line"><span class="cl">apt install php8.0-fpm php8.0-mysql php8.0-mbstring php8.0-curl php8.0-dom php8.0-imagick php8.0-zip php8.0-gd php8.0-intl
+</span></span><span class="line"><span class="cl">apt install php5.6-fpm php5.6-mysql php5.6-mbstring php5.6-curl php5.6-dom php5.6-imagick php5.6-zip php5.6-gd php5.6-intl
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 注意，使用命令 apt install php8.0 后，会一并安装Apache。</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># php 指的应该是整套能运行 php 的环境，php 需要在 libapache2-mod-php5, libapache2-mod-php5filter, php5-cgi, or php5-fpm 以上环境之一运行，如果没有则默认选了第一种，所以会推荐安装 apache。参考回答： https://learnku.com/articles/55616](https://learnku.com/articles/55616</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>启动 php-fpm：<code>systemctl status php8.0-fpm.service</code></p>
+<h2 id="源码编译安装-php" class="heading-element"><span>源码编译安装 php</span>
+  <a href="#%e6%ba%90%e7%a0%81%e7%bc%96%e8%af%91%e5%ae%89%e8%a3%85-php" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>安装编译程序和相关依赖，可以运行 <code>./configure</code> 命令检查。缺啥安装啥</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apt-get install gcc make libxml2 libxml2-dev zlib1g-dev libcurl4-gnutls-dev libreadline-dev</span></span></code></pre></td></tr></table>
+</div>
+</div><p>创建安装目录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir -p /usr/local/php/5.6</span></span></code></pre></td></tr></table>
+</div>
+</div><p>下载 php 5.6 的源码包，解压后进入源码文件夹下</p>
+<p>生成配置文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./configure --prefix<span class="o">=</span>/usr/local/php/5.6 --with-config-file-path<span class="o">=</span>/usr/local/php/5.6 --enable-fpm --enable-cli</span></span></code></pre></td></tr></table>
+</div>
+</div><p>出现问题：报错 <code>Cannot find OpenSSL's libraries</code></p>
+<p>运行命令：<code>find / -name libssl.so</code>，输出：<code>/usr/lib/x86_64-linux-gnu/libssl.so</code></p>
+<p>建立软连接：<code>ln -s /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib</code></p>
+<p>重新编译即可</p>
+<p>编译、安装</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">make <span class="o">&amp;&amp;</span> make install</span></span></code></pre></td></tr></table>
+</div>
+</div><p>复制 <code>php.ini</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># php.ini-development（开发环境用）与php.ini-production（生产环境用）</span>
+</span></span><span class="line"><span class="cl">cp php.ini-production /usr/local/php/5.6/php.ini</span></span></code></pre></td></tr></table>
+</div>
+</div><p>复制启动脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp ./sapi/fpm/init.d.php-fpm /etc/init.d/php5.6-fpm
+</span></span><span class="line"><span class="cl">chmod +x /etc/init.d/php5.6-fpm</span></span></code></pre></td></tr></table>
+</div>
+</div><p>复制生成 <code>php-fpm.conf</code> 文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp /usr/local/php/5.6/etc/php-fpm.conf.default /usr/local/php/5.6/etc/php-fpm.conf</span></span></code></pre></td></tr></table>
+</div>
+</div><p>修改 <code>php-fpm.conf</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">去掉 <span class="nv">pid</span> <span class="o">=</span> run/php-fpm.pid 前面的分号
+</span></span><span class="line"><span class="cl"><span class="nv">并在listen</span> <span class="o">=</span> 127.0.0.1:9000后面添加
+</span></span><span class="line"><span class="cl">listen.allowed_clients <span class="o">=</span> 127.0.0.1</span></span></code></pre></td></tr></table>
+</div>
+</div><p>参考： <a href="https://blog.csdn.net/qq_43017750/article/details/105053831"target="_blank" rel="external nofollow noopener noreferrer">https://blog.csdn.net/qq_43017750/article/details/105053831</a></p>
+<h2 id="安装-nginx" class="heading-element"><span>安装 nginx</span>
+  <a href="#%e5%ae%89%e8%a3%85-nginx" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>安装：<code>apt install nginx</code></p>
+<p>nginx 配置文件</p>
+<p>root、alias 配置区分： <a href="https://zhuanlan.zhihu.com/p/131009164"target="_blank" rel="external nofollow noopener noreferrer">https://zhuanlan.zhihu.com/p/131009164</a></p>
+<h3 id="php-相关配置" class="heading-element"><span>php 相关配置</span>
+  <a href="#php-%e7%9b%b8%e5%85%b3%e9%85%8d%e7%bd%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="kn">.....</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># pass PHP scripts to FastCGI server
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">#location ~ \.php$ {
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">#       include snippets/fastcgi-php.conf;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">#
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">#       # With php-fpm (or other unix sockets):
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">#       fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">#       # With php-cgi (or other tcp sockets):
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">#       fastcgi_pass 127.0.0.1:9000;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">#}
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">        <span class="s">location</span> <span class="p">~</span> <span class="sr">\.php$</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		        <span class="kn">fastcgi_index</span> <span class="s">index.php</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="kn">include</span> <span class="s">fastcgi_params</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="kn">fastcgi_param</span> <span class="s">SCRIPT_FILENAME</span> <span class="nv">$document_root/$fastcgi_script_name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="kn">fastcgi_pass</span> <span class="s">unix:/run/php/php5.6-fpm.sock</span><span class="p">;</span> <span class="c1"># 使用unix sockets
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="c1"># fastcgi_pass 127.0.0.1:9000; # tcp sockets
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="反向代理配置" class="heading-element"><span>反向代理配置</span>
+  <a href="#%e5%8f%8d%e5%90%91%e4%bb%a3%e7%90%86%e9%85%8d%e7%bd%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span>       <span class="mi">80</span><span class="p">;</span> <span class="c1"># 代理服务器监听的端口
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">server_name</span>  <span class="mi">192</span><span class="s">.168.10.1</span><span class="p">;</span><span class="c1"># 代理服务器地址或绑定域名
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">	<span class="c1"># 访问http://192.168.10.1/，到http://192.168.10.2上
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span> <span class="c1"># 访问80端口后的所有路径都转发到 proxy_pass 配置的ip中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   		<span class="kn">proxy_pass</span> <span class="s">http://192.168.10.2</span><span class="p">;</span> <span class="c1"># 配置真实网站的ip地址和端口号 【注：url地址需加上http:// 或 https://】   		
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1"># 访问http://192.168.10.1/dvwa/这个路径，实际代理到http://127.0.0.1:49154/
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">location</span> <span class="s">/dvwa/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:49154/</span><span class="p">;</span> <span class="c1"># 加不加 / 的区别。绝对路径和相对路径的区别
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1"># 加反斜杠：访问http://192.168.10.1/dvwa/代理到http://127.0.0.1:49154/下
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1"># 不加反斜杠：访问http://192.168.10.1/dvwa/代理到http://127.0.0.1:49154/dvwa/下
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_redirect</span>  <span class="s">/</span> <span class="s">/dvwa/</span><span class="p">;</span> <span class="c1"># 处理302跳转事件，将location的 / 路径，替换为/dvwa/，保证路径的正确。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1"># 访问http://192.168.10.1/pikachu/这个路径，实际代理到http://127.0.0.1:49156/
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">location</span> <span class="s">/pikachu/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:49156/</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1"># 访问http://192.168.10.1/sqli-lab/这个路径，实际代理到http://127.0.0.1:49158/
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">location</span> <span class="s">/sqli-lab/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:49158/</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="ssl-配置" class="heading-element"><span>ssl 配置</span>
+  <a href="#ssl-%e9%85%8d%e7%bd%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">#监听443端口
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">listen</span> <span class="mi">443</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#你的域名
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">server_name</span> <span class="s">lanhuli.top</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kn">ssl</span> <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#ssl证书的pem文件路径
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">ssl_certificate</span>  <span class="s">/root/cert/www.lanhuli.top.pem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#ssl证书的key文件路径
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">ssl_certificate_key</span> <span class="s">/root/cert/www.lanhuli.top.key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	     <span class="kn">root</span> <span class="s">/var/www/html</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	     <span class="kn">index</span> <span class="s">index.php</span> <span class="s">index.html</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kn">location</span> <span class="p">~</span> <span class="sr">\.php$</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="kn">include</span> <span class="s">fastcgi_params</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="kn">fastcgi_param</span> <span class="s">SCRIPT_FILENAME</span> <span class="s">/var/www/html</span><span class="nv">$fastcgi_script_name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="kn">fastcgi_pass</span> <span class="s">unix:/run/php/php8.0-fpm.sock</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span> <span class="s">lanhuli.top</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#将请求转成https
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">rewrite</span> <span class="s">^(.*)</span>$ <span class="s">[https://</span><span class="nv">$host$1]</span><span class="s">(https://</span><span class="nv">$host$1</span><span class="s">)</span> <span class="s">permanent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="basic-认证配置" class="heading-element"><span>basic 认证配置</span>
+  <a href="#basic-%e8%ae%a4%e8%af%81%e9%85%8d%e7%bd%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>1）使用本机认证：auth_basic。还有另一种方式，这个比较简单，就用这个就行。</p>
+<p>需要先安装 htpasswd 工具：<code>yum install httpd-tools</code> 或者 <code>apt install apache2-utils</code></p>
+<p>生成密码文件：<code>htpasswd -c ./mypasswd 用户名</code>，然后输入密码。这个存放的文件路径可以随意指定（<em><strong>这个文件的存放路径必须要让 Nginx 有权限访问到</strong></em>。可以放到 <code>/usr/local/share/mypasswd</code>）。</p>
+<p>2）修改 Nginx 的配置文件</p>
+<p>注意：<strong>不要修改 Nginx 自带的默认配置文件，一定要新建一个配置文件。</strong></p>
+<p>新建配置文件：<code>touch /etc/nginx/conf.d/my-nginx.conf</code></p>
+<p>写入内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">26660</span><span class="p">;</span> <span class="c1"># 监听端口
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">server_name</span> <span class="mi">127</span><span class="s">.0.0.1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">index</span> <span class="s">index.html</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># auth_basic 认证配置，就这两行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">auth_basic</span> <span class="s">&#34;User</span> <span class="s">Authentication&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">auth_basic_user_file</span> <span class="s">/usr/local/share/mypasswd</span><span class="p">;</span> <span class="c1"># 注意，这个文件的存放路径必须要让 Nginx 有权限访问到，不然报错
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Nginx 代理转发
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">location</span> <span class="s">/</span>  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://127.0.0.1:80</span> <span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">X-Real-IP</span> <span class="nv">$remote_addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果使用 curl 和 wget 命令进行下载：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">curl -u username:password URL
+</span></span><span class="line"><span class="cl">wget --http-user<span class="o">=</span>username --http-passwd<span class="o">=</span>passwd URL</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上传文件限制大小问题</p>
+<p>1）nginx 配置问题</p>
+<p>nginx 服务器报错：413 Request Entity Too Large</p>
+<p>打开配置文件 <code>/etc/nginx/nginx.conf</code>。在 http{}段中加入 <code>client_max_body_size 100m;</code> 100 m 为允许最大上传的大小。然后重启 nginx</p>
+<p><a class="lightgallery" href="images/image-20240227165407786.png?size=large" data-thumbnail="images/image-20240227165407786.png?size=small" data-sub-html="<h2>images/image-20240227165407786.png</h2>"><img loading="lazy" src="images/image-20240227165407786.png" alt="images/image-20240227165407786.png" srcset="images/image-20240227165407786.png?size=small, images/image-20240227165407786.png?size=medium 1.5x, images/image-20240227165407786.png?size=large 2x" data-title="images/image-20240227165407786.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>2）php 配置问题</p>
+<p>上传的文件大小超过 php.ini 文件中定义的 upload_max_filesize 值</p>
+<p>打开 php.ini，把 upload_max_filesize 和 post_max_size 修改为 100 M，然后重启。</p>
+<p>注意：</p>
+<p>通过 find 命令查找发现有两个 php.ini 文件</p>
+<p><a class="lightgallery" href="images/image-20240227165556853.png?size=large" data-thumbnail="images/image-20240227165556853.png?size=small" data-sub-html="<h2>images/image-20240227165556853.png</h2>"><img loading="lazy" src="images/image-20240227165556853.png" alt="images/image-20240227165556853.png" srcset="images/image-20240227165556853.png?size=small, images/image-20240227165556853.png?size=medium 1.5x, images/image-20240227165556853.png?size=large 2x" data-title="images/image-20240227165556853.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>查看 phpinfo，发现使用的是 fpm 下的文件</p>
+<p><a class="lightgallery" href="images/image-20240227165612950.png?size=large" data-thumbnail="images/image-20240227165612950.png?size=small" data-sub-html="<h2>images/image-20240227165612950.png</h2>"><img loading="lazy" src="images/image-20240227165612950.png" alt="images/image-20240227165612950.png" srcset="images/image-20240227165612950.png?size=small, images/image-20240227165612950.png?size=medium 1.5x, images/image-20240227165612950.png?size=large 2x" data-title="images/image-20240227165612950.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h2 id="安装-mysql" class="heading-element"><span>安装 mysql</span>
+  <a href="#%e5%ae%89%e8%a3%85-mysql" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="安装" class="heading-element"><span>安装</span>
+  <a href="#%e5%ae%89%e8%a3%85" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>1）配置 MySQL 存储库</p>
+<p>MySQL 全球最流行的开源关系型数据库管理系统，它在默认的 Debian 存储库中不可用。 MariaDB 是 Debian 10 中的默认数据库系统。<a href="https://dev.mysql.com/downloads/repo/apt/"target="_blank" rel="external nofollow noopener noreferrer">MySQL</a> 已经为我们提供了一个 Debian 的 Deb 包，通常是十几 K。我们选择 download。使用 wget 进行下载</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb
+</span></span><span class="line"><span class="cl">sudo dpkg -i mysql-apt-config_0.8.29-1_all.deb</span></span></code></pre></td></tr></table>
+</div>
+</div><p>2）安装 MySQL</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt update
+</span></span><span class="line"><span class="cl">sudo apt install mysql-server</span></span></code></pre></td></tr></table>
+</div>
+</div><p>安装完成后，MySQL 服务会默认自动运行。</p>
+<h3 id="重置密码注意版本" class="heading-element"><span>重置密码（注意版本）</span>
+  <a href="#%e9%87%8d%e7%bd%ae%e5%af%86%e7%a0%81%e6%b3%a8%e6%84%8f%e7%89%88%e6%9c%ac" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>1、知道旧密码，登陆 MySQL</p>
+<p>MySQL 8.0 之前：<code>set password for root@localhost = password ('root 123');</code></p>
+<p>MySQL 8.0 之后：<code>ALTER user root@localhost IDENTIFIED BY 'root 0123';</code></p>
+<p>问题：</p>
+<p>简单密码不符合策略</p>
+<p><a class="lightgallery" href="images/image-20230402181441477.png?size=large" data-thumbnail="images/image-20230402181441477.png?size=small" data-sub-html="<h2>images/image-20230402181441477.png</h2>"><img loading="lazy" src="images/image-20230402181441477.png" alt="images/image-20230402181441477.png" srcset="images/image-20230402181441477.png?size=small, images/image-20230402181441477.png?size=medium 1.5x, images/image-20230402181441477.png?size=large 2x" data-title="images/image-20230402181441477.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>这个与验证密码策略 validate_password_policy 的值有关。默认是 1，所以刚开始设置的密码必须符合长度，且必须含有数字，小写或大写字母，特殊字符。如果不想设置 8 位，或者想设置简单点，可以选择 Policy 0.</p>
+<p><a class="lightgallery" href="images/image-20230402181544842.png?size=large" data-thumbnail="images/image-20230402181544842.png?size=small" data-sub-html="<h2>images/image-20230402181544842.png</h2>"><img loading="lazy" src="images/image-20230402181544842.png" alt="images/image-20230402181544842.png" srcset="images/image-20230402181544842.png?size=small, images/image-20230402181544842.png?size=medium 1.5x, images/image-20230402181544842.png?size=large 2x" data-title="images/image-20230402181544842.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>在修改策略之前它需要你先改密码</p>
+<p><a class="lightgallery" href="images/image-20230402181609027.png?size=large" data-thumbnail="images/image-20230402181609027.png?size=small" data-sub-html="<h2>images/image-20230402181609027.png</h2>"><img loading="lazy" src="images/image-20230402181609027.png" alt="images/image-20230402181609027.png" srcset="images/image-20230402181609027.png?size=small, images/image-20230402181609027.png?size=medium 1.5x, images/image-20230402181609027.png?size=large 2x" data-title="images/image-20230402181609027.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>这是其它的一些密码设置</p>
+<p><code>SHOW VARIABLES LIKE 'validate_password%';</code></p>
+<p><a class="lightgallery" href="images/image-20230402181638042.png?size=large" data-thumbnail="images/image-20230402181638042.png?size=small" data-sub-html="<h2>images/image-20230402181638042.png</h2>"><img loading="lazy" src="images/image-20230402181638042.png" alt="images/image-20230402181638042.png" srcset="images/image-20230402181638042.png?size=small, images/image-20230402181638042.png?size=medium 1.5x, images/image-20230402181638042.png?size=large 2x" data-title="images/image-20230402181638042.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-mysql" data-lang="mysql"><span class="line"><span class="cl"><span class="kt">set</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="n">validate_password_policy</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kt">set</span><span class="w"> </span><span class="n">global</span><span class="w"> </span><span class="n">validate_password_length</span><span class="o">=</span><span class="mi">6</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="kt">set</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">root</span><span class="o">@</span><span class="n">localhost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">password</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;root 123&#39;</span><span class="p">);</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>2、忘记密码</p>
+<p>第一步：在命令行输入 net stop mysql 命令关闭 mysql 服务</p>
+<p>第二步：使用&ndash;skip-grant-tables 选项启动 mysql 服务（服务器将不加载权限判断，任何用户都能访问数据库）</p>
+<p>在命令行输入 mysqld &ndash;skip-grant-tables</p>
+<p>命令运行之后，用户无法再输入指令，此时如果在任务管理器中可以看到名称为 mysqld 的进程，则表示可以用 root 用户登录服务器了</p>
+<p>第三步：打开另一个命令行窗口，输入不加密码的登录命令</p>
+<p><code>mysql -u root</code></p>
+<p>登录成功后可以使用 update 语句修改密码</p>
+<p>修改完成后，必须使用 flush privileges 语句刷新权限表，这样新的密码才能生效</p>
+<p>第四步：将输入 mysqld &ndash;skip-grant-tables 命令的命令行窗口关闭，接下来就可以使用新密码登录 mysql 服务器了</p>
+<p>3、root 用户自带了一个随机密码</p>
+<p>一般来说 mysql 安装完之后默认是没有密码的，但是在执行 mysqld &ndash;initialize 之后会初始化密码 (默认密码为随机的高强度密码)这个密码会储存在错误日志中。</p>
+<p>找到日志：<code>find / -name &quot;mysqld.log&quot;</code></p>
+<p>打开查找：<code>cat /var/log/mysqld.log|grep password</code></p>
+<p><a class="lightgallery" href="images/image-20230402181827219.png?size=large" data-thumbnail="images/image-20230402181827219.png?size=small" data-sub-html="<h2>images/image-20230402181827219.png</h2>"><img loading="lazy" src="images/image-20230402181827219.png" alt="images/image-20230402181827219.png" srcset="images/image-20230402181827219.png?size=small, images/image-20230402181827219.png?size=medium 1.5x, images/image-20230402181827219.png?size=large 2x" data-title="images/image-20230402181827219.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h2 id="安装-samba" class="heading-element"><span>安装 Samba</span>
+  <a href="#%e5%ae%89%e8%a3%85-samba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>安装：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apt install smaba smbclient samba-common <span class="c1"># 安装 smaba 即可</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 用于实现 SMB/CIFS（Server Message Block/Common Internet File System）协议。samba 服务器提供了文件共享和打印服务，允许 Windows 客户端通过网络与 Linux/UNIX 服务器交互</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># samba 软件包的公共文件和库。它包含一些共享的配置文件、脚本、语言文件和其他公共资源，这些资源被 samba 服务器和客户端程序所共享和使用。</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># samba 软件包的客户端组件。它提供了一些用于与 samba 服务器进行交互的命令行工具，例如 smbclient、smbget 和 smbtree 等。这些工具允许用户在 Linux/UNIX 系统上访问和管理远程的 samba 共享文件夹。</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>指定账户访问</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 创建一个用来共享的目录</span>
+</span></span><span class="line"><span class="cl">sudo mkdir -p /home/work/sharedir
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建一个账户，用来登录</span>
+</span></span><span class="line"><span class="cl">sudo useradd smbuser -s /usr/sbin/nologin
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改文件权限使得 smbuser 用户能够访问共享路径</span>
+</span></span><span class="line"><span class="cl">sudo chown smbuser: smbuser /home/work/sharedir
+</span></span><span class="line"><span class="cl"><span class="c1"># 将用户 smbuser 添加到 samba 的 smbpasswd file 中（即在 samba 服务中注册该账户）</span>
+</span></span><span class="line"><span class="cl">sudo smbpasswd -a smbuser</span></span></code></pre></td></tr></table>
+</div>
+</div><p>修改 samba 配置文件（<code>/etc/samba/smb.conf</code>）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># 用户访问时看到的名字</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="l">myshare]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 共享文件夹的注释说明</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">comment = 锐捷小主机共享</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 需要填写实际的共享文件夹的路径</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">path = /srv/samba/share</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 设置为可写入</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">writable = yes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c">#设置可访问的用户 ，此处为前面添加的用户 smbuser（注意 users 不要拼写错误）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">valid users = xujiajun</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c">#是否允许访客 ，否</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">guest ok = no</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c">#可浏览 ，是</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">browsable = yes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 新建文件的权限</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">create mask = 0777</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 新建目录即文件夹的权限</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">directory mask = 0777</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>配置含义</p>
+<pre tabindex="0"><code>[共享名称]: 共享中看到的共享目录名  
+comment = 共享的描述.  
+path = 共享目录路径 (可以用%u、%m 这样的宏来代替路径如:/home/share/%u)   
+browseable = yes/no 指定该共享是否在“网上邻居”中可见。  
+writable = yes/no 指定该共享路径是否可写。  
+read only = yes/no 设置共享目录为只读 (注意设置不要与 writable 有冲突)   
+available = yes/no 指定该共享资源是否可用。  
+admin users = bobyuan，jane 指定该共享的管理员, 用户验证方式为“security=share”时，此项无效。   
+valid users = bobyuan，jane 允许访问该共享的用户或组-“@+组名”   
+invalid users = 禁止访问该共享的用户与组 (同上)   
+write list = 允许写入该共享的用户  
+public = yes/no 共享是否允许 guest 账户访问。   
+guest ok = yes/no 意义同“public”。  
+create mask = 0700 指定用户通过 Samba 在该共享目录中创建文件的默认权限。0600 代表创建文件的权限为 rw-------  
+directory mask = 0700 指定用户通过 Samba 在该共享目录中创建目录的默认权限。0600 代表创建目录的权限为 rwx------</code></pre><h2 id="安装-frp" class="heading-element"><span>安装 frp</span>
+  <a href="#%e5%ae%89%e8%a3%85-frp" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>frp 项目地址： <a href="https://github.com/fatedier/frp"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/fatedier/frp</a></p>
+<p>官方文档： <a href="https://gofrp.org/zh-cn/"target="_blank" rel="external nofollow noopener noreferrer">https://gofrp.org/zh-cn/</a></p>
+<p>ssh 转发： <a href="https://gofrp.org/zh-cn/docs/examples/ssh/"target="_blank" rel="external nofollow noopener noreferrer">https://gofrp.org/zh-cn/docs/examples/ssh/</a></p>
+<p>服务端配置，修改 <code>frps.toml</code>。新版 frp 配置和旧版的字段名不太一样。<strong>注意：新版字符串要加双引号</strong>。参考：<a href="https://dusays.com/636/"target="_blank" rel="external nofollow noopener noreferrer">新版参数</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">common</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 服务端监听地址，用于接收 frpc 的连接，默认监听 0.0.0.0。</span>
+</span></span><span class="line"><span class="cl"><span class="nx">bindAddr</span> <span class="p">=</span> <span class="s2">&#34;0.0.0.0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 10000 为服务端 frp 与客户端 frp 相互通信的端口。服务端监听端口，默认值为 7000。</span>
+</span></span><span class="line"><span class="cl"><span class="nx">bindPort</span> <span class="p">=</span> <span class="mi">10000</span>
+</span></span><span class="line"><span class="cl"><span class="c"># HTTP 请求的监听端口为 8080</span>
+</span></span><span class="line"><span class="cl"><span class="nx">vhostHTTPPort</span> <span class="p">=</span> <span class="mi">8080</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 设置连接密钥</span>
+</span></span><span class="line"><span class="cl"><span class="nx">token</span><span class="p">=</span><span class="s2">&#34;qwer1234&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 设置 frp 后台端口</span>
+</span></span><span class="line"><span class="cl"><span class="nx">dashboard_port</span><span class="p">=</span><span class="mi">8000</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 设置后台帐号和密码</span>
+</span></span><span class="line"><span class="cl"><span class="nx">dashboard_user</span><span class="p">=</span><span class="s2">&#34;admin&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">dashboard_pwd</span> <span class="p">=</span> <span class="s2">&#34;××××××××××&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>客户端配置，修改 <code>frpc.toml</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">common</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 服务器的公网地址</span>
+</span></span><span class="line"><span class="cl"><span class="nx">serverAddr</span> <span class="p">=</span> <span class="s2">&#34;103.246.244.137&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 10000 为服务端 frp 与客户端 frp 相互通信的端口</span>
+</span></span><span class="line"><span class="cl"><span class="nx">serverPort</span> <span class="p">=</span> <span class="mi">10000</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 设置连接密钥</span>
+</span></span><span class="line"><span class="cl"><span class="nx">token</span> <span class="p">=</span> <span class="s2">&#34;qwer1234&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">proxies</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;web&#34;</span> <span class="c"># name 值唯一</span>
+</span></span><span class="line"><span class="cl"><span class="nx">type</span> <span class="p">=</span> <span class="s2">&#34;http&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">localPort</span> <span class="p">=</span> <span class="mi">80</span>
+</span></span><span class="line"><span class="cl"><span class="nx">customDomains</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;omv.lanhuli.top&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="nx">smb</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 文件共享 smb 协议通过 tcp 通信</span>
+</span></span><span class="line"><span class="cl"><span class="nx">type</span> <span class="p">=</span> <span class="nx">tcp</span>
+</span></span><span class="line"><span class="cl"><span class="nx">local_ip</span> <span class="p">=</span> <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span>
+</span></span><span class="line"><span class="cl"><span class="c"># smb 协议的本地端口</span>
+</span></span><span class="line"><span class="cl"><span class="nx">local_port</span> <span class="p">=</span> <span class="mi">445</span>
+</span></span><span class="line"><span class="cl"><span class="c"># remotePort 表示在 frp 服务端监听的端口，访问此端口的流量将被转发到本地服务的相应端口。</span>
+</span></span><span class="line"><span class="cl"><span class="c"># 设定远程端口，当访问服务器的 8090 端口时，数据会被转发到本地 445 端口</span>
+</span></span><span class="line"><span class="cl"><span class="nx">remote_port</span> <span class="p">=</span> <span class="mi">8089</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>服务端运行 frp 命令：<code>./frps -c frps.toml</code></p>
+<p>客户端运行 frp 命令：<code>./frpc -c frpc.toml</code></p>
+<p>我的配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">bindPort</span> <span class="p">=</span> <span class="mi">16669</span>
+</span></span><span class="line"><span class="cl"><span class="nx">auth</span><span class="p">.</span><span class="nx">token</span> <span class="p">=</span> <span class="s2">&#34;123456&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 服务端面板</span>
+</span></span><span class="line"><span class="cl"><span class="nx">webServer</span><span class="p">.</span><span class="nx">addr</span> <span class="p">=</span> <span class="s2">&#34;0.0.0.0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">webServer</span><span class="p">.</span><span class="nx">port</span> <span class="p">=</span> <span class="mi">16668</span>
+</span></span><span class="line"><span class="cl"><span class="nx">webServer</span><span class="p">.</span><span class="nx">user</span> <span class="p">=</span> <span class="s2">&#34;123456789&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">webServer</span><span class="p">.</span><span class="nx">password</span> <span class="p">=</span> <span class="s2">&#34;123456789&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>客户端</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">serverAddr</span> <span class="p">=</span> <span class="s2">&#34;x.x.x.x&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">serverPort</span> <span class="p">=</span> <span class="mi">16669</span>
+</span></span><span class="line"><span class="cl"><span class="nx">auth</span><span class="p">.</span><span class="nx">token</span> <span class="p">=</span> <span class="s2">&#34;123456&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 客户端面板</span>
+</span></span><span class="line"><span class="cl"><span class="nx">webServer</span><span class="p">.</span><span class="nx">addr</span> <span class="p">=</span> <span class="s2">&#34;0.0.0.0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">webServer</span><span class="p">.</span><span class="nx">port</span> <span class="p">=</span> <span class="mi">7400</span>
+</span></span><span class="line"><span class="cl"><span class="nx">webServer</span><span class="p">.</span><span class="nx">user</span> <span class="p">=</span> <span class="s2">&#34;admin&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">webServer</span><span class="p">.</span><span class="nx">password</span> <span class="p">=</span> <span class="s2">&#34;admin&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">proxies</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;omv&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">type</span> <span class="p">=</span> <span class="s2">&#34;tcp&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">localIP</span> <span class="p">=</span> <span class="s2">&#34;127.0.0.1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">localPort</span> <span class="p">=</span> <span class="mi">26660</span>
+</span></span><span class="line"><span class="cl"><span class="nx">remotePort</span> <span class="p">=</span> <span class="mi">16660</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># docker 版的 qbittorrent 服务</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">proxies</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;qbit&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">type</span> <span class="p">=</span> <span class="s2">&#34;tcp&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">localIP</span> <span class="p">=</span> <span class="s2">&#34;127.0.0.1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">localPort</span> <span class="p">=</span> <span class="mi">16661</span>
+</span></span><span class="line"><span class="cl"><span class="nx">remotePort</span> <span class="p">=</span> <span class="mi">16661</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># docker 版的 jellyfin 服务</span>
+</span></span><span class="line"><span class="cl"><span class="p">[[</span><span class="nx">proxies</span><span class="p">]]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">name</span> <span class="p">=</span> <span class="s2">&#34;jellyfin&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">type</span> <span class="p">=</span> <span class="s2">&#34;tcp&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">localIP</span> <span class="p">=</span> <span class="s2">&#34;127.0.0.1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">localPort</span> <span class="p">=</span> <span class="mi">26662</span>
+</span></span><span class="line"><span class="cl"><span class="nx">remotePort</span> <span class="p">=</span> <span class="mi">16662</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>2、后台运行 frp 程序</p>
+<p>参考官网： <a href="https://gofrp.org/zh-cn/docs/setup/systemd/"target="_blank" rel="external nofollow noopener noreferrer">https://gofrp.org/zh-cn/docs/setup/systemd/</a></p>
+<p>创建 <code>frps.service</code> 文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo vim /etc/systemd/system/frps.service</span></span></code></pre></td></tr></table>
+</div>
+</div><p>写入内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>Unit<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 服务名称，可自定义</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Description</span> <span class="o">=</span> frp server
+</span></span><span class="line"><span class="cl"><span class="nv">After</span> <span class="o">=</span> network.target syslog.target
+</span></span><span class="line"><span class="cl"><span class="nv">Wants</span> <span class="o">=</span> network.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Service<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Type</span> <span class="o">=</span> simple
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 frps 的命令，需修改为您的 frps 的安装路径</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStart</span> <span class="o">=</span> /path/to/frps -c /path/to/frps.toml
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Install<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">WantedBy</span> <span class="o">=</span> multi-user.target</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用 systemd 命令管理 frps 服务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 启动 frp</span>
+</span></span><span class="line"><span class="cl">sudo systemctl start frps
+</span></span><span class="line"><span class="cl"><span class="c1"># 停止 frp</span>
+</span></span><span class="line"><span class="cl">sudo systemctl stop frps
+</span></span><span class="line"><span class="cl"><span class="c1"># 重启 frp</span>
+</span></span><span class="line"><span class="cl">sudo systemctl restart frps
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看 frp 状态</span>
+</span></span><span class="line"><span class="cl">sudo systemctl status frps</span></span></code></pre></td></tr></table>
+</div>
+</div><p>设置 frps 开机自启动</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> frps</span></span></code></pre></td></tr></table>
+</div>
+</div><p>客户端方法同上</p>
+<h2 id="安装-dnsmasq" class="heading-element"><span>安装 dnsmasq</span>
+  <a href="#%e5%ae%89%e8%a3%85-dnsmasq" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>安装：<code>apt install dnsmasq</code></p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-03-01 12:59:29">更新于 2024-03-01&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/nginx/" class="post-tag" title="标签 - Nginx">Nginx</a><a href="/tags/mysql/" class="post-tag" title="标签 - Mysql">Mysql</a><a href="/tags/php/" class="post-tag" title="标签 - Php">Php</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/e4880266d50b/" class="post-nav-item" rel="prev" title="Xss盲打平台bluelotus搭建"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Xss盲打平台bluelotus搭建</a>
+      <a href="/d72b8614ae35/" class="post-nav-item" rel="next" title="Docker镜像仓库">Docker镜像仓库<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.132.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.9"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">蓝狐狸</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"enable":false},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.9"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

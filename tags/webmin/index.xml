@@ -1,0 +1,24 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Webmin - 标签 - 蓝狐狸的博客</title>
+    <link>https://example.org/tags/webmin/</link>
+    <description>Webmin - 标签 | 蓝狐狸的博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 28 Oct 2023 21:22:50 &#43;0800</lastBuildDate><atom:link href="https://example.org/tags/webmin/" rel="self" type="application/rss+xml" /><item>
+  <title>webmin远程代码执行(CVE-2019-15107)</title>
+  <link>https://example.org/ddede4f30805/</link>
+  <pubDate>Sat, 28 Oct 2023 21:22:50 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/ddede4f30805/</guid>
+  <description><![CDATA[漏洞复现（Vulhub靶场） 进入到Vulhub靶场的/vulhub/webmin/CVE-2019-15107目录下，运行docker-compose up -d命令启动靶场。
+输入用户名和密码，使用burp进行抓包。
+修改数据包的请求地址为/password_change.cgi，请求体payload改为user=rootxx&amp;pam=&amp;expired=2&amp;old=test|id&amp;new1=test2&amp;new2=test2，id 是要执行的命令。
+发送请求，可以在响应体中找到命令执行成功的响应数据。
+使用docker-compose down命令移除环境。
+msf利用 使用https://vulfocus.cn/在线靶场，启动环境，访问漏洞地址：https://123.58.224.8:48832/，注意要加https进行访问
+启动vps上的msf，进入命令行模式，搜索webmin相关的poc
+这里使用第十个脚本，设置脚本参数
+设置好参数后，查看一下
+没问题后，输入run，可以成功]]></description>
+</item>
+</channel>
+</rss>

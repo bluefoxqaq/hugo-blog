@@ -1,0 +1,32 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Blog - 标签 - 蓝狐狸的博客</title>
+    <link>https://example.org/tags/blog/</link>
+    <description>Blog - 标签 | 蓝狐狸的博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 24 Jun 2024 00:42:28 &#43;0800</lastBuildDate><atom:link href="https://example.org/tags/blog/" rel="self" type="application/rss+xml" /><item>
+  <title>博客迁移</title>
+  <link>https://example.org/8f5c6a2be833/</link>
+  <pubDate>Mon, 24 Jun 2024 00:42:28 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/8f5c6a2be833/</guid>
+  <description><![CDATA[从hexo转到hugo hugo的环境安装比hexo要简单，hugo下个二进制文件就行，hexo还要下载nodeJS和一堆npm包，而且下载的时候因为网络问题还慢，所以就换了hugo。
+之前用hexo时用的主题是butterfly，配置起来挺简单，文档全，也挺好看的。换了hugo之后，找了不少主题，最终选择用了FixIt
+FixIt主题很简洁，简单，够用，而且还有中文文档，上手挺快的。
+Hugo常用命令
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 hugo version # 查看版本 hugo env # 版本和环境详细信息 # 创建项目 hugo new site hugo-demo # 会在当前文件夹下创建 hugo-demo 文件夹 ##### hugo-demo文件夹下的目录结构 ├─config.toml # 配置文件 ├─archetypes │ default.md ├─content # 存放博客和单页文章 ├─data # 存放其他数据 ├─layouts ├─public # 博客构建后的静态文件路径 ├─static # 用于存放静态资源 └─themes # 主题路径 ##### # 进入 hugo-demo 文件夹 hugo new posts/my-first-post.]]></description>
+</item>
+<item>
+  <title>博客网站搭建</title>
+  <link>https://example.org/443889da05ee/</link>
+  <pubDate>Sun, 23 Jul 2023 22:14:15 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/443889da05ee/</guid>
+  <description><![CDATA[安装部署 安装NodeJs：https://nodejs.org/en/download
+安装Git：https://git-scm.com/download/win
+安装hexo，输入以下命令
+1 2 3 4 npm install hexo-cli -g # 安装hexo脚手架 hexo init blog # blog是自定义文件夹名字 cd blog hexo server # 启动hexo 注意：网络问题可能有点慢。
+安装插件（看个人情况安装）
+1 2 3 4 5 6 7 8 npm install hexo-renderer-pug hexo-renderer-stylus --save # 必须安装，不然无法运行，会报错 npm install https://github.com/BluefoxQAQ/hexo-asset-image.git --save # 插入图片用的插件 npm install hexo-generator-search --save # 安装搜索插件 # 主题使用本地静态js，cdn配置相关，可选。需要和主题版本最新，否则可能报错。见下文butterfly主题配置cdn npm install hexo-butterfly-extjs --save npm install hexo-deployer-git --save # 安装github部署插件 npm install hexo-deployer-ftpsync --save # 安装FTP部署插件 npm install https://github.]]></description>
+</item>
+</channel>
+</rss>

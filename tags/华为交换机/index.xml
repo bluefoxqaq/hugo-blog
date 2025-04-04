@@ -1,0 +1,25 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>华为交换机 - 标签 - 蓝狐狸的博客</title>
+    <link>https://example.org/tags/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/</link>
+    <description>华为交换机 - 标签 | 蓝狐狸的博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 17 Oct 2024 07:22:37 &#43;0800</lastBuildDate><atom:link href="https://example.org/tags/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/" rel="self" type="application/rss+xml" /><item>
+  <title>华为交换机命令</title>
+  <link>https://example.org/36371b0398bc/</link>
+  <pubDate>Thu, 17 Oct 2024 07:22:37 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/36371b0398bc/</guid>
+  <description><![CDATA[简单命令 undo shutdown //激活接口
+display current-configuration // 查看当前的配置（内存中）
+display saved-configuration // 查看保存的配置（Flash 中）
+端口信息查看
+信息含义： https://support.huawei.com/enterprise/zh/doc/EDOC1100064380/e51dee46
+光模块查看
+参考： https://support.huawei.com/enterprise/zh/doc/EDOC1100127136/94ef2802
+端口批量操作
+端口批量修改为 access
+参考： https://support.huawei.com/enterprise/zh/knowledge/EKB1000029447
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 **配置临时端口组** # 配置接口GE1/0/9至GE1/0/15加入到临时端口组(使用port-group group-member命令)。 &lt;HUAWEI&gt; system-view [HUAWEI] port-group group-member gigabitethernet 1/0/9 to gigabitethernet 1/0/15 [HUAWEI-port-group] **配置永久端口组** # 配置接口GE1/0/1至GE1/0/8加入到永久端口组portgroup1（使用port-group命令）。 &lt;HUAWEI&gt; system-view [HUAWEI] port-group portgroup1 [HUAWEI-port-group-portgroup1] group-member gigabitethernet 1/0/1 to gigabitethernet 1/0/8 1 2 3 4 5 在VLAN视图下批量将接口加入VLAN &lt;HUAWEI&gt; system-view [HUAWEI] vlan 10 [HUAWEI-vlan10] port gigabitethernet 0/0/1 to 0/0/5 mac 黑洞]]></description>
+</item>
+</channel>
+</rss>

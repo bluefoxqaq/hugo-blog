@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Docker镜像仓库 - 蓝狐狸的博客</title><meta name="author" content="蓝狐狸">
+<meta name="author-link" content="">
+<meta name="description" content="靶场镜像 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 # dvwa docker run -d -p 43301:3306 -p 48881:80 --restart=always --name=dvwa sagikazarmark/dvwa # pikachu docker run -d -p 43302:3306 -p 48882:80 --restart=always --name=pikachu area39/pikachu # sqli-labs docker run -d -p 43303:3306 -p 48883:80 --restart=always --name=sqli-labs acgpiano/sqli-labs # xss-labs docker run -d -p 43304:3306 -p 48884:80 --restart=always --name=xss-labs vulfocus/xss-labs # ssrf-labs docker run -d -p 43305:3306 -p 48885:80 --restart=always --name=ssrf-labs anhkhoa14592/ssrf-labs # webgoat 安装 docker run -d -p 48887:8080 -p 49091:9090 -e TZ=Asia/Shanghai --restart=always --name=webgoat webgoat/webgoat # bluelotus_xss 安装 docker run -d -p 48888:80 --restart=always --name=bluelotus_xss tanyiqu/bluelotus_xss_receiver 对于某些课程，您需要在同一时区运行容器。为此，您可以设置 TZ 环境变量。 https://hub." /><meta name="keywords" content='docker' />
+  <meta itemprop="name" content="docker镜像仓库">
+  <meta itemprop="description" content="靶场镜像 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 # dvwa docker run -d -p 43301:3306 -p 48881:80 --restart=always --name=dvwa sagikazarmark/dvwa # pikachu docker run -d -p 43302:3306 -p 48882:80 --restart=always --name=pikachu area39/pikachu # sqli-labs docker run -d -p 43303:3306 -p 48883:80 --restart=always --name=sqli-labs acgpiano/sqli-labs # xss-labs docker run -d -p 43304:3306 -p 48884:80 --restart=always --name=xss-labs vulfocus/xss-labs # ssrf-labs docker run -d -p 43305:3306 -p 48885:80 --restart=always --name=ssrf-labs anhkhoa14592/ssrf-labs # webgoat 安装 docker run -d -p 48887:8080 -p 49091:9090 -e TZ=Asia/Shanghai --restart=always --name=webgoat webgoat/webgoat # bluelotus_xss 安装 docker run -d -p 48888:80 --restart=always --name=bluelotus_xss tanyiqu/bluelotus_xss_receiver 对于某些课程，您需要在同一时区运行容器。为此，您可以设置 TZ 环境变量。 https://hub.">
+  <meta itemprop="datePublished" content="2024-04-17T12:34:29+08:00">
+  <meta itemprop="dateModified" content="2024-04-17T12:38:20+08:00">
+  <meta itemprop="wordCount" content="570">
+  <meta itemprop="keywords" content="Docker"><meta property="og:url" content="https://example.org/d72b8614ae35/">
+  <meta property="og:site_name" content="蓝狐狸的博客">
+  <meta property="og:title" content="docker镜像仓库">
+  <meta property="og:description" content="靶场镜像 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 # dvwa docker run -d -p 43301:3306 -p 48881:80 --restart=always --name=dvwa sagikazarmark/dvwa # pikachu docker run -d -p 43302:3306 -p 48882:80 --restart=always --name=pikachu area39/pikachu # sqli-labs docker run -d -p 43303:3306 -p 48883:80 --restart=always --name=sqli-labs acgpiano/sqli-labs # xss-labs docker run -d -p 43304:3306 -p 48884:80 --restart=always --name=xss-labs vulfocus/xss-labs # ssrf-labs docker run -d -p 43305:3306 -p 48885:80 --restart=always --name=ssrf-labs anhkhoa14592/ssrf-labs # webgoat 安装 docker run -d -p 48887:8080 -p 49091:9090 -e TZ=Asia/Shanghai --restart=always --name=webgoat webgoat/webgoat # bluelotus_xss 安装 docker run -d -p 48888:80 --restart=always --name=bluelotus_xss tanyiqu/bluelotus_xss_receiver 对于某些课程，您需要在同一时区运行容器。为此，您可以设置 TZ 环境变量。 https://hub.">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-04-17T12:34:29+08:00">
+    <meta property="article:modified_time" content="2024-04-17T12:38:20+08:00">
+    <meta property="article:tag" content="Docker">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="docker镜像仓库">
+  <meta name="twitter:description" content="靶场镜像 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 # dvwa docker run -d -p 43301:3306 -p 48881:80 --restart=always --name=dvwa sagikazarmark/dvwa # pikachu docker run -d -p 43302:3306 -p 48882:80 --restart=always --name=pikachu area39/pikachu # sqli-labs docker run -d -p 43303:3306 -p 48883:80 --restart=always --name=sqli-labs acgpiano/sqli-labs # xss-labs docker run -d -p 43304:3306 -p 48884:80 --restart=always --name=xss-labs vulfocus/xss-labs # ssrf-labs docker run -d -p 43305:3306 -p 48885:80 --restart=always --name=ssrf-labs anhkhoa14592/ssrf-labs # webgoat 安装 docker run -d -p 48887:8080 -p 49091:9090 -e TZ=Asia/Shanghai --restart=always --name=webgoat webgoat/webgoat # bluelotus_xss 安装 docker run -d -p 48888:80 --restart=always --name=bluelotus_xss tanyiqu/bluelotus_xss_receiver 对于某些课程，您需要在同一时区运行容器。为此，您可以设置 TZ 环境变量。 https://hub.">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://example.org/d72b8614ae35/" /><link rel="prev" href="https://example.org/8e7beb29bf97/" /><link rel="next" href="https://example.org/8f5c6a2be833/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "docker镜像仓库",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/example.org\/d72b8614ae35\/"
+    },"genre": "posts","keywords": "docker","wordcount":  570 ,
+    "url": "https:\/\/example.org\/d72b8614ae35\/","datePublished": "2024-04-17T12:34:29+08:00","dateModified": "2024-04-17T12:38:20+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "蓝狐狸"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/"
+                
+                
+              ><i class="fa-solid fa-house"></i> 首页</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/"
+                  
+                  
+                ><i class="fa-solid fa-house"></i> 首页</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Docker镜像仓库</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/docker/" class="post-category" title="分类 - Docker"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Docker</a></span></div><div class="post-meta-line"><span title="发布于 2024-04-17 12:34:29"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-04-17">2024-04-17</time></span>&nbsp;<span title="更新于 2024-04-17 12:38:20"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-04-17">2024-04-17</time></span>&nbsp;<span title="570 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 600 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#靶场镜像">靶场镜像</a></li>
+    <li><a href="#webdav-服务镜像">webdav 服务镜像</a></li>
+    <li><a href="#oracle-数据库镜像">oracle 数据库镜像</a>
+      <ul>
+        <li><a href="#oracle-11g">oracle-11g</a></li>
+        <li><a href="#orcale-12c">orcale-12c</a></li>
+        <li><a href="#orcale-19c">orcale-19c</a></li>
+        <li><a href="#oracle-19c-arm64">oracle-19c-arm64</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="靶场镜像" class="heading-element"><span>靶场镜像</span>
+  <a href="#%e9%9d%b6%e5%9c%ba%e9%95%9c%e5%83%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># dvwa</span>
+</span></span><span class="line"><span class="cl">docker run -d -p 43301:3306 -p 48881:80 --restart<span class="o">=</span>always --name<span class="o">=</span>dvwa sagikazarmark/dvwa
+</span></span><span class="line"><span class="cl"><span class="c1"># pikachu</span>
+</span></span><span class="line"><span class="cl">docker run -d -p 43302:3306 -p 48882:80 --restart<span class="o">=</span>always --name<span class="o">=</span>pikachu area39/pikachu
+</span></span><span class="line"><span class="cl"><span class="c1"># sqli-labs</span>
+</span></span><span class="line"><span class="cl">docker run -d -p 43303:3306 -p 48883:80 --restart<span class="o">=</span>always --name<span class="o">=</span>sqli-labs acgpiano/sqli-labs
+</span></span><span class="line"><span class="cl"><span class="c1"># xss-labs</span>
+</span></span><span class="line"><span class="cl">docker run -d -p 43304:3306 -p 48884:80 --restart<span class="o">=</span>always --name<span class="o">=</span>xss-labs vulfocus/xss-labs
+</span></span><span class="line"><span class="cl"><span class="c1"># ssrf-labs</span>
+</span></span><span class="line"><span class="cl">docker run -d -p 43305:3306 -p 48885:80 --restart<span class="o">=</span>always --name<span class="o">=</span>ssrf-labs anhkhoa14592/ssrf-labs
+</span></span><span class="line"><span class="cl"><span class="c1"># webgoat 安装</span>
+</span></span><span class="line"><span class="cl">docker run -d -p 48887:8080 -p 49091:9090 -e <span class="nv">TZ</span><span class="o">=</span>Asia/Shanghai --restart<span class="o">=</span>always --name<span class="o">=</span>webgoat webgoat/webgoat
+</span></span><span class="line"><span class="cl"><span class="c1"># bluelotus_xss 安装</span>
+</span></span><span class="line"><span class="cl">docker run -d -p 48888:80 --restart<span class="o">=</span>always --name<span class="o">=</span>bluelotus_xss tanyiqu/bluelotus_xss_receiver
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">对于某些课程，您需要在同一时区运行容器。为此，您可以设置 TZ 环境变量。
+</span></span><span class="line"><span class="cl">https://hub.docker.com/r/webgoat/webgoat</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用</p>
+<p>dvwa</p>
+<p>arm64 版本</p>
+<p>镜像来源：petechua/docker-vulnerable-dvwa: 1.0</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run -d -p 48881:80 --restart<span class="o">=</span>always --name<span class="o">=</span>dvwa-arm64 registry.cn-hangzhou.aliyuncs.com/lanhuli/bachang:dvwa-arm64</span></span></code></pre></td></tr></table>
+</div>
+</div><p>数据库登录：root 密码为空</p>
+<ul>
+<li>用户：app</li>
+<li>密码：vulnerables</li>
+<li>注意：无法远程登录</li>
+</ul>
+<p>x86 版本</p>
+<p>镜像来源：sagikazarmark/dvwa:latest</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run -d -p 43301:3306 -p 48881:80 --restart<span class="o">=</span>always --name<span class="o">=</span>dvwa registry.cn-hangzhou.aliyuncs.com/lanhuli/bachang:dvwa</span></span></code></pre></td></tr></table>
+</div>
+</div><p>MySQL 凭据配置为 DVWA 默认值：</p>
+<ul>
+<li>用户：root</li>
+<li>密码： p@ssw0rd</li>
+<li>数据库： dvwa</li>
+</ul>
+<h2 id="webdav-服务镜像" class="heading-element"><span>webdav 服务镜像</span>
+  <a href="#webdav-%e6%9c%8d%e5%8a%a1%e9%95%9c%e5%83%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>源镜像仓库： <a href="https://hub.docker.com/r/bytemark/webdav"target="_blank" rel="external nofollow noopener noreferrer">https://hub.docker.com/r/bytemark/webdav</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run -d --name<span class="o">=</span>webdav --restart always -v /srv/share/mybooks:/var/lib/dav <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -e <span class="nv">AUTH_TYPE</span><span class="o">=</span>Basic -e <span class="nv">USERNAME</span><span class="o">=</span>admin -e <span class="nv">PASSWORD</span><span class="o">=</span>admin123 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -p 18888:80 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    registry.cn-hangzhou.aliyuncs.com/lanhuli/webdav:latest</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意：阅读小说 app 使用时，AUTH_TYPE=Basic 必须使用 Basic，使用 Digest 会导致 401 报错。</p>
+<h2 id="oracle-数据库镜像" class="heading-element"><span>oracle 数据库镜像</span>
+  <a href="#oracle-%e6%95%b0%e6%8d%ae%e5%ba%93%e9%95%9c%e5%83%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="oracle-11g" class="heading-element"><span>oracle-11g</span>
+  <a href="#oracle-11g" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>源镜像仓库： <a href="https://hub.docker.com/r/oracleinanutshell/oracle-xe-11g"target="_blank" rel="external nofollow noopener noreferrer">https://hub.docker.com/r/oracleinanutshell/oracle-xe-11g</a></p>
+<p>安装（Ubuntu 18.04）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker pull registry.cn-hangzhou.aliyuncs.com/lanhuli/oracle:11g
+</span></span><span class="line"><span class="cl">docker run -d -p <span class="m">115</span> 21:1521 -p <span class="m">100</span> 22:22 -p <span class="m">180</span> 80:8080 -e <span class="nv">ORACLE_ALLOW_REMOTE</span><span class="o">=</span><span class="nb">true</span> --name<span class="o">=</span>oracle11g registry.cn-hangzhou.aliyuncs.com/lanhuli/oracle:11g</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果要，请运行此命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">-e <span class="nv">ORACLE_ALLOW_REMOTE</span><span class="o">=</span><span class="nb">true</span>       <span class="c1"># 远程连接数据库</span>
+</span></span><span class="line"><span class="cl">-e <span class="nv">ORACLE_DISABLE_ASYNCH_IO</span><span class="o">=</span><span class="nb">true</span>  <span class="c1"># 禁用磁盘异步 IO</span>
+</span></span><span class="line"><span class="cl">-e <span class="nv">ORACLE_ENABLE_XDB</span><span class="o">=</span><span class="nb">true</span>         <span class="c1"># 使用默认密码启用 XDB 用户</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>对于 APEX 用户：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run -d -p <span class="m">491</span> 61:1521 -p <span class="m">80</span> 80:8080 oracleinanutshell/oracle-xe-11g</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># Login http://localhost:8080/apex/apex_admin with following credential:</span>
+</span></span><span class="line"><span class="cl">username: ADMIN
+</span></span><span class="line"><span class="cl">password: admin
+</span></span><span class="line"><span class="cl">修改后的密码：Xjj <span class="c1">#123</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>默认情况下，密码验证为禁用（密码永不过期）  。使用以下设置连接数据库：</p>
+<pre tabindex="0"><code>hostname: localhost
+port: 49161
+sid: xe
+username: system 或者 sys
+password: oracle</code></pre><h3 id="orcale-12c" class="heading-element"><span>orcale-12c</span>
+  <a href="#orcale-12c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>源镜像仓库地址： <a href="https://hub.docker.com/r/zhuyijun/oracle-12c"target="_blank" rel="external nofollow noopener noreferrer">https://hub.docker.com/r/zhuyijun/oracle-12c</a></p>
+<p>下载镜像</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker pull registry.cn-hangzhou.aliyuncs.com/lanhuli/oracle:12c
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建并运行容器，简单使用</span>
+</span></span><span class="line"><span class="cl">docker run -d --name oracle12c  -p 11521:1521 -p 15500:5500 --restart<span class="o">=</span>always <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_SID</span><span class="o">=</span>orcl <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_PDB</span><span class="o">=</span>orclpdb1 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_PWD</span><span class="o">=</span>Oracle <span class="c1">#123 \</span>
+</span></span><span class="line"><span class="cl">-e <span class="nv">ORACLE_CHARACTERSET</span><span class="o">=</span>al32utf8 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>registry.cn-hangzhou.aliyuncs.com/lanhuli/oracle:12c</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如要使用更多环境变量，参数如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker run --name oracle12c  -p 11521:1521 -p 15500:5500 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_SID</span><span class="o">=</span>orcl <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_PDB</span><span class="o">=</span>orclpdb1 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_PWD</span><span class="o">=</span>Oracle <span class="c1">#123 \</span>
+</span></span><span class="line"><span class="cl">-e <span class="nv">ORACLE_CHARACTERSET</span><span class="o">=</span>al32utf8 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_BASE</span><span class="o">=</span>/opt/oracle <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_HOME</span><span class="o">=</span>/opt/oracle/product/12.2.0.1/dbhome_1 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">PATH</span><span class="o">=</span>/opt/oracle/product/12.2.0.1/dbhome_1/bin:/opt/oracle/product/12.2.0.1/dbhome_1/OPatch/:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-v /home/nicemoe/oradata:/opt/oracle/oradata <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>registry.cn-hangzhou.aliyuncs.com/lanhuli/oracle:12c</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>注意使用之前修改/home/nicemoe/oradata 为自己的</code></p>
+<p><code>/d/docker/data/oradata 意思是 D:/docker/data/oradata 文件夹</code></p>
+<p>其它使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 修改密码</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span>  &lt;container name&gt; ./setPassword.sh &lt;your password&gt;
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span>  d38c6077ec85 ./setPassword.sh Oracle*123456  <span class="c1"># 例如这样修改密码</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 访问 OEM Express</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># https://localhost:5500/em/  # 注意要用 https</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 用户名、密码、容器名：system/sys、123456、orclpdb1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 以 sysdba 身份登录：sys、123456、orclpdb1</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="orcale-19c" class="heading-element"><span>orcale-19c</span>
+  <a href="#orcale-19c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>源镜像仓库地址： <a href="https://hub.docker.com/r/zhuyijun/oracle-12c"target="_blank" rel="external nofollow noopener noreferrer">https://hub.docker.com/r/zhuyijun/oracle-12c</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker pull registry.cn-hangzhou.aliyuncs.com/lanhuli/oracle:19c
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建并运行容器，简单使用</span>
+</span></span><span class="line"><span class="cl">docker run -d --name oracle19c  -p 21521:1521 -p 25500:5500 --restart<span class="o">=</span>always <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_SID</span><span class="o">=</span>orcl <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_PDB</span><span class="o">=</span>orclpdb1 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_PWD</span><span class="o">=</span>Oracle#123 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_CHARACTERSET</span><span class="o">=</span>al32utf8 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>registry.cn-hangzhou.aliyuncs.com/lanhuli/oracle:19c</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如要使用更多环境变量，参数如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run  --name myoracle  -p 1521:1521 -p 5500:5500 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_SID</span><span class="o">=</span>orcl <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_PDB</span><span class="o">=</span>orclpdb1 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_PWD</span><span class="o">=</span><span class="m">123456</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_CHARACTERSET</span><span class="o">=</span>zhs16gbk <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_BASE</span><span class="o">=</span>/opt/oracle <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">ORACLE_HOME</span><span class="o">=</span>/opt/oracle/product/12.2.0.1/dbhome_1 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-e <span class="nv">PATH</span><span class="o">=</span>/opt/oracle/product/12.2.0.1/dbhome_1/bin:/opt/oracle/product/12.2.0.1/dbhome_1/OPatch/:/usr/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-v /home/nicemoe/oradata:/opt/oracle/oradata <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>registry.cn-hangzhou.aliyuncs.com/lanhuli/oracle:19c</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其它使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 修改密码</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span>  &lt;container name&gt; ./setPassword.sh &lt;your password&gt;
+</span></span><span class="line"><span class="cl">docker <span class="nb">exec</span>  d38c6077ec85 ./setPassword.sh Oracle*123456  <span class="c1"># 例如这样修改密码</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 访问 OEM Express</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># https://localhost:5500/em/  # 注意要用 https</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 用户名、密码、容器名：system/sys、123456、orclpdb1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 以 sysdba 身份登录：sys、123456、orclpdb1</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="oracle-19c-arm64" class="heading-element"><span>oracle-19c-arm64</span>
+  <a href="#oracle-19c-arm64" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>源镜像仓库： <a href="https://hub.docker.com/r/beatrizzallo/oracle-19e-m1"target="_blank" rel="external nofollow noopener noreferrer">https://hub.docker.com/r/beatrizzallo/oracle-19e-m1</a></p>
+<ol>
+<li>使用提供的映像生成容器的命令：</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker run -d -p <span class="m">180</span> 80:8080 -p <span class="m">115</span> 21:1521 --name <span class="s2">&#34;oracle19&#34;</span> -e <span class="nv">ORACLE_SID</span><span class="o">=</span><span class="s2">&#34;oracle_sid&#34;</span> registry.cn-hangzhou.aliyuncs.com/lanhuli/oracle: 19c-arm64</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>创建并初始化（检查已完成配置的日志）后，您可以为用户生成一个新通道，如下所示：</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker <span class="nb">exec</span> <span class="s2">&#34;image-name&#34;</span> /opt/oracle/setPassword.sh <span class="s2">&#34;new-pass&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 对密码有复杂度有要求 Oracle #123</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-04-17 12:38:20">更新于 2024-04-17&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/docker/" class="post-tag" title="标签 - Docker">Docker</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/8e7beb29bf97/" class="post-nav-item" rel="prev" title="Debian系统安装服务软件"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Debian系统安装服务软件</a>
+      <a href="/8f5c6a2be833/" class="post-nav-item" rel="next" title="博客迁移">博客迁移<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.132.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.9"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">蓝狐狸</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"enable":false},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.9"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

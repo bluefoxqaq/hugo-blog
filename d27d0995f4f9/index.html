@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>自建yum源和apt源 - 蓝狐狸的博客</title><meta name="author" content="蓝狐狸">
+<meta name="author-link" content="">
+<meta name="description" content="老版本 linux 系统的安装源都不维护消失了，没有源安装一些常用软件比较麻烦，可以使用 iso 镜像文件搭建简易安装源，安装常用软件包
+参考文章：yum源的三种搭建方式，CentOS 使用iso镜像安装本地 yum 源 ，使用iso镜像设置Ubuntu系统本地apt源，Debian如何配置局域网APT软件仓库
+yum 源：网络搭建 这里以 Centos7 为例
+1）服务器上需要安装有 apache 或 nginx 等服务器，并可以正常访问，这里使用 nginx 为例，服务器 ip 为 192.168.0.211 网站目录为 /var/www/html/
+2）上传 CentOS-7-x86_64-DVD-2009.iso 镜像到服务器上，然后在网站目录下新建一个文件夹，文件夹名随意。
+1 mkdir /var/www/html/repo 3）将 iso 镜像挂载到创建的目录下 /var/www/html/repo
+1 mount CentOS-7-x86_64-DVD-2009.iso /var/www/html/repo 挂载完成后，repo 目录下会多出一些文件
+4）启动一台 Centos7 服务器，来到 /etc/yum.repos.d 目录下，删除这个目录下的所有文件，创建一个文件 http.repo，写入以下内容。
+1 2 3 4 5 6 7 8 9 10 #yum仓库名，可自定义 [http] #yum仓库的描述信息 name=repo_for_http #yum源的网络访问地址。url链接不要填错 baseurl=http://192.168.0.211/repo/ #启用仓库 enabled=1 # 不进行红帽标签检查 gpgcheck=0 至于删除的那些文件的作用和内容，有兴趣可以自行百度或查看上述参考文章。" /><meta name="keywords" content='默认标签' />
+  <meta itemprop="name" content="自建yum源和apt源">
+  <meta itemprop="description" content="老版本 linux 系统的安装源都不维护消失了，没有源安装一些常用软件比较麻烦，可以使用 iso 镜像文件搭建简易安装源，安装常用软件包
+参考文章：yum源的三种搭建方式，CentOS 使用iso镜像安装本地 yum 源 ，使用iso镜像设置Ubuntu系统本地apt源，Debian如何配置局域网APT软件仓库
+yum 源：网络搭建 这里以 Centos7 为例
+1）服务器上需要安装有 apache 或 nginx 等服务器，并可以正常访问，这里使用 nginx 为例，服务器 ip 为 192.168.0.211 网站目录为 /var/www/html/
+2）上传 CentOS-7-x86_64-DVD-2009.iso 镜像到服务器上，然后在网站目录下新建一个文件夹，文件夹名随意。
+1 mkdir /var/www/html/repo 3）将 iso 镜像挂载到创建的目录下 /var/www/html/repo
+1 mount CentOS-7-x86_64-DVD-2009.iso /var/www/html/repo 挂载完成后，repo 目录下会多出一些文件
+4）启动一台 Centos7 服务器，来到 /etc/yum.repos.d 目录下，删除这个目录下的所有文件，创建一个文件 http.repo，写入以下内容。
+1 2 3 4 5 6 7 8 9 10 #yum仓库名，可自定义 [http] #yum仓库的描述信息 name=repo_for_http #yum源的网络访问地址。url链接不要填错 baseurl=http://192.168.0.211/repo/ #启用仓库 enabled=1 # 不进行红帽标签检查 gpgcheck=0 至于删除的那些文件的作用和内容，有兴趣可以自行百度或查看上述参考文章。">
+  <meta itemprop="datePublished" content="2024-09-18T15:37:53+08:00">
+  <meta itemprop="dateModified" content="2024-09-18T15:37:53+08:00">
+  <meta itemprop="wordCount" content="249">
+  <meta itemprop="keywords" content="默认标签"><meta property="og:url" content="https://example.org/d27d0995f4f9/">
+  <meta property="og:site_name" content="蓝狐狸的博客">
+  <meta property="og:title" content="自建yum源和apt源">
+  <meta property="og:description" content="老版本 linux 系统的安装源都不维护消失了，没有源安装一些常用软件比较麻烦，可以使用 iso 镜像文件搭建简易安装源，安装常用软件包
+参考文章：yum源的三种搭建方式，CentOS 使用iso镜像安装本地 yum 源 ，使用iso镜像设置Ubuntu系统本地apt源，Debian如何配置局域网APT软件仓库
+yum 源：网络搭建 这里以 Centos7 为例
+1）服务器上需要安装有 apache 或 nginx 等服务器，并可以正常访问，这里使用 nginx 为例，服务器 ip 为 192.168.0.211 网站目录为 /var/www/html/
+2）上传 CentOS-7-x86_64-DVD-2009.iso 镜像到服务器上，然后在网站目录下新建一个文件夹，文件夹名随意。
+1 mkdir /var/www/html/repo 3）将 iso 镜像挂载到创建的目录下 /var/www/html/repo
+1 mount CentOS-7-x86_64-DVD-2009.iso /var/www/html/repo 挂载完成后，repo 目录下会多出一些文件
+4）启动一台 Centos7 服务器，来到 /etc/yum.repos.d 目录下，删除这个目录下的所有文件，创建一个文件 http.repo，写入以下内容。
+1 2 3 4 5 6 7 8 9 10 #yum仓库名，可自定义 [http] #yum仓库的描述信息 name=repo_for_http #yum源的网络访问地址。url链接不要填错 baseurl=http://192.168.0.211/repo/ #启用仓库 enabled=1 # 不进行红帽标签检查 gpgcheck=0 至于删除的那些文件的作用和内容，有兴趣可以自行百度或查看上述参考文章。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-09-18T15:37:53+08:00">
+    <meta property="article:modified_time" content="2024-09-18T15:37:53+08:00">
+    <meta property="article:tag" content="默认标签">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="自建yum源和apt源">
+  <meta name="twitter:description" content="老版本 linux 系统的安装源都不维护消失了，没有源安装一些常用软件比较麻烦，可以使用 iso 镜像文件搭建简易安装源，安装常用软件包
+参考文章：yum源的三种搭建方式，CentOS 使用iso镜像安装本地 yum 源 ，使用iso镜像设置Ubuntu系统本地apt源，Debian如何配置局域网APT软件仓库
+yum 源：网络搭建 这里以 Centos7 为例
+1）服务器上需要安装有 apache 或 nginx 等服务器，并可以正常访问，这里使用 nginx 为例，服务器 ip 为 192.168.0.211 网站目录为 /var/www/html/
+2）上传 CentOS-7-x86_64-DVD-2009.iso 镜像到服务器上，然后在网站目录下新建一个文件夹，文件夹名随意。
+1 mkdir /var/www/html/repo 3）将 iso 镜像挂载到创建的目录下 /var/www/html/repo
+1 mount CentOS-7-x86_64-DVD-2009.iso /var/www/html/repo 挂载完成后，repo 目录下会多出一些文件
+4）启动一台 Centos7 服务器，来到 /etc/yum.repos.d 目录下，删除这个目录下的所有文件，创建一个文件 http.repo，写入以下内容。
+1 2 3 4 5 6 7 8 9 10 #yum仓库名，可自定义 [http] #yum仓库的描述信息 name=repo_for_http #yum源的网络访问地址。url链接不要填错 baseurl=http://192.168.0.211/repo/ #启用仓库 enabled=1 # 不进行红帽标签检查 gpgcheck=0 至于删除的那些文件的作用和内容，有兴趣可以自行百度或查看上述参考文章。">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://example.org/d27d0995f4f9/" /><link rel="prev" href="https://example.org/8f5c6a2be833/" /><link rel="next" href="https://example.org/7cbcb56c25d8/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "自建yum源和apt源",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/example.org\/d27d0995f4f9\/"
+    },"genre": "posts","keywords": "默认标签","wordcount":  249 ,
+    "url": "https:\/\/example.org\/d27d0995f4f9\/","datePublished": "2024-09-18T15:37:53+08:00","dateModified": "2024-09-18T15:37:53+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "蓝狐狸"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/"
+                
+                
+              ><i class="fa-solid fa-house"></i> 首页</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/"
+                  
+                  
+                ><i class="fa-solid fa-house"></i> 首页</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>自建yum源和apt源</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/" class="post-category" title="分类 - 默认分类"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 默认分类</a></span></div><div class="post-meta-line"><span title="发布于 2024-09-18 15:37:53"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-09-18">2024-09-18</time></span>&nbsp;<span title="249 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#yum-源网络搭建">yum 源：网络搭建</a></li>
+    <li><a href="#apt-源网络搭建">apt 源：网络搭建</a></li>
+    <li><a href="#服务器重启后挂载失效">服务器重启后挂载失效</a></li>
+    <li><a href="#apt-源的配置文件说明">apt 源的配置文件说明</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>老版本 linux 系统的安装源都不维护消失了，没有源安装一些常用软件比较麻烦，可以使用 iso 镜像文件搭建简易安装源，安装常用软件包</p>
+<p>参考文章：<a href="https://www.cnblogs.com/mython/p/10898461.html"target="_blank" rel="external nofollow noopener noreferrer">yum源的三种搭建方式</a>，<a href="https://blog.csdn.net/zhangshenghang/article/details/122316597"target="_blank" rel="external nofollow noopener noreferrer">CentOS 使用iso镜像安装本地 yum 源</a> ，<a href="https://blog.csdn.net/weixin_43557605/article/details/112322831"target="_blank" rel="external nofollow noopener noreferrer">使用iso镜像设置Ubuntu系统本地apt源</a>，<a href="https://blog.csdn.net/darkgray11/article/details/139140956"target="_blank" rel="external nofollow noopener noreferrer">Debian如何配置局域网APT软件仓库</a></p>
+<h2 id="yum-源网络搭建" class="heading-element"><span>yum 源：网络搭建</span>
+  <a href="#yum-%e6%ba%90%e7%bd%91%e7%bb%9c%e6%90%ad%e5%bb%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>这里以 Centos7 为例</p>
+<p>1）服务器上需要安装有 apache 或 nginx 等服务器，并可以正常访问，这里使用 nginx 为例，服务器 ip 为 <code>192.168.0.211</code> 网站目录为 <code>/var/www/html/</code></p>
+<p><a class="lightgallery" href="images/image-20240916131036790.png?size=large" data-thumbnail="images/image-20240916131036790.png?size=small" data-sub-html="<h2>images/image-20240916131036790.png</h2>"><img loading="lazy" src="images/image-20240916131036790.png" alt="images/image-20240916131036790.png" srcset="images/image-20240916131036790.png?size=small, images/image-20240916131036790.png?size=medium 1.5x, images/image-20240916131036790.png?size=large 2x" data-title="images/image-20240916131036790.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>2）上传 <code>CentOS-7-x86_64-DVD-2009.iso</code> 镜像到服务器上，然后在网站目录下新建一个文件夹，文件夹名随意。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mkdir /var/www/html/repo</span></span></code></pre></td></tr></table>
+</div>
+</div><p>3）将 iso 镜像挂载到创建的目录下 <code>/var/www/html/repo</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mount CentOS-7-x86_64-DVD-2009.iso /var/www/html/repo</span></span></code></pre></td></tr></table>
+</div>
+</div><p>挂载完成后，repo 目录下会多出一些文件</p>
+<p><a class="lightgallery" href="images/image-20240916131606437.png?size=large" data-thumbnail="images/image-20240916131606437.png?size=small" data-sub-html="<h2>images/image-20240916131606437.png</h2>"><img loading="lazy" src="images/image-20240916131606437.png" alt="images/image-20240916131606437.png" srcset="images/image-20240916131606437.png?size=small, images/image-20240916131606437.png?size=medium 1.5x, images/image-20240916131606437.png?size=large 2x" data-title="images/image-20240916131606437.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>4）启动一台 Centos7 服务器，来到 <code>/etc/yum.repos.d</code> 目录下，删除这个目录下的所有文件，创建一个文件 <code>http.repo</code>，写入以下内容。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">#yum仓库名，可自定义</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>http<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#yum仓库的描述信息</span>
+</span></span><span class="line"><span class="cl"><span class="nv">name</span><span class="o">=</span>repo_for_http
+</span></span><span class="line"><span class="cl"><span class="c1">#yum源的网络访问地址。url链接不要填错</span>
+</span></span><span class="line"><span class="cl"><span class="nv">baseurl</span><span class="o">=</span>http://192.168.0.211/repo/
+</span></span><span class="line"><span class="cl"><span class="c1">#启用仓库</span>
+</span></span><span class="line"><span class="cl"><span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 不进行红帽标签检查</span>
+</span></span><span class="line"><span class="cl"><span class="nv">gpgcheck</span><span class="o">=</span><span class="m">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a class="lightgallery" href="images/image-20240916132823276.png?size=large" data-thumbnail="images/image-20240916132823276.png?size=small" data-sub-html="<h2>images/image-20240916132823276.png</h2>"><img loading="lazy" src="images/image-20240916132823276.png" alt="images/image-20240916132823276.png" srcset="images/image-20240916132823276.png?size=small, images/image-20240916132823276.png?size=medium 1.5x, images/image-20240916132823276.png?size=large 2x" data-title="images/image-20240916132823276.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>至于删除的那些文件的作用和内容，有兴趣可以自行百度或查看上述参考文章。</p>
+<p>验证 yum 源是否成功：<code>yum repolist</code></p>
+<p><a class="lightgallery" href="images/image-20240916133103189.png?size=large" data-thumbnail="images/image-20240916133103189.png?size=small" data-sub-html="<h2>images/image-20240916133103189.png</h2>"><img loading="lazy" src="images/image-20240916133103189.png" alt="images/image-20240916133103189.png" srcset="images/image-20240916133103189.png?size=small, images/image-20240916133103189.png?size=medium 1.5x, images/image-20240916133103189.png?size=large 2x" data-title="images/image-20240916133103189.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h2 id="apt-源网络搭建" class="heading-element"><span>apt 源：网络搭建</span>
+  <a href="#apt-%e6%ba%90%e7%bd%91%e7%bb%9c%e6%90%ad%e5%bb%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>这里以搭建 debian9 为例。</p>
+<p>服务器上需要安装有 apache 或 nginx 等服务器，并可以正常访问，这里使用 nginx 为例，服务器 ip 为 <code>192.168.0.211</code> 网站目录为 <code>/var/www/html/</code></p>
+<p>1）创建目录 <code>debian9</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mkdir /var/www/html/debian9</span></span></code></pre></td></tr></table>
+</div>
+</div><p>2）上传 iso 镜像文件，并挂载至 <code>debian9</code> 目录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mount -o loop debian-9.13.0-amd64-DVD-1.iso /var/www/html/debian9</span></span></code></pre></td></tr></table>
+</div>
+</div><p>3）查看 <code>/var/www/html/debian9</code> 目录，可以看到相关文件</p>
+<p><a class="lightgallery" href="images/image-20240916180431296.png?size=large" data-thumbnail="images/image-20240916180431296.png?size=small" data-sub-html="<h2>images/image-20240916180431296.png</h2>"><img loading="lazy" src="images/image-20240916180431296.png" alt="images/image-20240916180431296.png" srcset="images/image-20240916180431296.png?size=small, images/image-20240916180431296.png?size=medium 1.5x, images/image-20240916180431296.png?size=large 2x" data-title="images/image-20240916180431296.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>4）启动一台 debian9 主机，编辑 <code>/etc/apt/sources.list</code> 文件，注释掉其他源，写入网络源</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">#注释掉其他源</span>
+</span></span><span class="line"><span class="cl">deb <span class="o">[</span><span class="nv">trusted</span><span class="o">=</span>yes<span class="o">]</span> http://192.168.0.211/debian9/ stretch main contrib
+</span></span><span class="line"><span class="cl"><span class="c1"># [trusted=yes]代表直接信任</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># http://192.168.0.211/debian9/ ：软件仓库URL</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># stretch：版本代号</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># main contrib：光盘上软件的组织结构</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>成功，这样就可以安装软件了，仅限 iso 镜像中自带的软件包</p>
+<p><a class="lightgallery" href="images/image-20240916182651799.png?size=large" data-thumbnail="images/image-20240916182651799.png?size=small" data-sub-html="<h2>images/image-20240916182651799.png</h2>"><img loading="lazy" src="images/image-20240916182651799.png" alt="images/image-20240916182651799.png" srcset="images/image-20240916182651799.png?size=small, images/image-20240916182651799.png?size=medium 1.5x, images/image-20240916182651799.png?size=large 2x" data-title="images/image-20240916182651799.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>5）例如没有 vim，就可以从自己搭建的网络 apt 源进行安装，当然，仅限 iso 镜像中自带的软件包</p>
+<p><a class="lightgallery" href="images/image-20240916182943230.png?size=large" data-thumbnail="images/image-20240916182943230.png?size=small" data-sub-html="<h2>images/image-20240916182943230.png</h2>"><img loading="lazy" src="images/image-20240916182943230.png" alt="images/image-20240916182943230.png" srcset="images/image-20240916182943230.png?size=small, images/image-20240916182943230.png?size=medium 1.5x, images/image-20240916182943230.png?size=large 2x" data-title="images/image-20240916182943230.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h2 id="服务器重启后挂载失效" class="heading-element"><span>服务器重启后挂载失效</span>
+  <a href="#%e6%9c%8d%e5%8a%a1%e5%99%a8%e9%87%8d%e5%90%af%e5%90%8e%e6%8c%82%e8%bd%bd%e5%a4%b1%e6%95%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>因为上面只是临时挂载，重启后就失效了，可以再用 mount 命令挂载以便。如果你熟悉 Linux，可以将其写入配置文件，和挂载硬盘一样。</p>
+<p>图省事的话可以将挂载命令在开机时自动执行，有两种方式实现：</p>
+<p>rc.local：先看看有没有这个配置文件，文件在 <code>/etc/rc.local</code>，debian 默认没有。将 <code>mount -o loop debian-9.13.0-amd64-DVD-1.iso /var/www/html/debian9</code> 写入</p>
+<p>crontab：<code>crontab -e</code> 将 <code>@reboot mount -o loop debian-9.13.0-amd64-DVD-1.iso /var/www/html/debian9</code> 命令写入。</p>
+<h2 id="apt-源的配置文件说明" class="heading-element"><span>apt 源的配置文件说明</span>
+  <a href="#apt-%e6%ba%90%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e8%af%b4%e6%98%8e" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>参考： <a href="https://www.cnblogs.com/beanmoon/p/3387652.html"target="_blank" rel="external nofollow noopener noreferrer">https://www.cnblogs.com/beanmoon/p/3387652.html</a></p>
+<p>source.list 文件中每一行配置可以分为四个部分：<code>deb http://mirrors.163.com/debian/ stretch main contrib</code></p>
+<ul>
+<li>deb 或者 deb-src：前者代表软件的位置，后者代表软件的源代码的位置</li>
+<li>http：//mirrors.163.com/debian/ ：ftp 镜像的 url</li>
+<li>stretch：debian 系统的版本号。stretch-updates 是软件包状态，代表更新</li>
+<li>main contrib：限定词</li>
+</ul>
+<p>其中，前三个部分好理解，都是固定的样式，主要是第四部分的限定词，要理解清楚含义。</p>
+<p>常见的三个限定词有：main、contrib、non-free</p>
+<ul>
+<li><strong>main</strong> ：Debian 里最基本及主要且符合自由软件规范的软件 ( packages )。</li>
+<li><strong>contrib</strong> ：这里头软件虽然可以在 Debian 里头运作，即使本身属于自由软件但多半却是相依于非自由 ( non-free ) 软件。</li>
+<li><strong>non-free</strong> ：不属于自由软件范畴的软件。</li>
+</ul>
+<p>一般软件的镜像源都包含这三个，比如腾讯的 debian10 镜像源配置为：<code>deb https://mirrors.cloud.tencent.com/debian/ buster main contrib non-free</code></p>
+<p>通过浏览器找到地址，打开对应为的地址 <code>/dists/buster/</code> 可以看到 main、contrib、non-free 这三个文件夹</p>
+<p><a class="lightgallery" href="images/image-20240921093829929.png?size=large" data-thumbnail="images/image-20240921093829929.png?size=small" data-sub-html="<h2>images/image-20240921093829929.png</h2>"><img loading="lazy" src="images/image-20240921093829929.png" alt="images/image-20240921093829929.png" srcset="images/image-20240921093829929.png?size=small, images/image-20240921093829929.png?size=medium 1.5x, images/image-20240921093829929.png?size=large 2x" data-title="images/image-20240921093829929.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>其次，我们在自己搭建的镜像源目录里也可以找到对应的目录，这里只有 main、contrib，没有 non-free</p>
+<p><a class="lightgallery" href="images/image-20240921094058946.png?size=large" data-thumbnail="images/image-20240921094058946.png?size=small" data-sub-html="<h2>images/image-20240921094058946.png</h2>"><img loading="lazy" src="images/image-20240921094058946.png" alt="images/image-20240921094058946.png" srcset="images/image-20240921094058946.png?size=small, images/image-20240921094058946.png?size=medium 1.5x, images/image-20240921094058946.png?size=large 2x" data-title="images/image-20240921094058946.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>所以，在使用我们自己搭建的 debian9 镜像源时，配置为：<code>deb [trusted=yes] http://192.168.0.211/debian9/ stretch main contrib</code> 后面不要加 non-free。</p>
+<p>不同的 Linux 系统源配置有些不同，比如 Ubuntu：<code>deb http://mirrors.aliyun.com/ubuntu/ jammy main restricted universe multiverse </code></p>
+<p><a class="lightgallery" href="images/image-20240921095202321.png?size=large" data-thumbnail="images/image-20240921095202321.png?size=small" data-sub-html="<h2>images/image-20240921095202321.png</h2>"><img loading="lazy" src="images/image-20240921095202321.png" alt="images/image-20240921095202321.png" srcset="images/image-20240921095202321.png?size=small, images/image-20240921095202321.png?size=medium 1.5x, images/image-20240921095202321.png?size=large 2x" data-title="images/image-20240921095202321.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-09-18 15:37:53">更新于 2024-09-18&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E9%BB%98%E8%AE%A4%E6%A0%87%E7%AD%BE/" class="post-tag" title="标签 - 默认标签">默认标签</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/8f5c6a2be833/" class="post-nav-item" rel="prev" title="博客迁移"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>博客迁移</a>
+      <a href="/7cbcb56c25d8/" class="post-nav-item" rel="next" title="Linux开机启动执行脚本">Linux开机启动执行脚本<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.132.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.9"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">蓝狐狸</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"enable":false},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.9"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

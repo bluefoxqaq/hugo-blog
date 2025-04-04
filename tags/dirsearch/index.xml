@@ -1,0 +1,35 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Dirsearch - 标签 - 蓝狐狸的博客</title>
+    <link>https://example.org/tags/dirsearch/</link>
+    <description>Dirsearch - 标签 | 蓝狐狸的博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 23 Jan 2023 13:28:09 &#43;0800</lastBuildDate><atom:link href="https://example.org/tags/dirsearch/" rel="self" type="application/rss+xml" /><item>
+  <title>dirsearch使用</title>
+  <link>https://example.org/ad81d17c7375/</link>
+  <pubDate>Mon, 23 Jan 2023 13:28:09 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/ad81d17c7375/</guid>
+  <description><![CDATA[1. 下载安装 下载地址： https://github.com/maurosoria/dirsearch
+进入下载解压后的目录中，打开cmd，运行安装脚本
+1 python setup.py install 运行如下命令安装用到的python库，可能需要先升级pip
+1 pip3 install -r requirements.txt 2. 目录结构 其中，db文件夹为自带字典文件夹；reports为扫描日志文件夹；dirsearch.py为主程序文件 ；
+安装完成后将目录地址改为主程序解压地址，使用管理员cmd启动dirsearch。
+3. 常用命令参数 注意：在做扫描时太快会扫不出来
+格式： python dirsearch.py 参数
+常用参数列表：
+-c：指定cookie扫描
+dirsearch -u http://127.0.0.1 -c &ldquo;user=Mo60;&rdquo;
+-e：指定需要扫描的文件名 例如：-e php 如果不知道即所有 -e *
+dirsearch -u http://127.0.0.1 -e jsp
+-s：每一秒扫描一次
+dirsearch -u http://127.0.0.1 -s 1
+-t：指定线程数（默认为10）（如果扫不出来就把线程弄的越低越好0.5也可以）
+dirsearch -u http://127.0.0.1 -t 2
+-w：指定自定义的字典文件路径
+dirsearch -u http://127.0.0.1 -w /root/php.txt
+-x：排除的响应状态码(以逗号分隔,支持指定范围) 如(-x 301,500-599)
+-i：保留的响应状态码(以逗号分隔,支持指定范围) 如(-i 200,300-399)
+&ndash;random-agents：使用随机ua头]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>华为交换机命令 - 蓝狐狸的博客</title><meta name="author" content="蓝狐狸">
+<meta name="author-link" content="">
+<meta name="description" content="简单命令 undo shutdown //激活接口
+display current-configuration // 查看当前的配置（内存中）
+display saved-configuration // 查看保存的配置（Flash 中）
+端口信息查看
+信息含义： https://support.huawei.com/enterprise/zh/doc/EDOC1100064380/e51dee46
+光模块查看
+参考： https://support.huawei.com/enterprise/zh/doc/EDOC1100127136/94ef2802
+端口批量操作
+端口批量修改为 access
+参考： https://support.huawei.com/enterprise/zh/knowledge/EKB1000029447
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 **配置临时端口组** # 配置接口GE1/0/9至GE1/0/15加入到临时端口组(使用port-group group-member命令)。 &lt;HUAWEI&gt; system-view [HUAWEI] port-group group-member gigabitethernet 1/0/9 to gigabitethernet 1/0/15 [HUAWEI-port-group] **配置永久端口组** # 配置接口GE1/0/1至GE1/0/8加入到永久端口组portgroup1（使用port-group命令）。 &lt;HUAWEI&gt; system-view [HUAWEI] port-group portgroup1 [HUAWEI-port-group-portgroup1] group-member gigabitethernet 1/0/1 to gigabitethernet 1/0/8 1 2 3 4 5 在VLAN视图下批量将接口加入VLAN &lt;HUAWEI&gt; system-view [HUAWEI] vlan 10 [HUAWEI-vlan10] port gigabitethernet 0/0/1 to 0/0/5 mac 黑洞" /><meta name="keywords" content='华为交换机' />
+  <meta itemprop="name" content="华为交换机命令">
+  <meta itemprop="description" content="简单命令 undo shutdown //激活接口
+display current-configuration // 查看当前的配置（内存中）
+display saved-configuration // 查看保存的配置（Flash 中）
+端口信息查看
+信息含义： https://support.huawei.com/enterprise/zh/doc/EDOC1100064380/e51dee46
+光模块查看
+参考： https://support.huawei.com/enterprise/zh/doc/EDOC1100127136/94ef2802
+端口批量操作
+端口批量修改为 access
+参考： https://support.huawei.com/enterprise/zh/knowledge/EKB1000029447
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 **配置临时端口组** # 配置接口GE1/0/9至GE1/0/15加入到临时端口组(使用port-group group-member命令)。 &lt;HUAWEI&gt; system-view [HUAWEI] port-group group-member gigabitethernet 1/0/9 to gigabitethernet 1/0/15 [HUAWEI-port-group] **配置永久端口组** # 配置接口GE1/0/1至GE1/0/8加入到永久端口组portgroup1（使用port-group命令）。 &lt;HUAWEI&gt; system-view [HUAWEI] port-group portgroup1 [HUAWEI-port-group-portgroup1] group-member gigabitethernet 1/0/1 to gigabitethernet 1/0/8 1 2 3 4 5 在VLAN视图下批量将接口加入VLAN &lt;HUAWEI&gt; system-view [HUAWEI] vlan 10 [HUAWEI-vlan10] port gigabitethernet 0/0/1 to 0/0/5 mac 黑洞">
+  <meta itemprop="datePublished" content="2024-10-17T07:22:37+08:00">
+  <meta itemprop="dateModified" content="2024-10-17T07:25:37+08:00">
+  <meta itemprop="wordCount" content="1113">
+  <meta itemprop="keywords" content="华为交换机"><meta property="og:url" content="https://example.org/36371b0398bc/">
+  <meta property="og:site_name" content="蓝狐狸的博客">
+  <meta property="og:title" content="华为交换机命令">
+  <meta property="og:description" content="简单命令 undo shutdown //激活接口
+display current-configuration // 查看当前的配置（内存中）
+display saved-configuration // 查看保存的配置（Flash 中）
+端口信息查看
+信息含义： https://support.huawei.com/enterprise/zh/doc/EDOC1100064380/e51dee46
+光模块查看
+参考： https://support.huawei.com/enterprise/zh/doc/EDOC1100127136/94ef2802
+端口批量操作
+端口批量修改为 access
+参考： https://support.huawei.com/enterprise/zh/knowledge/EKB1000029447
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 **配置临时端口组** # 配置接口GE1/0/9至GE1/0/15加入到临时端口组(使用port-group group-member命令)。 &lt;HUAWEI&gt; system-view [HUAWEI] port-group group-member gigabitethernet 1/0/9 to gigabitethernet 1/0/15 [HUAWEI-port-group] **配置永久端口组** # 配置接口GE1/0/1至GE1/0/8加入到永久端口组portgroup1（使用port-group命令）。 &lt;HUAWEI&gt; system-view [HUAWEI] port-group portgroup1 [HUAWEI-port-group-portgroup1] group-member gigabitethernet 1/0/1 to gigabitethernet 1/0/8 1 2 3 4 5 在VLAN视图下批量将接口加入VLAN &lt;HUAWEI&gt; system-view [HUAWEI] vlan 10 [HUAWEI-vlan10] port gigabitethernet 0/0/1 to 0/0/5 mac 黑洞">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-17T07:22:37+08:00">
+    <meta property="article:modified_time" content="2024-10-17T07:25:37+08:00">
+    <meta property="article:tag" content="华为交换机">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="华为交换机命令">
+  <meta name="twitter:description" content="简单命令 undo shutdown //激活接口
+display current-configuration // 查看当前的配置（内存中）
+display saved-configuration // 查看保存的配置（Flash 中）
+端口信息查看
+信息含义： https://support.huawei.com/enterprise/zh/doc/EDOC1100064380/e51dee46
+光模块查看
+参考： https://support.huawei.com/enterprise/zh/doc/EDOC1100127136/94ef2802
+端口批量操作
+端口批量修改为 access
+参考： https://support.huawei.com/enterprise/zh/knowledge/EKB1000029447
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 **配置临时端口组** # 配置接口GE1/0/9至GE1/0/15加入到临时端口组(使用port-group group-member命令)。 &lt;HUAWEI&gt; system-view [HUAWEI] port-group group-member gigabitethernet 1/0/9 to gigabitethernet 1/0/15 [HUAWEI-port-group] **配置永久端口组** # 配置接口GE1/0/1至GE1/0/8加入到永久端口组portgroup1（使用port-group命令）。 &lt;HUAWEI&gt; system-view [HUAWEI] port-group portgroup1 [HUAWEI-port-group-portgroup1] group-member gigabitethernet 1/0/1 to gigabitethernet 1/0/8 1 2 3 4 5 在VLAN视图下批量将接口加入VLAN &lt;HUAWEI&gt; system-view [HUAWEI] vlan 10 [HUAWEI-vlan10] port gigabitethernet 0/0/1 to 0/0/5 mac 黑洞">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://example.org/36371b0398bc/" /><link rel="prev" href="https://example.org/6e0e33a32ed0/" /><link rel="next" href="https://example.org/02b965210d21/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "华为交换机命令",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/example.org\/36371b0398bc\/"
+    },"genre": "posts","keywords": "华为交换机","wordcount":  1113 ,
+    "url": "https:\/\/example.org\/36371b0398bc\/","datePublished": "2024-10-17T07:22:37+08:00","dateModified": "2024-10-17T07:25:37+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "蓝狐狸"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/"
+                
+                
+              ><i class="fa-solid fa-house"></i> 首页</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/"
+                  
+                  
+                ><i class="fa-solid fa-house"></i> 首页</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>华为交换机命令</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/" class="post-category" title="分类 - 华为交换机"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 华为交换机</a></span></div><div class="post-meta-line"><span title="发布于 2024-10-17 07:22:37"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-10-17">2024-10-17</time></span>&nbsp;<span title="更新于 2024-10-17 07:25:37"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-10-17">2024-10-17</time></span>&nbsp;<span title="1113 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#简单命令">简单命令</a></li>
+    <li><a href="#rip-路由协议">rip 路由协议</a></li>
+    <li><a href="#链路聚合">链路聚合</a>
+      <ul>
+        <li><a href="#手工链路聚合">手工链路聚合</a></li>
+        <li><a href="#lacp-静态链路聚合">LACP 静态链路聚合</a></li>
+      </ul>
+    </li>
+    <li><a href="#端口批量操作">端口批量操作</a></li>
+    <li><a href="#配置-telnet-远程登录">配置 telnet 远程登录</a></li>
+    <li><a href="#配置-ssh-远程登录">配置 ssh 远程登录</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="简单命令" class="heading-element"><span>简单命令</span>
+  <a href="#%e7%ae%80%e5%8d%95%e5%91%bd%e4%bb%a4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>undo shutdown //激活接口</p>
+<p>display current-configuration     // 查看当前的配置（内存中）</p>
+<p>display saved-configuration      // 查看保存的配置（Flash 中）</p>
+<p>端口信息查看</p>
+<p>信息含义： <a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100064380/e51dee46"target="_blank" rel="external nofollow noopener noreferrer">https://support.huawei.com/enterprise/zh/doc/EDOC1100064380/e51dee46</a></p>
+<p>光模块查看</p>
+<p>参考： <a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100127136/94ef2802"target="_blank" rel="external nofollow noopener noreferrer">https://support.huawei.com/enterprise/zh/doc/EDOC1100127136/94ef2802</a></p>
+<p>端口批量操作</p>
+<p>端口批量修改为 access</p>
+<p>参考： <a href="https://support.huawei.com/enterprise/zh/knowledge/EKB1000029447"target="_blank" rel="external nofollow noopener noreferrer">https://support.huawei.com/enterprise/zh/knowledge/EKB1000029447</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">**配置临时端口组**  
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置接口GE1/0/9至GE1/0/15加入到临时端口组(使用port-group group-member命令)。  </span>
+</span></span><span class="line"><span class="cl">&lt;HUAWEI&gt; system-view  
+</span></span><span class="line"><span class="cl"><span class="o">[</span>HUAWEI<span class="o">]</span> port-group group-member gigabitethernet 1/0/9 to gigabitethernet 1/0/15  
+</span></span><span class="line"><span class="cl"><span class="o">[</span>HUAWEI-port-group<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">**配置永久端口组**  
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置接口GE1/0/1至GE1/0/8加入到永久端口组portgroup1（使用port-group命令）。  </span>
+</span></span><span class="line"><span class="cl">&lt;HUAWEI&gt; system-view  
+</span></span><span class="line"><span class="cl"><span class="o">[</span>HUAWEI<span class="o">]</span> port-group portgroup1  
+</span></span><span class="line"><span class="cl"><span class="o">[</span>HUAWEI-port-group-portgroup1<span class="o">]</span> group-member gigabitethernet 1/0/1 to gigabitethernet 1/0/8</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">在VLAN视图下批量将接口加入VLAN
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;HUAWEI&gt; system-view
+</span></span><span class="line"><span class="cl"><span class="o">[</span>HUAWEI<span class="o">]</span> vlan <span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>HUAWEI-vlan10<span class="o">]</span> port gigabitethernet 0/0/1 to 0/0/5</span></span></code></pre></td></tr></table>
+</div>
+</div><p>mac 黑洞</p>
+<pre tabindex="0"><code>display mac-address blackhole
+
+info-center source ds channel 0 log state off trap state off</code></pre><p>dhcp</p>
+<p>vlan 1 是默认的 vlan，开机后所有的接口都属于 vlan 1</p>
+<p>交换机的三种接口模式：access、trunk</p>
+<p>交换机之间 trunk 连接</p>
+<p><a class="lightgallery" href="images/image-20240315202918336.png?size=large" data-thumbnail="images/image-20240315202918336.png?size=small" data-sub-html="<h2>images/image-20240315202918336.png</h2>"><img loading="lazy" src="images/image-20240315202918336.png" alt="images/image-20240315202918336.png" srcset="images/image-20240315202918336.png?size=small, images/image-20240315202918336.png?size=medium 1.5x, images/image-20240315202918336.png?size=large 2x" data-title="images/image-20240315202918336.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>四台 PC 配置好 IP 地址即可</p>
+<p>两台交换机配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># LSW1和LWS2相同</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>vlan batch <span class="m">10</span> <span class="m">20</span> <span class="c1"># 创建vlan</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>int g 0/0/3
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/3<span class="o">]</span>port link-type trunk
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/3<span class="o">]</span>port trunk allow-pass vlan all
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/3<span class="o">]</span>int g 0/0/1
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/1<span class="o">]</span>port link-type access <span class="c1"># 将端口类型设置为access</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/1<span class="o">]</span>port default vlan <span class="m">10</span> <span class="c1"># 端口加入到vlan 10</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/1<span class="o">]</span>int g 0/0/2
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/2<span class="o">]</span>port link-type access
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/2<span class="o">]</span>port default vlan <span class="m">20</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>PC 1 和 PC 3 可以互通，PC 2 和 PC 4 可以互通，但是 1 和 2 不通，3 和 4 不通，因为它们是不同网段。</p>
+<p>简单的三层交换网络</p>
+<p><a class="lightgallery" href="images/image-20240315200350789.png?size=large" data-thumbnail="images/image-20240315200350789.png?size=small" data-sub-html="<h2>images/image-20240315200350789.png</h2>"><img loading="lazy" src="images/image-20240315200350789.png" alt="images/image-20240315200350789.png" srcset="images/image-20240315200350789.png?size=small, images/image-20240315200350789.png?size=medium 1.5x, images/image-20240315200350789.png?size=large 2x" data-title="images/image-20240315200350789.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>两台 PC 配置好 IP 地址和网关</p>
+<p>两台交换机配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># LSW1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>vlan batch <span class="m">10</span> <span class="m">20</span> <span class="c1"># 创建两个vlan</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>interface GigabitEthernet 0/0/1
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/1<span class="o">]</span>port link-type access <span class="c1"># 将端口类型设置为access</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/1<span class="o">]</span>port default vlan <span class="m">10</span> <span class="c1"># 端口加入到vlan 10</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/1<span class="o">]</span>int g 0/0/2
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/2<span class="o">]</span>port link-type access 	
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/2<span class="o">]</span>port default vlan <span class="m">20</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/2<span class="o">]</span>int g 0/0/3	
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/3<span class="o">]</span>port link-type trunk	<span class="c1"># 将端口类型设置为trunk</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/3<span class="o">]</span>port trunk allow-pass vlan all <span class="c1"># 允许所有的vlan数据通过</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># LSW2</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>vlan batch <span class="m">10</span> <span class="m">20</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>interface vlan <span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Vlanif10<span class="o">]</span>ip address 1.1.1.254 255.255.255.0 <span class="c1"># 配置网关</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Vlanif10<span class="o">]</span>int vlan <span class="m">20</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Vlanif20<span class="o">]</span>ip add 1.1.2.254 255.255.255.0
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Vlanif20<span class="o">]</span>int g 0/0/1
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/1<span class="o">]</span>port link-type trunk
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/1<span class="o">]</span>port trunk allow-pass vlan all</span></span></code></pre></td></tr></table>
+</div>
+</div><p>配置好后，两台 PC 之间可以 ping 通。</p>
+<p>单臂路由</p>
+<p>nat</p>
+<p>telnet 配置</p>
+<p>stp</p>
+<p>二层环路带来的问题</p>
+<p>广播风暴和 mac 地址漂移</p>
+<p>二层环路和三层环路</p>
+<h2 id="rip-路由协议" class="heading-element"><span>rip 路由协议</span>
+  <a href="#rip-%e8%b7%af%e7%94%b1%e5%8d%8f%e8%ae%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100198525/217b4f86"target="_blank" rel="external nofollow noopener noreferrer">https://support.huawei.com/enterprise/zh/doc/EDOC1100198525/217b4f86</a></p>
+<p><a href="https://blog.csdn.net/qq_44933518/article/details/109491203"target="_blank" rel="external nofollow noopener noreferrer">https://blog.csdn.net/qq_44933518/article/details/109491203</a></p>
+<h2 id="链路聚合" class="heading-element"><span>链路聚合</span>
+  <a href="#%e9%93%be%e8%b7%af%e8%81%9a%e5%90%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>链路聚合分为<strong>手工负载分担模式</strong>、<strong>静态 LACP 模式</strong>和<strong>动态 LACP 模式</strong>。</p>
+<p>LACP 静态和动态的区别：用户权限不同。动态 lacp 汇聚是一种系统自动创建/删除的汇聚，不允许<em><strong>用户</strong></em>增加或删除动态 lacp 汇聚中的成员端口。静态 lacp 汇聚由用户手工配置，不允许<em><strong>系统</strong></em>自动添加或删除汇聚组中的端口。汇聚组中必须至少包含一个端口。当汇聚组只有一个端口时，只能通过删除汇聚组的方式将该端口从汇聚组中删除。</p>
+<p>链路聚合应用场景：交换机之间，用来提升带宽和可靠性；交换机和服务器之间，提高服务器的接入带宽和可靠性；交换机与堆叠系统；防火墙双击热备。</p>
+<h3 id="手工链路聚合" class="heading-element"><span>手工链路聚合</span>
+  <a href="#%e6%89%8b%e5%b7%a5%e9%93%be%e8%b7%af%e8%81%9a%e5%90%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><a class="lightgallery" href="images/image-20240319163651792.png?size=large" data-thumbnail="images/image-20240319163651792.png?size=small" data-sub-html="<h2>images/image-20240319163651792.png</h2>"><img loading="lazy" src="images/image-20240319163651792.png" alt="images/image-20240319163651792.png" srcset="images/image-20240319163651792.png?size=small, images/image-20240319163651792.png?size=medium 1.5x, images/image-20240319163651792.png?size=large 2x" data-title="images/image-20240319163651792.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># LSW1和LSW2都是相同的配置方法</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>interface Eth-Trunk <span class="m">1</span>  <span class="c1"># 创建链路聚合组</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>q
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>interface g 0/0/1	
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/1<span class="o">]</span>eth-trunk <span class="m">1</span>  <span class="c1"># 将接口1加入聚合组</span>
+</span></span><span class="line"><span class="cl">Info: This operation may take a few seconds. Please <span class="nb">wait</span> <span class="k">for</span> a moment...done.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> <span class="m">2024</span> 16:19:52-08:00 Huawei %%01IFNET/4/IF_STATE<span class="o">(</span>l<span class="o">)[</span>0<span class="o">]</span>:Interface Eth-Trunk
+</span></span><span class="line"><span class="cl"><span class="m">1</span> has turned into UP state.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/1<span class="o">]</span>q
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>int g 0/0/2	
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/2<span class="o">]</span>eth-trunk <span class="m">1</span>  <span class="c1"># 将接口2加入聚合组</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建个vlan</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>vlan <span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-vlan10<span class="o">]</span>q
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>interface Vlanif <span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Vlanif10<span class="o">]</span>ip add 1.1.1.2 <span class="m">24</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Vlanif10<span class="o">]</span>q
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>int Eth-Trunk 1	
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>port link-type access  <span class="c1"># 将Eth-Trunk 1接口设置为access</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>port default vlan <span class="m">10</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>在 LSW 1 上 ping <code>1.1.1.2</code> 可以通</p>
+<p>手工配置的问题：</p>
+<p>1）成员接口一定不能配错</p>
+<p>2）交换机无法得知对端交换机的端口是否运行正常</p>
+<h3 id="lacp-静态链路聚合" class="heading-element"><span>LACP 静态链路聚合</span>
+  <a href="#lacp-%e9%9d%99%e6%80%81%e9%93%be%e8%b7%af%e8%81%9a%e5%90%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>配置系统优先级是为了区别本端设备与对端设备优先级的高低，系统优先级高的将被选作链路聚合组的主动端，按照主动端设备的接口来选择活动接口。配置接口优先级是为了区别同一设备不同接口的优先级，接口优先级高的将被选作活动接口。如果 Eth-Trunk 两端设备都没有配置系统优先级，两端系统优先级都是缺省值 32768，此时需要按照系统 MAC 来选择主动端，系统 MAC 小的优先。当手工加入链路组的接口数超过了该阈值的限制，就需要选择哪些接口为活动接口，而设置接口 LACP 优先级即可保证在静态模式下高优先级的接口成为活动接口。</p>
+<p><a class="lightgallery" href="images/image-20240319195224182.png?size=large" data-thumbnail="images/image-20240319195224182.png?size=small" data-sub-html="<h2>images/image-20240319195224182.png</h2>"><img loading="lazy" src="images/image-20240319195224182.png" alt="images/image-20240319195224182.png" srcset="images/image-20240319195224182.png?size=small, images/image-20240319195224182.png?size=medium 1.5x, images/image-20240319195224182.png?size=large 2x" data-title="images/image-20240319195224182.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>交换机的 1、2、3 端口做聚合使用，其中有一条做备用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># LSW1的配置</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>int Eth-Trunk <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>mode lacp  <span class="c1"># 配置Eth-Trunk的工作模式。缺省情况下，Eth-Trunk的工作模式为手工模式。</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>trunkport GigabitEthernet 0/0/1 to 0/0/3  <span class="c1"># 在Eth-Trunk接口视图下向聚合组中加入成员接口</span>
+</span></span><span class="line"><span class="cl">Info: This operation may take a few seconds. Please <span class="nb">wait</span> <span class="k">for</span> a moment...done.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> <span class="m">2024</span> 19:12:29-08:00 Huawei %%01IFNET/4/IF_STATE<span class="o">(</span>l<span class="o">)[</span>0<span class="o">]</span>:Interface Vlanif1 h
+</span></span><span class="line"><span class="cl">as turned into DOWN state.
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> <span class="m">2024</span> 19:12:29-08:00 Huawei %%01IFNET/4/IF_STATE<span class="o">(</span>l<span class="o">)[</span>1<span class="o">]</span>:Interface Vlanif1 h
+</span></span><span class="line"><span class="cl">as turned into UP state.
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> <span class="m">2024</span> 19:12:29-08:00 Huawei %%01IFNET/4/IF_STATE<span class="o">(</span>l<span class="o">)[</span>2<span class="o">]</span>:Interface Eth-Trunk
+</span></span><span class="line"><span class="cl"><span class="m">1</span> has turned into UP state.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>max active-linknumber <span class="m">2</span>  <span class="c1"># 配置链路聚合组活动接口数目的上限阈值为2。另一条做备用</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>port link-type trunk
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>port trunk allow-pass vlan all
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>q
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>lacp priority <span class="m">30000</span>  <span class="c1"># LACP优先级值。取值越小LACP优先级越高。</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>vlan <span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-vlan10<span class="o">]</span>q
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>int g 0/0/11
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/11<span class="o">]</span>port link-type access 
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/11<span class="o">]</span>port default vlan <span class="m">10</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意 LSW 1 设置 lacp 的优先级</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># LSW2的配置</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>int Eth-Trunk <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>mode lacp  
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>trunkport GigabitEthernet 0/0/1 to 0/0/3
+</span></span><span class="line"><span class="cl">Info: This operation may take a few seconds. Please <span class="nb">wait</span> <span class="k">for</span> a moment...done.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> <span class="m">2024</span> 19:12:29-08:00 Huawei %%01IFNET/4/IF_STATE<span class="o">(</span>l<span class="o">)[</span>0<span class="o">]</span>:Interface Vlanif1 h
+</span></span><span class="line"><span class="cl">as turned into DOWN state.
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> <span class="m">2024</span> 19:12:29-08:00 Huawei %%01IFNET/4/IF_STATE<span class="o">(</span>l<span class="o">)[</span>1<span class="o">]</span>:Interface Vlanif1 h
+</span></span><span class="line"><span class="cl">as turned into UP state.
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> <span class="m">2024</span> 19:12:29-08:00 Huawei %%01IFNET/4/IF_STATE<span class="o">(</span>l<span class="o">)[</span>2<span class="o">]</span>:Interface Eth-Trunk
+</span></span><span class="line"><span class="cl"><span class="m">1</span> has turned into UP state.	
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>max active-linknumber <span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>port link-type trunk
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>port trunk allow-pass vlan all
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-Eth-Trunk1<span class="o">]</span>q
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>vlan <span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-vlan10<span class="o">]</span>q
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>int GigabitEthernet 0/0/11
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/11<span class="o">]</span>port link-type access
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/11<span class="o">]</span>port default vlan <span class="m">10</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>两台 PC 可以互通</p>
+<p><a class="lightgallery" href="images/image-20240319195429945.png?size=large" data-thumbnail="images/image-20240319195429945.png?size=small" data-sub-html="<h2>images/image-20240319195429945.png</h2>"><img loading="lazy" src="images/image-20240319195429945.png" alt="images/image-20240319195429945.png" srcset="images/image-20240319195429945.png?size=small, images/image-20240319195429945.png?size=medium 1.5x, images/image-20240319195429945.png?size=large 2x" data-title="images/image-20240319195429945.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>300 台设备同网段相连</p>
+<p>假如有 300 台设备需要互相连接，ip 地址划分于 <code>192.168.201.1</code> - <code>192.168.202.254</code> 之间。所有设备必须在这个地址段里面，一般可以通过划分 vlan 的方式进行连接，但是有些情况下可以使用子网掩码进行划分连接。</p>
+<p>24 位的子网掩码可用的地址为 254 个，无法满足需求。23 位的子网掩码可用的地址为 510 个，但是其网络地址在 <code>192.168.200.1</code> - <code>192.168.201.254</code> 之间，无法满足我们 202 段的地址。</p>
+<p><a class="lightgallery" href="images/image-20240321221716932.png?size=large" data-thumbnail="images/image-20240321221716932.png?size=small" data-sub-html="<h2>images/image-20240321221716932.png</h2>"><img loading="lazy" src="images/image-20240321221716932.png" alt="images/image-20240321221716932.png" srcset="images/image-20240321221716932.png?size=small, images/image-20240321221716932.png?size=medium 1.5x, images/image-20240321221716932.png?size=large 2x" data-title="images/image-20240321221716932.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>所以使用 22 位的子网掩码可用的地址为 1022 个，并且地址段在 <code>192.168.200.1</code> - <code>192.168.203.254</code> 之间，满足我们 201 和 202 段的地址。</p>
+<p><a class="lightgallery" href="images/image-20240321221756248.png?size=large" data-thumbnail="images/image-20240321221756248.png?size=small" data-sub-html="<h2>images/image-20240321221756248.png</h2>"><img loading="lazy" src="images/image-20240321221756248.png" alt="images/image-20240321221756248.png" srcset="images/image-20240321221756248.png?size=small, images/image-20240321221756248.png?size=medium 1.5x, images/image-20240321221756248.png?size=large 2x" data-title="images/image-20240321221756248.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>实际网络拓扑图</p>
+<p><a class="lightgallery" href="images/image-20240321222746178.png?size=large" data-thumbnail="images/image-20240321222746178.png?size=small" data-sub-html="<h2>images/image-20240321222746178.png</h2>"><img loading="lazy" src="images/image-20240321222746178.png" alt="images/image-20240321222746178.png" srcset="images/image-20240321222746178.png?size=small, images/image-20240321222746178.png?size=medium 1.5x, images/image-20240321222746178.png?size=large 2x" data-title="images/image-20240321222746178.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a>
+其中三台交换机不用进行任何配置，只需要把设备的 ip 地址配置好即可，其中注意子网掩码为 <code>255.255.252.0</code>，这样所有的设备均可互通了。</p>
+<p>补充：实际上还需要在交换机上配置一个 vlan，将所有的设备加入到这个 vlan 当中，以便访问其它网络。这里没有配置，是因为华为交换机有个默认的 vlan 1，所有端口默认均属于 vlan 1 当中，省去 vlan 的创建；交换机之间不用设置 trunk，是因为三台交换机属于同一个 vlan，同一个 vlan 之间通信可以不用设置为 trunk（华为交换机端口模式默认为 hybrid，这个模式可以实现 trunk，但是二者有点区别）</p>
+<p>进行 vlan 配置</p>
+<h2 id="端口批量操作" class="heading-element"><span>端口批量操作</span>
+  <a href="#%e7%ab%af%e5%8f%a3%e6%89%b9%e9%87%8f%e6%93%8d%e4%bd%9c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>临时加入端口组，退出临时端口组后，该临时端口组被系统自动删除。</p>
+<pre tabindex="0"><code>&lt;HUAWEI&gt; system-view
+[HUAWEI] port-group group-member gigabitethernet 0/0/1 to gigabitethernet 0/0/3
+[HUAWEI-port-group]</code></pre><p>参考： <a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100156648/dd6c63c5"target="_blank" rel="external nofollow noopener noreferrer">https://support.huawei.com/enterprise/zh/doc/EDOC1100156648/dd6c63c5</a></p>
+<p>端口批量加入 vlan</p>
+<pre tabindex="0"><code>&lt;HUAWEI&gt; system-view
+[HUAWEI] port-group pg1
+[HUAWEI-port-group-pg1] group-member gigabitethernet0/0/1 to gigabitethernet0/0/5
+[HUAWEI-port-group-pg1] port link-type access
+[HUAWEI-port-group-pg1] port default vlan 10</code></pre><p>参考： <a href="https://support.huawei.com/enterprise/zh/doc/EDOC1000178154/13b58ade"target="_blank" rel="external nofollow noopener noreferrer">https://support.huawei.com/enterprise/zh/doc/EDOC1000178154/13b58ade</a></p>
+<h2 id="配置-telnet-远程登录" class="heading-element"><span>配置 telnet 远程登录</span>
+  <a href="#%e9%85%8d%e7%bd%ae-telnet-%e8%bf%9c%e7%a8%8b%e7%99%bb%e5%bd%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>参考文章： <a href="https://support.huawei.com/enterprise/zh/doc/EDOC1100365047/b3180b88"target="_blank" rel="external nofollow noopener noreferrer">https://support.huawei.com/enterprise/zh/doc/EDOC1100365047/b3180b88</a></p>
+<p>ensp 放置一台 AR1220 路由器和 cloud。配置 cloud，使用 vmware net 8 网卡，其它网卡也一样。</p>
+<p><a class="lightgallery" href="images/image-20241013093626012.png?size=large" data-thumbnail="images/image-20241013093626012.png?size=small" data-sub-html="<h2>images/image-20241013093626012.png</h2>"><img loading="lazy" src="images/image-20241013093626012.png" alt="images/image-20241013093626012.png" srcset="images/image-20241013093626012.png?size=small, images/image-20241013093626012.png?size=medium 1.5x, images/image-20241013093626012.png?size=large 2x" data-title="images/image-20241013093626012.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>首先配置路由器 ip 地址：<code>192.168.204.100</code>。地址要和网卡属于同一网段</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">&lt;Huawei&gt;sys
+</span></span><span class="line"><span class="cl">Enter system view, <span class="k">return</span> user view with Ctrl+Z.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>int	
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>interface g	
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>interface GigabitEthernet 0/0/0
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/0<span class="o">]</span>ip ad	
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/0<span class="o">]</span>ip address 192.168.204.100 255.255.255.0
+</span></span><span class="line"><span class="cl">Oct <span class="m">13</span> <span class="m">2024</span> 08:48:26-08:00 Huawei %%01IFNET/4/LINK_STATE<span class="o">(</span>l<span class="o">)[</span>0<span class="o">]</span>:The line protocol
+</span></span><span class="line"><span class="cl"> IP on the interface GigabitEthernet0/0/0 has entered the UP state. 
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-GigabitEthernet0/0/0<span class="o">]</span>q
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>q
+</span></span><span class="line"><span class="cl">&lt;Huawei&gt;save
+</span></span><span class="line"><span class="cl">  The current configuration will be written to the device. 
+</span></span><span class="line"><span class="cl">  Are you sure to <span class="k">continue</span>? <span class="o">(</span>y/n<span class="o">)[</span>n<span class="o">]</span>:y
+</span></span><span class="line"><span class="cl">  It will take several minutes to save configuration file, please wait........
+</span></span><span class="line"><span class="cl">  Configuration file had been saved successfully
+</span></span><span class="line"><span class="cl">  Note: The configuration file will take effect after being activated
+</span></span><span class="line"><span class="cl">&lt;Huawei&gt;ping 192.168.240.1</span></span></code></pre></td></tr></table>
+</div>
+</div><p>用宿主机 ping 路由器应该也是能通的，就没问题。</p>
+<p><a class="lightgallery" href="images/image-20241013093835475.png?size=large" data-thumbnail="images/image-20241013093835475.png?size=small" data-sub-html="<h2>images/image-20241013093835475.png</h2>"><img loading="lazy" src="images/image-20241013093835475.png" alt="images/image-20241013093835475.png" srcset="images/image-20241013093835475.png?size=small, images/image-20241013093835475.png?size=medium 1.5x, images/image-20241013093835475.png?size=large 2x" data-title="images/image-20241013093835475.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>其次设置路由器 telnet 远程登录</p>
+<p>1、路由器开启 Telnet 服务（系统视图）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>display telnet server status  <span class="c1"># 查看telnet服务状态，是否开启</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>telnet server <span class="nb">enable</span>       <span class="c1"># 启动telnet服务</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>undo telnet server <span class="nb">enable</span>  <span class="c1"># 关闭telnet服务</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>2、配置 VTY 用户用户的界面权限</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 配置VTY用户界面的最大个数（同时可以登录的最大数）</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>user-interface maximum-vty <span class="m">15</span> <span class="c1"># 配置VTY用户界面的最大个数（同时可以登录的最大数）默认是5，这个可以不设置</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置VTY用户界面的终端属性</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>user-interface vty <span class="m">0</span> <span class="m">14</span>              <span class="c1">#上面是15所有这里是0 14 如果选择默认这里是0 4</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-ui-vty0-14<span class="o">]</span>protocol inbound telnet   <span class="c1">#配置vty支持telnet协议</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置VTY用户界面的用户验证方式</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-ui-vty0-14<span class="o">]</span>authentication-mode aaa    <span class="c1">#配置用户终端的身份验证模式为aaa认证为aaa认证</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-ui-vty0-14<span class="o">]</span>quit                       <span class="c1">#退出vty配置界面</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>3、配置 VTY 用户界面的认证方式和用户级别</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 配置VTY用户界面的认证方式为AAA</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei<span class="o">]</span>aaa                                                  <span class="c1">#进入aaa配置模式</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-aaa<span class="o">]</span>local-user route password ?                      <span class="c1">#推荐用irreversible-cipher，对用户密码采用不可逆算法进行了加密</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Huawei-aaa<span class="o">]</span>local-user route password irreversible-cipher route123    <span class="c1"># 创建账号：route 密码：route123</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>HUAWEI-aaa<span class="o">]</span>local-user route service-type telnet   <span class="c1"># 配置本地用户 route 的接入类型为Telnet方式</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>HUAWEI-aaa<span class="o">]</span>local-user route privilege level <span class="m">15</span>    <span class="c1"># 配置本地用户 route 的级别为15</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>HUAWEI-aaa<span class="o">]</span>q</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上述配置完成后，即可通过 telnet 进行远程登录。</p>
+<p><a class="lightgallery" href="images/image-20241013094012504.png?size=large" data-thumbnail="images/image-20241013094012504.png?size=small" data-sub-html="<h2>images/image-20241013094012504.png</h2>"><img loading="lazy" src="images/image-20241013094012504.png" alt="images/image-20241013094012504.png" srcset="images/image-20241013094012504.png?size=small, images/image-20241013094012504.png?size=medium 1.5x, images/image-20241013094012504.png?size=large 2x" data-title="images/image-20241013094012504.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>关于用户的认证方式：AAA、Password、None</p>
+<ul>
+<li>AAA 认证：需要输入用户名和密码。（推荐使用）</li>
+<li>password 认证：只需要输入密码。</li>
+<li>None 无认证：不需要输入任何有关账户的信息</li>
+</ul>
+<p>关于用户密码的选择模式：simple、cipher、irreversible-cipher</p>
+<ul>
+<li>simple：密码显示为明文。</li>
+<li>cipher：对用户口令采用可逆算法进行了加密，非法用户可以通过对应的解密算法解密密文后得到明文密码，安全性较低。</li>
+<li>irreversible-cipher：表示对用户密码采用不可逆算法进行了加密，使非法用户无法通过解密算法特殊处理后得到明文密码，为用户提供更好的安全保障。（推荐使用）</li>
+</ul>
+<h2 id="配置-ssh-远程登录" class="heading-element"><span>配置 ssh 远程登录</span>
+  <a href="#%e9%85%8d%e7%bd%ae-ssh-%e8%bf%9c%e7%a8%8b%e7%99%bb%e5%bd%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>过程和配置 telnet 差不多</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>S1<span class="o">]</span>int vlanif1
+</span></span><span class="line"><span class="cl">ip add 192.168.245.254 <span class="m">24</span>                        //配置远程管理地址
+</span></span><span class="line"><span class="cl"><span class="o">[</span>S1<span class="o">]</span>aaa
+</span></span><span class="line"><span class="cl">local-user root password cipher zhaoge-hyz      //创建远程账户、密码
+</span></span><span class="line"><span class="cl"><span class="o">[</span>S1-aaa<span class="o">]</span>local-user root service-type ssh        //为用户开启SSH服务
+</span></span><span class="line"><span class="cl"><span class="o">[</span>S1-aaa<span class="o">]</span>local-user root privilege level <span class="m">3</span>       //设置权限等级
+</span></span><span class="line"><span class="cl"><span class="o">[</span>S1<span class="o">]</span>rsa local-key-pair create                   //创建本地密钥对
+</span></span><span class="line"><span class="cl"><span class="o">[</span>S1<span class="o">]</span>stelnet server <span class="nb">enable</span>                       //启用Stenlnet服务
+</span></span><span class="line"><span class="cl"><span class="o">[</span>S1<span class="o">]</span>ssh authentication-type default password
+</span></span><span class="line"><span class="cl"><span class="o">[</span>S1<span class="o">]</span>user-interface vty <span class="m">0</span> <span class="m">4</span>                     //配置VTY界面，AAA认证，SSH方式接入
+</span></span><span class="line"><span class="cl"><span class="o">[</span>S1-ui-vty0-4<span class="o">]</span>authentication-mode aaa
+</span></span><span class="line"><span class="cl"><span class="o">[</span>S1-ui-vty0-4<span class="o">]</span>protocol inbound ssh</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-10-17 07:25:37">更新于 2024-10-17&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/" class="post-tag" title="标签 - 华为交换机">华为交换机</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/6e0e33a32ed0/" class="post-nav-item" rel="prev" title="关于Linux环境变量配置文件"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>关于Linux环境变量配置文件</a>
+      <a href="/02b965210d21/" class="post-nav-item" rel="next" title="Shell脚本编程">Shell脚本编程<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.132.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.9"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">蓝狐狸</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"enable":false},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.9"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

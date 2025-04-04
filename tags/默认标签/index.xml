@@ -1,0 +1,176 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>默认标签 - 标签 - 蓝狐狸的博客</title>
+    <link>https://example.org/tags/%E9%BB%98%E8%AE%A4%E6%A0%87%E7%AD%BE/</link>
+    <description>默认标签 - 标签 | 蓝狐狸的博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 16 Oct 2024 20:58:02 &#43;0800</lastBuildDate><atom:link href="https://example.org/tags/%E9%BB%98%E8%AE%A4%E6%A0%87%E7%AD%BE/" rel="self" type="application/rss+xml" /><item>
+  <title>关于Linux环境变量配置文件</title>
+  <link>https://example.org/6e0e33a32ed0/</link>
+  <pubDate>Wed, 16 Oct 2024 20:58:02 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/6e0e33a32ed0/</guid>
+  <description><![CDATA[环境变量相关的配置文件 /etc/profile：此文件为系统的每个用户设置环境信息。
+/etc/bashrc或 /etc/bash.bashrc：为每一个运行 bash shell 的用户执行此文件.当 bash shell 被打开时,该文件被读取。
+~/.bashrc：该文件包含专用于你的 bash shell 的 bash 信息,当登录时以及每次打开新的 shell 时,该文件被读取。
+~/.bash_profile 或 ~/.bash_login 或 ~/.profile：属于使用者个人配置，需要修改自己的数据，就写入这些文件！（ps1：其实 bash 的 login shell 配置只会读取上面三个文件的其中一个，而读取的顺序则是依照上面的顺序。ps2：这三个文件一般没啥人修改的，因为它们最终都是去调用读取~/.bashrc 这个文件。ps3：这三个文件不一定存在，我的 debian11.9 系统中就没有看到这三个文件，只有~/.bashrc）
+以上文件中，其实只有/etc/profile 和~/.bashrc 这两个是常用的、重要的。其他的几乎不用管，没有必要去深入了解。
+如果你设置的变量只针对你或其他一个用户，那就修改~/.bashrc，如果是针对所有用户，就修改/etc/profile。
+交互式 shell 和非交互式 shell 交互式 shell：顾名思义，这种 shell 中的命令时由用户从键盘交互式地输入的，运行的结果也能够输出到终端显示给用户看。例如我们平常在终端输入的 cd 命令、vi 命令、mv 等都属于交互式的。
+非交互式 shell：这种 shell 可能由某些自动化过程启动，不能直接从请求用户的输入，也不能直接输出结果给终端用户看。通常我们写的 shell 脚本都是非交互式的，通过 sh 直接运行该脚本文件。
+login shell 和 non-login shell login shell：取得 bash 时需要完整的登陆流程的，就称为 login shell。举例来说，我们登陆 tty1 ~ tty6 时，需要输入用户的账号与密码，此时取得的 bash 就称为 login shell]]></description>
+</item>
+<item>
+  <title>Linux开机启动执行脚本</title>
+  <link>https://example.org/7cbcb56c25d8/</link>
+  <pubDate>Fri, 20 Sep 2024 11:42:54 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/7cbcb56c25d8/</guid>
+  <description><![CDATA[方法 1：rc.local 文件位置在 /etc/rc.local。比较简单的方法，但是有些 linux 版本不支持，例如 debian 默认没有 rc.local 这个文件，但是有这个服务，并且这个服务是关闭的。
+注意：/etc/rc.local 和/etc/rc.d/rc.local 区别在于，/etc/rc.local 是/etc/rc.d/rc.local 的软连接
+1）使用方式 1 2 3 4 5 # 先赋予文件执行权限，有就不用了 chmod +x /etc/rc.d/rc.local # 查看是否有执行权限 ls -l /etc/rc.d/rc.local # 将想要执行的命令添加到 rc.local 文件末尾即可，也可以执行 .sh 文件 2）简单测试一下 先创建一个文件：touch /root/111.txt，在 rc.local 文件后面添加命令 /bin/echo &quot;abc11&quot; &gt; /root/111.txt，重启验证，查看命令是否执行。
+重启后
+3）debian 系统没有 rc.local 怎么办 debian 虽然默认没有 rc.local 这个文件，但是有这个服务，并且这个服务是关闭的。
+手动创建 /etc/rc.local 文件，写入以下内容
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 #!]]></description>
+</item>
+<item>
+  <title>自建yum源和apt源</title>
+  <link>https://example.org/d27d0995f4f9/</link>
+  <pubDate>Wed, 18 Sep 2024 15:37:53 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/d27d0995f4f9/</guid>
+  <description><![CDATA[老版本 linux 系统的安装源都不维护消失了，没有源安装一些常用软件比较麻烦，可以使用 iso 镜像文件搭建简易安装源，安装常用软件包
+参考文章：yum源的三种搭建方式，CentOS 使用iso镜像安装本地 yum 源 ，使用iso镜像设置Ubuntu系统本地apt源，Debian如何配置局域网APT软件仓库
+yum 源：网络搭建 这里以 Centos7 为例
+1）服务器上需要安装有 apache 或 nginx 等服务器，并可以正常访问，这里使用 nginx 为例，服务器 ip 为 192.168.0.211 网站目录为 /var/www/html/
+2）上传 CentOS-7-x86_64-DVD-2009.iso 镜像到服务器上，然后在网站目录下新建一个文件夹，文件夹名随意。
+1 mkdir /var/www/html/repo 3）将 iso 镜像挂载到创建的目录下 /var/www/html/repo
+1 mount CentOS-7-x86_64-DVD-2009.iso /var/www/html/repo 挂载完成后，repo 目录下会多出一些文件
+4）启动一台 Centos7 服务器，来到 /etc/yum.repos.d 目录下，删除这个目录下的所有文件，创建一个文件 http.repo，写入以下内容。
+1 2 3 4 5 6 7 8 9 10 #yum仓库名，可自定义 [http] #yum仓库的描述信息 name=repo_for_http #yum源的网络访问地址。url链接不要填错 baseurl=http://192.168.0.211/repo/ #启用仓库 enabled=1 # 不进行红帽标签检查 gpgcheck=0 至于删除的那些文件的作用和内容，有兴趣可以自行百度或查看上述参考文章。]]></description>
+</item>
+<item>
+  <title>xss盲打平台bluelotus搭建</title>
+  <link>https://example.org/e4880266d50b/</link>
+  <pubDate>Sat, 17 Feb 2024 03:38:13 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/e4880266d50b/</guid>
+  <description><![CDATA[项目地址： https://github.com/firesunCN/BlueLotus_XSSReceiver
+自己做成了一个 docker 镜像，可以直接使用。
+1 2 3 4 docker pull bluefoxqaq/bluelotus_xss_docker:2.0 # 这里映射宿主机的80端口，其它端口有问题，admin.php页面会不断刷新。80端口就没事 docker run -d -p 80:80 -it --name=bluelotus bluefoxqaq/bluelotus_xss_docker:2.0 # 访问ip:80即可 登录时需要完整的地址，例如：http://ip/login.php ，这个login.php不会自动添加。
+镜像制作过程
+下载所需要的文件，解压后是个名为 xcc 的文件夹，进入 xcc 文件夹，运行 docker build 命令
+1 docker build -f ./Dockerfile -t bluelotus_docker:1.0 . # 注意后面的点号 所需文件下载地址：xcc.zip
+其中 Dockerfile 文件内容如下：
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 FROM debian:9.]]></description>
+</item>
+<item>
+  <title>win10关闭自动更新</title>
+  <link>https://example.org/0c18f16dae35/</link>
+  <pubDate>Fri, 06 Oct 2023 03:09:41 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/0c18f16dae35/</guid>
+  <description><![CDATA[关闭 win 10 (专业版) 系统更新，只在专业版win10测试过可行。其它版本不清楚。
+打开组策略，按图找到 Windows 更新。
+有三个配置需要更改
+1）配置自动更新：禁用掉
+2）指定 Intranet Microsoft 更新服务位置：启用，修改网址。
+3）不要连接任何 Windows 更新 Intranet 位置：启用
+三个选项设置好后，更新就会因无法联网而终止。记得重启]]></description>
+</item>
+<item>
+  <title>设置虚拟机静态ip保持不变</title>
+  <link>https://example.org/4013e4eb4949/</link>
+  <pubDate>Thu, 05 Oct 2023 14:07:30 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/4013e4eb4949/</guid>
+  <description><![CDATA[设置虚拟机静态ip保持不变 宿主机更换网络后，ip 地址变动，同时虚拟机也会变动 ip 地址，如果是笔记本的话，频繁更换网络导致虚拟机地址也要频繁修改，很麻烦。
+虚拟机在桥接模式下，通过 dhcp 获得一个和宿主机同网段的一个 ip，二者可以互通，可以正常访问互联网。但是如果宿主机换了一个网络，例如从 192.168.31.96 变成了 192.168.32.196，那么虚拟机的 ip 地址也要变为同 32 网段的 ip 地址才可以进行互通和上网。每次宿主机切换网络，虚拟机的地址也要跟着变动，这很麻烦，因为每次都有重新确认虚拟机新分配的 ip 地址。
+我希望虚拟机的 ip 地址不变，同时还可以正常互通和上网。无论宿主机如何切换网络，虚拟机的地址永远都不会变动。
+实际操作 有两台主机，宿主机和虚拟机处于同一网络，ip 地址如下（桥接模式）
+宿主机 ip：192.168.31.96
+虚拟机 ip：192.168.31.64
+二者之间正常通信，且均可以访问互联网。如下图
+现在，我们想要切换网络时保持虚拟机的ip地址不变动，进行以下设置
+点击 VMware 的编辑-虚拟网络编辑器，点击更改设置。
+点击添加网络
+添加一个网络，这里我用的 VMnet17，点击确定。
+取消勾选 DHCP 服务，同时将子网段设一个你想要的值，这里使用了 17 网段，点击确定即可。
+打开笔记本宿主机的网络设置，可以看到新添加的 VMnet17 网卡
+选择无线网卡，右键-属性-共享-选择 VMnet17，点击确定
+点击确定后有一个弹窗，点击是，他会将 VMnet17 网卡改为 137 网段，我们需要将它改为 17 网段，就是自定义的网段。
+将 VMnet17 网卡改为如下所示，将 137 改为 17，添加 dns。点击确定
+将虚拟机的网络连接改为自定义，启动虚拟机。
+配置虚拟机的 ip 地址：192.168.17.100，子网掩码，网关（VMnet 17 网卡的地址192.168.17.1）和 dns（同 192.168.17.1 就可以了）。保存即可]]></description>
+</item>
+<item>
+  <title>关于token的一些记录</title>
+  <link>https://example.org/e08af3f827e9/</link>
+  <pubDate>Sun, 01 Oct 2023 12:10:40 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/e08af3f827e9/</guid>
+  <description><![CDATA[前段时间偶然看到一篇关于accessToken和refreshToken的讨论帖，了解到了这两个Token的区别，还顺带了解了一些关于OAuth2.0标准的内容，简单记录一下，方便后面复习。本文只是写给我自己看的，因为我也是根据网上的文章自己总结的，可能有误，可以直接去看网上写得更详细的文章
+Cookie、Session和Token 参考文章：一文讲透Token与Cookie、Session的区别
+为啥会有这几个东西呢，是因为http协议是无状态的协议，两个http请求之间没有联系，假如有很多个http请求，我们该如何区分这些个请求是属于哪个用户的，这就用到了我们提到的Cookie、Session和Token这些东西了。其实Cookie、Session、Token就是一个身份标识，通过这个身份标识，来区分http请求。
+Cookie、Session和Token这三者的工作原理、区别、优缺点推荐看我上面参考的那篇文章，写得很好，或者自行百度。
+关于Token jwt：jwt只是实现Token的一种方式，你也可以用其他的方式来实现Token。例如对称加密算法或自研的加密算法。
+accessToken和refreshToken是为了解决token在实际使用中的一些问题。关于这二者可以参考：Access Token 与 Refresh Token或自行百度
+accessToken：一个临时的token，有效时间很短，就是我们用来访问服务器资源所使用的那个token。
+refreshToken：用来刷新accessToken的。当accessToken过期或者快要过期的时候，会用refreshToken向服务器获取一个新的accessToken。
+为啥要用两个Token呢，这多麻烦啊。我在知乎上看到这个帖子jwt续签为什么要使用双token,没看明白啊，感觉单个token也可以啊?，或许可以解答这个疑惑。
+以下是我自己的理解：
+1）单独一个Token是可以的（也就是accessToken），token过期后，让用户在重新登录，在给他一个不就好了。这样的话，就需要把token的有效时间设置的长一点，不然用户老是频繁登录很影响使用体验。要避免频繁登录的话，就需要使用到refreshToken了。当accessToken过期后，使用refreshToken重新获取accessToken，将accessToken刷新，这样用户就不用登录了。所以refreshToken的有效时间大于accessToken的有效时间才行。
+2）关于安全方面问题，双token这个东西是在OAuth2.0标准中所用到的。*如果只是在用户（客户端）和服务端两者之间使用的话，它并没有安全防护的作用，或者说，它并不是为了解决token安全问题而被使用的，它是为了解决用户频繁登录而被使用的。*但如果是在OAuth2.0标准中，它确实是为了解决安全问题而被使用的，但它不是解决token的安全问题，而是解决安全授权问题，例如我们常用的第三方登录。
+关于OAuth 建议自行百度看看什么是OAuth标准，推荐：白话让你理解什么是oAuth2协议和非常详细！深入理解OAuth原理和实践细节两篇文章，写得很好。
+画了个简单的图
+这个授权流程在OAuth 2中被称为授权码模式（authorization code grant），其命名的原因是，应用程序使用授权码来向授权服务器申请访问令牌/刷新令牌。
+有几点需要注意：
+1）第三方授权服务器给的token令牌就是：accessToken和refreshToken
+2）refreshToken可以获取新的accessToken，所以为了安全，refreshToken一般只在服务器之间使用安全的https进行传递。怎么个意思呢，就是应用APP那里其实是两个部分，一个是APP的客户端（前端），一个是APP的后端，它们之间的请求是APP前端-APP后端-授权服务器，refreshToken自授权服务器传递到APP后端服务器上，就不往APP客户端传了，降低refreshToken被泄露的风险。
+OAuth2.0有四种模式，最主要的还是授权码模式，其它三种感觉只是变了变主体，还是同一个思路。理解授权码模式就可以了。
+其实整个应用码授权模式还有很多知识没有详细说明，比如3.2中app的认证信息是什么，如何具体实现这个流程，有哪些条件等等，建议看看非常详细！深入理解OAuth原理和实践细节这篇文章，利用第三方github登录详细解释了整个过程，值得一看。我就是看这个明白的。
+最后 以上内容比较粗糙，因为我只是记个大概就行，真要详细去学的话还是去看看RFC文档或者其他人的文章吧。
+参考文章：
+https://zhuanlan.zhihu.com/p/625995458
+https://www.cnblogs.com/blowing00/p/4524132.html
+https://www.zhihu.com/question/506320859/answer/2913603859
+https://zhuanlan.zhihu.com/p/92051359
+https://zhuanlan.zhihu.com/p/380561372
+https://www.cnblogs.com/Nyan-Workflow-FC/p/11082590.html]]></description>
+</item>
+<item>
+  <title>linux磁盘扩容</title>
+  <link>https://example.org/7f17ea35961e/</link>
+  <pubDate>Sat, 12 Aug 2023 08:17:11 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/7f17ea35961e/</guid>
+  <description><![CDATA[前言 最近遇到了Linux磁盘扩容的问题，磁盘扩容有好几种情景，因为之前没涉及到，踩了不少坑。在此记录一下，方便后续查阅。
+假设有一块磁盘A，容量是100G。我分了20G用来安装Linux系统，剩下的没有动。随着时间的增长，20G不够用了，我可以将磁盘A剩下的80G分给Linux系统，也可以在加装一块磁盘B分给Linux。两种方式都可以实现扩容的目的，但是实现的手段可以分为两种：lvm和非lvm
+非lvm方式，就是一般的磁盘挂载，将新硬盘分区并格式化后，挂载到Linux系统的某个文件夹上去，实现磁盘的扩容，但是这种方式一个文件夹只能挂载一个磁盘，如果想要将两块磁盘同时挂载到同一个文件夹上就需要用到lvm进行磁盘管理。
+关于什么是lvm可以百度查询。简单来说，lvm可以将多个磁盘视为一个逻辑磁盘。假如有两块磁盘A和磁盘B，使用lvm的话，可以将这两个磁盘看做是一个逻辑磁盘a，我们只需对逻辑磁盘a进行操作，将其挂载到Linux目录下就行，如果后续要增添一块磁盘C，只需要将磁盘C加入逻辑磁盘a就行。以上说法并不准确，但是便于理解。
+一点基础知识 简单的磁盘相关命令
+1 2 3 df -h # df主要是检查文件系统磁盘占用情况 fdisk -l # fdisk一般用来磁盘分区，也可以用来查看磁盘分区情况。-l,列出所有分区表 lsblk # 用于列出所有可用块设备的信息，而且还能显示他们之间的依赖关系，这个命令很好用，因为可以让电脑上的磁盘和分区信息很清晰。 lvm相关了解
+PV(Physical Volume): 物理卷, 处于LVM最底层, 可以是物理硬盘或者分区;
+PP(Physical Extend): 物理区域, PV中可以用于分配的最小存储单元, 可以在创建PV的时候指定, 如1M, 2M, 4M, 8M…..组成同一VG中所有PV的PE大小应该相同;
+VG(Volume Group): 卷组, 建立在PV之上, 可以含有一个到多个PV;
+LV(Logical Volume): 逻辑卷, 建立在VG之上, 相当于原来分区的概念, 不过大小可以动态改变.
+使用lvm进行磁盘扩容 参考：https://www.cnblogs.com/lijiaman/p/12885649.html，写的很详细，推荐
+注意：在安装Linux系统的时候，有一个配置磁盘分区属性，默认是使用整个磁盘，但是我这里使用的是第二个选项lvm进行的创建。非lvm的磁盘是无法与lvm的磁盘进行逻辑合并的。
+使用fdisk进行分区操作 先查看整体磁盘分区情况
+sda磁盘在系统安装是采用了lvm，所以才有蓝色框选的两个逻辑卷，否则是没有的。
+sdb是未被使用的。将sdb进行分区并格式化
+输入fdisk /dev/sdb，回车，然后输入m，回车
+输入n并回车，n是“new”新建分区的意思
+使用fdisk再次进行查看
+磁盘分区之后，磁盘id为83，如果要使用逻辑卷管理，需要将id改为8e，才能创建物理卷。
+输入fdisk /dev/sdb，回车，然后输入m，回车，输入t，选择分区1，输入id值8e，输入w保存
+最终修改完成
+使用lvm进行 先查看当前的一些信息
+物理卷
+卷组
+逻辑卷
+将sdb1创建物理卷：pvcreate /dev/sda3
+将添加新的物理卷，加载到debian10-vg卷组，使用vgextend debian10-vg /dev/sdb1命令。]]></description>
+</item>
+</channel>
+</rss>

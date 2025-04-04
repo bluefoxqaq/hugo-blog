@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Linux磁盘扩容 - 蓝狐狸的博客</title><meta name="author" content="蓝狐狸">
+<meta name="author-link" content="">
+<meta name="description" content="前言 最近遇到了Linux磁盘扩容的问题，磁盘扩容有好几种情景，因为之前没涉及到，踩了不少坑。在此记录一下，方便后续查阅。
+假设有一块磁盘A，容量是100G。我分了20G用来安装Linux系统，剩下的没有动。随着时间的增长，20G不够用了，我可以将磁盘A剩下的80G分给Linux系统，也可以在加装一块磁盘B分给Linux。两种方式都可以实现扩容的目的，但是实现的手段可以分为两种：lvm和非lvm
+非lvm方式，就是一般的磁盘挂载，将新硬盘分区并格式化后，挂载到Linux系统的某个文件夹上去，实现磁盘的扩容，但是这种方式一个文件夹只能挂载一个磁盘，如果想要将两块磁盘同时挂载到同一个文件夹上就需要用到lvm进行磁盘管理。
+关于什么是lvm可以百度查询。简单来说，lvm可以将多个磁盘视为一个逻辑磁盘。假如有两块磁盘A和磁盘B，使用lvm的话，可以将这两个磁盘看做是一个逻辑磁盘a，我们只需对逻辑磁盘a进行操作，将其挂载到Linux目录下就行，如果后续要增添一块磁盘C，只需要将磁盘C加入逻辑磁盘a就行。以上说法并不准确，但是便于理解。
+一点基础知识 简单的磁盘相关命令
+1 2 3 df -h # df主要是检查文件系统磁盘占用情况 fdisk -l # fdisk一般用来磁盘分区，也可以用来查看磁盘分区情况。-l,列出所有分区表 lsblk # 用于列出所有可用块设备的信息，而且还能显示他们之间的依赖关系，这个命令很好用，因为可以让电脑上的磁盘和分区信息很清晰。 lvm相关了解
+PV(Physical Volume): 物理卷, 处于LVM最底层, 可以是物理硬盘或者分区;
+PP(Physical Extend): 物理区域, PV中可以用于分配的最小存储单元, 可以在创建PV的时候指定, 如1M, 2M, 4M, 8M…..组成同一VG中所有PV的PE大小应该相同;
+VG(Volume Group): 卷组, 建立在PV之上, 可以含有一个到多个PV;
+LV(Logical Volume): 逻辑卷, 建立在VG之上, 相当于原来分区的概念, 不过大小可以动态改变.
+使用lvm进行磁盘扩容 参考：https://www.cnblogs.com/lijiaman/p/12885649.html，写的很详细，推荐
+注意：在安装Linux系统的时候，有一个配置磁盘分区属性，默认是使用整个磁盘，但是我这里使用的是第二个选项lvm进行的创建。非lvm的磁盘是无法与lvm的磁盘进行逻辑合并的。
+使用fdisk进行分区操作 先查看整体磁盘分区情况
+sda磁盘在系统安装是采用了lvm，所以才有蓝色框选的两个逻辑卷，否则是没有的。
+sdb是未被使用的。将sdb进行分区并格式化
+输入fdisk /dev/sdb，回车，然后输入m，回车
+输入n并回车，n是“new”新建分区的意思
+使用fdisk再次进行查看
+磁盘分区之后，磁盘id为83，如果要使用逻辑卷管理，需要将id改为8e，才能创建物理卷。
+输入fdisk /dev/sdb，回车，然后输入m，回车，输入t，选择分区1，输入id值8e，输入w保存
+最终修改完成
+使用lvm进行 先查看当前的一些信息
+物理卷
+卷组
+逻辑卷
+将sdb1创建物理卷：pvcreate /dev/sda3
+将添加新的物理卷，加载到debian10-vg卷组，使用vgextend debian10-vg /dev/sdb1命令。" /><meta name="keywords" content='默认标签' />
+  <meta itemprop="name" content="linux磁盘扩容">
+  <meta itemprop="description" content="前言 最近遇到了Linux磁盘扩容的问题，磁盘扩容有好几种情景，因为之前没涉及到，踩了不少坑。在此记录一下，方便后续查阅。
+假设有一块磁盘A，容量是100G。我分了20G用来安装Linux系统，剩下的没有动。随着时间的增长，20G不够用了，我可以将磁盘A剩下的80G分给Linux系统，也可以在加装一块磁盘B分给Linux。两种方式都可以实现扩容的目的，但是实现的手段可以分为两种：lvm和非lvm
+非lvm方式，就是一般的磁盘挂载，将新硬盘分区并格式化后，挂载到Linux系统的某个文件夹上去，实现磁盘的扩容，但是这种方式一个文件夹只能挂载一个磁盘，如果想要将两块磁盘同时挂载到同一个文件夹上就需要用到lvm进行磁盘管理。
+关于什么是lvm可以百度查询。简单来说，lvm可以将多个磁盘视为一个逻辑磁盘。假如有两块磁盘A和磁盘B，使用lvm的话，可以将这两个磁盘看做是一个逻辑磁盘a，我们只需对逻辑磁盘a进行操作，将其挂载到Linux目录下就行，如果后续要增添一块磁盘C，只需要将磁盘C加入逻辑磁盘a就行。以上说法并不准确，但是便于理解。
+一点基础知识 简单的磁盘相关命令
+1 2 3 df -h # df主要是检查文件系统磁盘占用情况 fdisk -l # fdisk一般用来磁盘分区，也可以用来查看磁盘分区情况。-l,列出所有分区表 lsblk # 用于列出所有可用块设备的信息，而且还能显示他们之间的依赖关系，这个命令很好用，因为可以让电脑上的磁盘和分区信息很清晰。 lvm相关了解
+PV(Physical Volume): 物理卷, 处于LVM最底层, 可以是物理硬盘或者分区;
+PP(Physical Extend): 物理区域, PV中可以用于分配的最小存储单元, 可以在创建PV的时候指定, 如1M, 2M, 4M, 8M…..组成同一VG中所有PV的PE大小应该相同;
+VG(Volume Group): 卷组, 建立在PV之上, 可以含有一个到多个PV;
+LV(Logical Volume): 逻辑卷, 建立在VG之上, 相当于原来分区的概念, 不过大小可以动态改变.
+使用lvm进行磁盘扩容 参考：https://www.cnblogs.com/lijiaman/p/12885649.html，写的很详细，推荐
+注意：在安装Linux系统的时候，有一个配置磁盘分区属性，默认是使用整个磁盘，但是我这里使用的是第二个选项lvm进行的创建。非lvm的磁盘是无法与lvm的磁盘进行逻辑合并的。
+使用fdisk进行分区操作 先查看整体磁盘分区情况
+sda磁盘在系统安装是采用了lvm，所以才有蓝色框选的两个逻辑卷，否则是没有的。
+sdb是未被使用的。将sdb进行分区并格式化
+输入fdisk /dev/sdb，回车，然后输入m，回车
+输入n并回车，n是“new”新建分区的意思
+使用fdisk再次进行查看
+磁盘分区之后，磁盘id为83，如果要使用逻辑卷管理，需要将id改为8e，才能创建物理卷。
+输入fdisk /dev/sdb，回车，然后输入m，回车，输入t，选择分区1，输入id值8e，输入w保存
+最终修改完成
+使用lvm进行 先查看当前的一些信息
+物理卷
+卷组
+逻辑卷
+将sdb1创建物理卷：pvcreate /dev/sda3
+将添加新的物理卷，加载到debian10-vg卷组，使用vgextend debian10-vg /dev/sdb1命令。">
+  <meta itemprop="datePublished" content="2023-08-12T08:17:11+08:00">
+  <meta itemprop="dateModified" content="2023-08-12T09:17:11+08:00">
+  <meta itemprop="wordCount" content="114">
+  <meta itemprop="keywords" content="默认标签"><meta property="og:url" content="https://example.org/7f17ea35961e/">
+  <meta property="og:site_name" content="蓝狐狸的博客">
+  <meta property="og:title" content="linux磁盘扩容">
+  <meta property="og:description" content="前言 最近遇到了Linux磁盘扩容的问题，磁盘扩容有好几种情景，因为之前没涉及到，踩了不少坑。在此记录一下，方便后续查阅。
+假设有一块磁盘A，容量是100G。我分了20G用来安装Linux系统，剩下的没有动。随着时间的增长，20G不够用了，我可以将磁盘A剩下的80G分给Linux系统，也可以在加装一块磁盘B分给Linux。两种方式都可以实现扩容的目的，但是实现的手段可以分为两种：lvm和非lvm
+非lvm方式，就是一般的磁盘挂载，将新硬盘分区并格式化后，挂载到Linux系统的某个文件夹上去，实现磁盘的扩容，但是这种方式一个文件夹只能挂载一个磁盘，如果想要将两块磁盘同时挂载到同一个文件夹上就需要用到lvm进行磁盘管理。
+关于什么是lvm可以百度查询。简单来说，lvm可以将多个磁盘视为一个逻辑磁盘。假如有两块磁盘A和磁盘B，使用lvm的话，可以将这两个磁盘看做是一个逻辑磁盘a，我们只需对逻辑磁盘a进行操作，将其挂载到Linux目录下就行，如果后续要增添一块磁盘C，只需要将磁盘C加入逻辑磁盘a就行。以上说法并不准确，但是便于理解。
+一点基础知识 简单的磁盘相关命令
+1 2 3 df -h # df主要是检查文件系统磁盘占用情况 fdisk -l # fdisk一般用来磁盘分区，也可以用来查看磁盘分区情况。-l,列出所有分区表 lsblk # 用于列出所有可用块设备的信息，而且还能显示他们之间的依赖关系，这个命令很好用，因为可以让电脑上的磁盘和分区信息很清晰。 lvm相关了解
+PV(Physical Volume): 物理卷, 处于LVM最底层, 可以是物理硬盘或者分区;
+PP(Physical Extend): 物理区域, PV中可以用于分配的最小存储单元, 可以在创建PV的时候指定, 如1M, 2M, 4M, 8M…..组成同一VG中所有PV的PE大小应该相同;
+VG(Volume Group): 卷组, 建立在PV之上, 可以含有一个到多个PV;
+LV(Logical Volume): 逻辑卷, 建立在VG之上, 相当于原来分区的概念, 不过大小可以动态改变.
+使用lvm进行磁盘扩容 参考：https://www.cnblogs.com/lijiaman/p/12885649.html，写的很详细，推荐
+注意：在安装Linux系统的时候，有一个配置磁盘分区属性，默认是使用整个磁盘，但是我这里使用的是第二个选项lvm进行的创建。非lvm的磁盘是无法与lvm的磁盘进行逻辑合并的。
+使用fdisk进行分区操作 先查看整体磁盘分区情况
+sda磁盘在系统安装是采用了lvm，所以才有蓝色框选的两个逻辑卷，否则是没有的。
+sdb是未被使用的。将sdb进行分区并格式化
+输入fdisk /dev/sdb，回车，然后输入m，回车
+输入n并回车，n是“new”新建分区的意思
+使用fdisk再次进行查看
+磁盘分区之后，磁盘id为83，如果要使用逻辑卷管理，需要将id改为8e，才能创建物理卷。
+输入fdisk /dev/sdb，回车，然后输入m，回车，输入t，选择分区1，输入id值8e，输入w保存
+最终修改完成
+使用lvm进行 先查看当前的一些信息
+物理卷
+卷组
+逻辑卷
+将sdb1创建物理卷：pvcreate /dev/sda3
+将添加新的物理卷，加载到debian10-vg卷组，使用vgextend debian10-vg /dev/sdb1命令。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-08-12T08:17:11+08:00">
+    <meta property="article:modified_time" content="2023-08-12T09:17:11+08:00">
+    <meta property="article:tag" content="默认标签">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="linux磁盘扩容">
+  <meta name="twitter:description" content="前言 最近遇到了Linux磁盘扩容的问题，磁盘扩容有好几种情景，因为之前没涉及到，踩了不少坑。在此记录一下，方便后续查阅。
+假设有一块磁盘A，容量是100G。我分了20G用来安装Linux系统，剩下的没有动。随着时间的增长，20G不够用了，我可以将磁盘A剩下的80G分给Linux系统，也可以在加装一块磁盘B分给Linux。两种方式都可以实现扩容的目的，但是实现的手段可以分为两种：lvm和非lvm
+非lvm方式，就是一般的磁盘挂载，将新硬盘分区并格式化后，挂载到Linux系统的某个文件夹上去，实现磁盘的扩容，但是这种方式一个文件夹只能挂载一个磁盘，如果想要将两块磁盘同时挂载到同一个文件夹上就需要用到lvm进行磁盘管理。
+关于什么是lvm可以百度查询。简单来说，lvm可以将多个磁盘视为一个逻辑磁盘。假如有两块磁盘A和磁盘B，使用lvm的话，可以将这两个磁盘看做是一个逻辑磁盘a，我们只需对逻辑磁盘a进行操作，将其挂载到Linux目录下就行，如果后续要增添一块磁盘C，只需要将磁盘C加入逻辑磁盘a就行。以上说法并不准确，但是便于理解。
+一点基础知识 简单的磁盘相关命令
+1 2 3 df -h # df主要是检查文件系统磁盘占用情况 fdisk -l # fdisk一般用来磁盘分区，也可以用来查看磁盘分区情况。-l,列出所有分区表 lsblk # 用于列出所有可用块设备的信息，而且还能显示他们之间的依赖关系，这个命令很好用，因为可以让电脑上的磁盘和分区信息很清晰。 lvm相关了解
+PV(Physical Volume): 物理卷, 处于LVM最底层, 可以是物理硬盘或者分区;
+PP(Physical Extend): 物理区域, PV中可以用于分配的最小存储单元, 可以在创建PV的时候指定, 如1M, 2M, 4M, 8M…..组成同一VG中所有PV的PE大小应该相同;
+VG(Volume Group): 卷组, 建立在PV之上, 可以含有一个到多个PV;
+LV(Logical Volume): 逻辑卷, 建立在VG之上, 相当于原来分区的概念, 不过大小可以动态改变.
+使用lvm进行磁盘扩容 参考：https://www.cnblogs.com/lijiaman/p/12885649.html，写的很详细，推荐
+注意：在安装Linux系统的时候，有一个配置磁盘分区属性，默认是使用整个磁盘，但是我这里使用的是第二个选项lvm进行的创建。非lvm的磁盘是无法与lvm的磁盘进行逻辑合并的。
+使用fdisk进行分区操作 先查看整体磁盘分区情况
+sda磁盘在系统安装是采用了lvm，所以才有蓝色框选的两个逻辑卷，否则是没有的。
+sdb是未被使用的。将sdb进行分区并格式化
+输入fdisk /dev/sdb，回车，然后输入m，回车
+输入n并回车，n是“new”新建分区的意思
+使用fdisk再次进行查看
+磁盘分区之后，磁盘id为83，如果要使用逻辑卷管理，需要将id改为8e，才能创建物理卷。
+输入fdisk /dev/sdb，回车，然后输入m，回车，输入t，选择分区1，输入id值8e，输入w保存
+最终修改完成
+使用lvm进行 先查看当前的一些信息
+物理卷
+卷组
+逻辑卷
+将sdb1创建物理卷：pvcreate /dev/sda3
+将添加新的物理卷，加载到debian10-vg卷组，使用vgextend debian10-vg /dev/sdb1命令。">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://example.org/7f17ea35961e/" /><link rel="prev" href="https://example.org/13a9176d44b5/" /><link rel="next" href="https://example.org/e08af3f827e9/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "linux磁盘扩容",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/example.org\/7f17ea35961e\/"
+    },"genre": "posts","keywords": "默认标签","wordcount":  114 ,
+    "url": "https:\/\/example.org\/7f17ea35961e\/","datePublished": "2023-08-12T08:17:11+08:00","dateModified": "2023-08-12T09:17:11+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "蓝狐狸"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/"
+                
+                
+              ><i class="fa-solid fa-house"></i> 首页</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/"
+                  
+                  
+                ><i class="fa-solid fa-house"></i> 首页</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Linux磁盘扩容</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - Linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Linux</a></span></div><div class="post-meta-line"><span title="发布于 2023-08-12 08:17:11"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-08-12">2023-08-12</time></span>&nbsp;<span title="更新于 2023-08-12 09:17:11"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-08-12">2023-08-12</time></span>&nbsp;<span title="114 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#一点基础知识">一点基础知识</a></li>
+    <li><a href="#使用lvm进行磁盘扩容">使用lvm进行磁盘扩容</a>
+      <ul>
+        <li><a href="#使用fdisk进行分区操作">使用fdisk进行分区操作</a></li>
+        <li><a href="#使用lvm进行">使用lvm进行</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-08-12，文中内容可能已过时。</div>
+      </div>
+    </div><h2 id="前言" class="heading-element"><span>前言</span>
+  <a href="#%e5%89%8d%e8%a8%80" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>最近遇到了Linux磁盘扩容的问题，磁盘扩容有好几种情景，因为之前没涉及到，踩了不少坑。在此记录一下，方便后续查阅。</p>
+<p>假设有一块<strong>磁盘A</strong>，容量是<code>100G</code>。我分了20G用来安装Linux系统，剩下的没有动。随着时间的增长，20G不够用了，我可以将<strong>磁盘A</strong>剩下的80G分给Linux系统，也可以在加装一块<strong>磁盘B</strong>分给Linux。两种方式都可以实现扩容的目的，但是实现的手段可以分为两种：<strong>lvm和非lvm</strong></p>
+<p>非lvm方式，就是一般的磁盘挂载，将新硬盘分区并格式化后，挂载到Linux系统的某个文件夹上去，实现磁盘的扩容，但是这种方式<strong>一个文件夹只能挂载一个磁盘</strong>，如果想要将两块磁盘同时挂载到同一个文件夹上就需要用到lvm进行磁盘管理。</p>
+<p>关于什么是lvm可以百度查询。简单来说，lvm可以将多个磁盘视为一个逻辑磁盘。假如有两块<code>磁盘A和磁盘B</code>，使用lvm的话，可以将这两个磁盘看做是一个<code>逻辑磁盘a</code>，我们只需对<code>逻辑磁盘a</code>进行操作，将其挂载到Linux目录下就行，如果后续要增添一块<code>磁盘C</code>，只需要将磁盘C加入<code>逻辑磁盘a</code>就行。以上说法并不准确，但是便于理解。</p>
+<h2 id="一点基础知识" class="heading-element"><span>一点基础知识</span>
+  <a href="#%e4%b8%80%e7%82%b9%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>简单的磁盘相关命令</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">df -h    <span class="c1"># df主要是检查文件系统磁盘占用情况</span>
+</span></span><span class="line"><span class="cl">fdisk -l <span class="c1"># fdisk一般用来磁盘分区，也可以用来查看磁盘分区情况。-l,列出所有分区表</span>
+</span></span><span class="line"><span class="cl">lsblk    <span class="c1"># 用于列出所有可用块设备的信息，而且还能显示他们之间的依赖关系，这个命令很好用，因为可以让电脑上的磁盘和分区信息很清晰。</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>lvm相关了解</p>
+<p>PV(Physical Volume): 物理卷, 处于LVM最底层, 可以是物理硬盘或者分区;</p>
+<p>PP(Physical Extend): 物理区域, PV中可以用于分配的最小存储单元, 可以在创建PV的时候指定, 如1M, 2M, 4M, 8M…..组成同一VG中所有PV的PE大小应该相同;</p>
+<p>VG(Volume Group): 卷组, 建立在PV之上, 可以含有一个到多个PV;</p>
+<p>LV(Logical Volume): 逻辑卷, 建立在VG之上, 相当于原来分区的概念, 不过大小可以动态改变.</p>
+<p><a class="lightgallery" href="images/823295-20200513231716132-1122001253.png?size=large" data-thumbnail="images/823295-20200513231716132-1122001253.png?size=small" data-sub-html="<h2>关系图</h2>"><img loading="lazy" src="images/823295-20200513231716132-1122001253.png" alt="关系图" srcset="images/823295-20200513231716132-1122001253.png?size=small, images/823295-20200513231716132-1122001253.png?size=medium 1.5x, images/823295-20200513231716132-1122001253.png?size=large 2x" data-title="关系图" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h2 id="使用lvm进行磁盘扩容" class="heading-element"><span>使用lvm进行磁盘扩容</span>
+  <a href="#%e4%bd%bf%e7%94%a8lvm%e8%bf%9b%e8%a1%8c%e7%a3%81%e7%9b%98%e6%89%a9%e5%ae%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>参考：https://www.cnblogs.com/lijiaman/p/12885649.html，写的很详细，推荐</p>
+<p>注意：在安装Linux系统的时候，有一个配置磁盘分区属性，默认是使用整个磁盘，但是我这里使用的是第二个选项lvm进行的创建。<em><strong>非lvm的磁盘是无法与lvm的磁盘进行逻辑合并的</strong></em>。</p>
+<h3 id="使用fdisk进行分区操作" class="heading-element"><span>使用fdisk进行分区操作</span>
+  <a href="#%e4%bd%bf%e7%94%a8fdisk%e8%bf%9b%e8%a1%8c%e5%88%86%e5%8c%ba%e6%93%8d%e4%bd%9c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>先查看整体磁盘分区情况</p>
+<p><a class="lightgallery" href="images/image-20230812180743882.png?size=large" data-thumbnail="images/image-20230812180743882.png?size=small" data-sub-html="<h2>image-20230812180743882</h2>"><img loading="lazy" src="images/image-20230812180743882.png" alt="image-20230812180743882" srcset="images/image-20230812180743882.png?size=small, images/image-20230812180743882.png?size=medium 1.5x, images/image-20230812180743882.png?size=large 2x" data-title="image-20230812180743882" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>sda磁盘在系统安装是采用了lvm，所以才有蓝色框选的两个逻辑卷，否则是没有的。</p>
+<p>sdb是未被使用的。将sdb进行分区并格式化</p>
+<p>输入<code>fdisk /dev/sdb</code>，回车，然后输入m，回车</p>
+<p><a class="lightgallery" href="images/image-20230812183104482.png?size=large" data-thumbnail="images/image-20230812183104482.png?size=small" data-sub-html="<h2>image-20230812183104482</h2>"><img loading="lazy" src="images/image-20230812183104482.png" alt="image-20230812183104482" srcset="images/image-20230812183104482.png?size=small, images/image-20230812183104482.png?size=medium 1.5x, images/image-20230812183104482.png?size=large 2x" data-title="image-20230812183104482" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>输入n并回车，n是“new”新建分区的意思</p>
+<p><a class="lightgallery" href="images/image-20230812183320723.png?size=large" data-thumbnail="images/image-20230812183320723.png?size=small" data-sub-html="<h2>image-20230812183320723</h2>"><img loading="lazy" src="images/image-20230812183320723.png" alt="image-20230812183320723" srcset="images/image-20230812183320723.png?size=small, images/image-20230812183320723.png?size=medium 1.5x, images/image-20230812183320723.png?size=large 2x" data-title="image-20230812183320723" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p><a class="lightgallery" href="images/image-20230812183652324.png?size=large" data-thumbnail="images/image-20230812183652324.png?size=small" data-sub-html="<h2>image-20230812183652324</h2>"><img loading="lazy" src="images/image-20230812183652324.png" alt="image-20230812183652324" srcset="images/image-20230812183652324.png?size=small, images/image-20230812183652324.png?size=medium 1.5x, images/image-20230812183652324.png?size=large 2x" data-title="image-20230812183652324" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>使用fdisk再次进行查看</p>
+<p><a class="lightgallery" href="images/image-20230812183803785.png?size=large" data-thumbnail="images/image-20230812183803785.png?size=small" data-sub-html="<h2>image-20230812183803785</h2>"><img loading="lazy" src="images/image-20230812183803785.png" alt="image-20230812183803785" srcset="images/image-20230812183803785.png?size=small, images/image-20230812183803785.png?size=medium 1.5x, images/image-20230812183803785.png?size=large 2x" data-title="image-20230812183803785" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>磁盘分区之后，磁盘id为83，如果要使用逻辑卷管理，需要将id改为8e，才能创建物理卷。</p>
+<p>输入<code>fdisk /dev/sdb</code>，回车，然后输入m，回车，输入t，选择分区1，输入id值<code>8e</code>，输入w保存</p>
+<p><a class="lightgallery" href="images/image-20230812184109089.png?size=large" data-thumbnail="images/image-20230812184109089.png?size=small" data-sub-html="<h2>image-20230812184109089</h2>"><img loading="lazy" src="images/image-20230812184109089.png" alt="image-20230812184109089" srcset="images/image-20230812184109089.png?size=small, images/image-20230812184109089.png?size=medium 1.5x, images/image-20230812184109089.png?size=large 2x" data-title="image-20230812184109089" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>最终修改完成</p>
+<p><a class="lightgallery" href="images/image-20230812184255886.png?size=large" data-thumbnail="images/image-20230812184255886.png?size=small" data-sub-html="<h2>image-20230812184255886</h2>"><img loading="lazy" src="images/image-20230812184255886.png" alt="image-20230812184255886" srcset="images/image-20230812184255886.png?size=small, images/image-20230812184255886.png?size=medium 1.5x, images/image-20230812184255886.png?size=large 2x" data-title="image-20230812184255886" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h3 id="使用lvm进行" class="heading-element"><span>使用lvm进行</span>
+  <a href="#%e4%bd%bf%e7%94%a8lvm%e8%bf%9b%e8%a1%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>先查看当前的一些信息</p>
+<p>物理卷</p>
+<p><a class="lightgallery" href="images/image-20230812191340453.png?size=large" data-thumbnail="images/image-20230812191340453.png?size=small" data-sub-html="<h2>image-20230812191340453</h2>"><img loading="lazy" src="images/image-20230812191340453.png" alt="image-20230812191340453" srcset="images/image-20230812191340453.png?size=small, images/image-20230812191340453.png?size=medium 1.5x, images/image-20230812191340453.png?size=large 2x" data-title="image-20230812191340453" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>卷组</p>
+<p><a class="lightgallery" href="images/image-20230812191415930.png?size=large" data-thumbnail="images/image-20230812191415930.png?size=small" data-sub-html="<h2>image-20230812191415930</h2>"><img loading="lazy" src="images/image-20230812191415930.png" alt="image-20230812191415930" srcset="images/image-20230812191415930.png?size=small, images/image-20230812191415930.png?size=medium 1.5x, images/image-20230812191415930.png?size=large 2x" data-title="image-20230812191415930" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>逻辑卷</p>
+<p><a class="lightgallery" href="images/image-20230812191722368.png?size=large" data-thumbnail="images/image-20230812191722368.png?size=small" data-sub-html="<h2>image-20230812191722368</h2>"><img loading="lazy" src="images/image-20230812191722368.png" alt="image-20230812191722368" srcset="images/image-20230812191722368.png?size=small, images/image-20230812191722368.png?size=medium 1.5x, images/image-20230812191722368.png?size=large 2x" data-title="image-20230812191722368" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>将sdb1创建物理卷：<code>pvcreate /dev/sda3</code></p>
+<p><a class="lightgallery" href="images/image-20230812192003592.png?size=large" data-thumbnail="images/image-20230812192003592.png?size=small" data-sub-html="<h2>image-20230812192003592</h2>"><img loading="lazy" src="images/image-20230812192003592.png" alt="image-20230812192003592" srcset="images/image-20230812192003592.png?size=small, images/image-20230812192003592.png?size=medium 1.5x, images/image-20230812192003592.png?size=large 2x" data-title="image-20230812192003592" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>将添加新的物理卷，加载到<code>debian10-vg</code>卷组，使用<code>vgextend debian10-vg /dev/sdb1</code>命令。</p>
+<p><a class="lightgallery" href="images/image-20230812192710900.png?size=large" data-thumbnail="images/image-20230812192710900.png?size=small" data-sub-html="<h2>image-20230812192710900</h2>"><img loading="lazy" src="images/image-20230812192710900.png" alt="image-20230812192710900" srcset="images/image-20230812192710900.png?size=small, images/image-20230812192710900.png?size=medium 1.5x, images/image-20230812192710900.png?size=large 2x" data-title="image-20230812192710900" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>将<code>debian10-vg</code>卷组中空闲的5G分给<code>/dev/debian10-vg/root</code>逻辑卷， 使用：<code>lvresize -l 1279 /dev/debian10-vg/root</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">lvresize 命令参数
+</span></span><span class="line"><span class="cl">-L 指定逻辑卷的大小，单位为“kKmMgGtT”字节
+</span></span><span class="line"><span class="cl">-l 指定逻辑卷的大小（LE数）
+</span></span><span class="line"><span class="cl">lvresize -L +200M /dev/vg1000/lvol0 #将逻辑卷空间增加200M
+</span></span><span class="line"><span class="cl">lvresize -L 5G /dev/vg1000/lvol0  # #将逻辑卷空间变为5G
+</span></span><span class="line"><span class="cl">lvresize -l +1000 /dev/vg1000/lvol0  # 安PE数量 默认为+
+</span></span><span class="line"><span class="cl">lvresize -l -1000 /dev/vg1000/lvol0  # 安PE数量</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-08-12 09:17:11">更新于 2023-08-12&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E9%BB%98%E8%AE%A4%E6%A0%87%E7%AD%BE/" class="post-tag" title="标签 - 默认标签">默认标签</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/13a9176d44b5/" class="post-nav-item" rel="prev" title="Zsh的安装和配置"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Zsh的安装和配置</a>
+      <a href="/e08af3f827e9/" class="post-nav-item" rel="next" title="关于token的一些记录">关于token的一些记录<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.132.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.9"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">蓝狐狸</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"enable":false},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.9"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

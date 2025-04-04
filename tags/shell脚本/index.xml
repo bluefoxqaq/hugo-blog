@@ -1,0 +1,21 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Shell脚本 - 标签 - 蓝狐狸的博客</title>
+    <link>https://example.org/tags/shell%E8%84%9A%E6%9C%AC/</link>
+    <description>Shell脚本 - 标签 | 蓝狐狸的博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</lastBuildDate><atom:link href="https://example.org/tags/shell%E8%84%9A%E6%9C%AC/" rel="self" type="application/rss+xml" /><item>
+  <title>Shell脚本编程</title>
+  <link>https://example.org/02b965210d21/</link>
+  <pubDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/02b965210d21/</guid>
+  <description><![CDATA[参考：Shell教程|菜鸟教程
+shell 环境
+#!/bin/bash：脚本第一行，告诉系统使用什么解释器来执行，即使用哪一个 shell
+注释 单行注释用# 多行注释用 :&lt;&lt; 开头，! 包裹注释内容 1 2 3 4 5 6 # 这是一个单行注释 :&lt;&lt;! 这是多行注释 这是多行注释 这是多行注释 ! 变量 1 2 3 4 # 变量 = 号两侧不能有空格，大小写敏感 my_name=&#34;lanhuli&#34; echo ${my_name} unset my_name # 删除变量 双引号和单引号的区别
+单引号里的任何字符都会原样输出，单引号字符串中的变量是无效的； 单引号字符串中不能出现单独一个的单引号（对单引号使用转义符后也不行），但可成对出现，作为字符串拼接使用。 双引号里可以有变量 双引号里可以出现转义字符 只读变量
+1 2 3 4 myUrl=&#34;https://www.google.com&#34; readonly myUrl myUrl=&#34;https://www.runoob.com&#34; # 执行报错，NAME: This variable is read only. 字符串变量
+1 2 3 4 5 6 7 8 9 10 11 #!]]></description>
+</item>
+</channel>
+</rss>

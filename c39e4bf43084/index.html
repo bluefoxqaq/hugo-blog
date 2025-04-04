@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Docker使用 - 蓝狐狸的博客</title><meta name="author" content="蓝狐狸">
+<meta name="author-link" content="">
+<meta name="description" content="Docker 安装 下载： https://docs.docker.com/get-docker/
+Win 10（家庭版） 需要安装Hyper-V才可以。将如下代码添加到记事本中，并另存为 Hyper-V.cmd 文件。右键以管理员身份运行，然后等待安装，最后输入 Y 进行重启即可
+1 2 3 4 5 pushd &#34;%~dp0&#34; dir /b %SystemRoot%\servicing\Packages\*Hyper-V*.mum &gt;hyper-v.txt for /f %%i in (&#39;findstr /i . hyper-v.txt 2^&gt;nul&#39;) do dism /online /norestart /add-package:&#34;%SystemRoot%\servicing\Packages\%%i&#34; del hyper-v.txt Dism /online /enable-feature /featurename:Microsoft-Hyper-V-All /LimitAccess /ALL 重启完后双击 docker 安装包安装，再次重启，启动 docker，可能提示 wsl 版本低，wsl --update
+Win 10 (专业版) 启用Hyper-V进行安装：在控制面板—启用或关闭 Windows 功能，勾选Hyper-V和容器两个选项，两个都要，不然报错。然后重启，双击 exe 文件。
+注意：如果使用安卓虚拟机的话，二者会有冲突。安卓虚拟机需要关闭 Hyper-V，docker 需要开启 Hyper-V。有文章说在控制面板—启用或关闭 Windows 功能—启用 Windows 虚拟机监控程序平台，勾选这个可以解决冲突，但我试了没有用。我用夜神模拟器有冲突，改用蓝叠 4 模拟器（hyper-v）版本
+配置阿里云镜像： https://cr." /><meta name="keywords" content='docker' />
+  <meta itemprop="name" content="docker使用">
+  <meta itemprop="description" content="Docker 安装 下载： https://docs.docker.com/get-docker/
+Win 10（家庭版） 需要安装Hyper-V才可以。将如下代码添加到记事本中，并另存为 Hyper-V.cmd 文件。右键以管理员身份运行，然后等待安装，最后输入 Y 进行重启即可
+1 2 3 4 5 pushd &#34;%~dp0&#34; dir /b %SystemRoot%\servicing\Packages\*Hyper-V*.mum &gt;hyper-v.txt for /f %%i in (&#39;findstr /i . hyper-v.txt 2^&gt;nul&#39;) do dism /online /norestart /add-package:&#34;%SystemRoot%\servicing\Packages\%%i&#34; del hyper-v.txt Dism /online /enable-feature /featurename:Microsoft-Hyper-V-All /LimitAccess /ALL 重启完后双击 docker 安装包安装，再次重启，启动 docker，可能提示 wsl 版本低，wsl --update
+Win 10 (专业版) 启用Hyper-V进行安装：在控制面板—启用或关闭 Windows 功能，勾选Hyper-V和容器两个选项，两个都要，不然报错。然后重启，双击 exe 文件。
+注意：如果使用安卓虚拟机的话，二者会有冲突。安卓虚拟机需要关闭 Hyper-V，docker 需要开启 Hyper-V。有文章说在控制面板—启用或关闭 Windows 功能—启用 Windows 虚拟机监控程序平台，勾选这个可以解决冲突，但我试了没有用。我用夜神模拟器有冲突，改用蓝叠 4 模拟器（hyper-v）版本
+配置阿里云镜像： https://cr.">
+  <meta itemprop="datePublished" content="2023-07-30T00:43:49+08:00">
+  <meta itemprop="dateModified" content="2024-04-17T13:42:00+08:00">
+  <meta itemprop="wordCount" content="1127">
+  <meta itemprop="keywords" content="Docker"><meta property="og:url" content="https://example.org/c39e4bf43084/">
+  <meta property="og:site_name" content="蓝狐狸的博客">
+  <meta property="og:title" content="docker使用">
+  <meta property="og:description" content="Docker 安装 下载： https://docs.docker.com/get-docker/
+Win 10（家庭版） 需要安装Hyper-V才可以。将如下代码添加到记事本中，并另存为 Hyper-V.cmd 文件。右键以管理员身份运行，然后等待安装，最后输入 Y 进行重启即可
+1 2 3 4 5 pushd &#34;%~dp0&#34; dir /b %SystemRoot%\servicing\Packages\*Hyper-V*.mum &gt;hyper-v.txt for /f %%i in (&#39;findstr /i . hyper-v.txt 2^&gt;nul&#39;) do dism /online /norestart /add-package:&#34;%SystemRoot%\servicing\Packages\%%i&#34; del hyper-v.txt Dism /online /enable-feature /featurename:Microsoft-Hyper-V-All /LimitAccess /ALL 重启完后双击 docker 安装包安装，再次重启，启动 docker，可能提示 wsl 版本低，wsl --update
+Win 10 (专业版) 启用Hyper-V进行安装：在控制面板—启用或关闭 Windows 功能，勾选Hyper-V和容器两个选项，两个都要，不然报错。然后重启，双击 exe 文件。
+注意：如果使用安卓虚拟机的话，二者会有冲突。安卓虚拟机需要关闭 Hyper-V，docker 需要开启 Hyper-V。有文章说在控制面板—启用或关闭 Windows 功能—启用 Windows 虚拟机监控程序平台，勾选这个可以解决冲突，但我试了没有用。我用夜神模拟器有冲突，改用蓝叠 4 模拟器（hyper-v）版本
+配置阿里云镜像： https://cr.">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-07-30T00:43:49+08:00">
+    <meta property="article:modified_time" content="2024-04-17T13:42:00+08:00">
+    <meta property="article:tag" content="Docker">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="docker使用">
+  <meta name="twitter:description" content="Docker 安装 下载： https://docs.docker.com/get-docker/
+Win 10（家庭版） 需要安装Hyper-V才可以。将如下代码添加到记事本中，并另存为 Hyper-V.cmd 文件。右键以管理员身份运行，然后等待安装，最后输入 Y 进行重启即可
+1 2 3 4 5 pushd &#34;%~dp0&#34; dir /b %SystemRoot%\servicing\Packages\*Hyper-V*.mum &gt;hyper-v.txt for /f %%i in (&#39;findstr /i . hyper-v.txt 2^&gt;nul&#39;) do dism /online /norestart /add-package:&#34;%SystemRoot%\servicing\Packages\%%i&#34; del hyper-v.txt Dism /online /enable-feature /featurename:Microsoft-Hyper-V-All /LimitAccess /ALL 重启完后双击 docker 安装包安装，再次重启，启动 docker，可能提示 wsl 版本低，wsl --update
+Win 10 (专业版) 启用Hyper-V进行安装：在控制面板—启用或关闭 Windows 功能，勾选Hyper-V和容器两个选项，两个都要，不然报错。然后重启，双击 exe 文件。
+注意：如果使用安卓虚拟机的话，二者会有冲突。安卓虚拟机需要关闭 Hyper-V，docker 需要开启 Hyper-V。有文章说在控制面板—启用或关闭 Windows 功能—启用 Windows 虚拟机监控程序平台，勾选这个可以解决冲突，但我试了没有用。我用夜神模拟器有冲突，改用蓝叠 4 模拟器（hyper-v）版本
+配置阿里云镜像： https://cr.">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://example.org/c39e4bf43084/" /><link rel="prev" href="https://example.org/443889da05ee/" /><link rel="next" href="https://example.org/e70c6a493b0d/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "docker使用",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/example.org\/c39e4bf43084\/"
+    },"genre": "posts","keywords": "docker","wordcount":  1127 ,
+    "url": "https:\/\/example.org\/c39e4bf43084\/","datePublished": "2023-07-30T00:43:49+08:00","dateModified": "2024-04-17T13:42:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "蓝狐狸"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/"
+                
+                
+              ><i class="fa-solid fa-house"></i> 首页</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/"
+                  
+                  
+                ><i class="fa-solid fa-house"></i> 首页</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Docker使用</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/docker/" class="post-category" title="分类 - Docker"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Docker</a></span></div><div class="post-meta-line"><span title="发布于 2023-07-30 00:43:49"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-07-30">2023-07-30</time></span>&nbsp;<span title="更新于 2024-04-17 13:42:00"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-04-17">2024-04-17</time></span>&nbsp;<span title="1127 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#docker-安装">Docker 安装</a>
+      <ul>
+        <li><a href="#win-10家庭版">Win 10（家庭版）</a></li>
+        <li><a href="#win-10-专业版">Win 10 (专业版)</a></li>
+        <li><a href="#debian-10">Debian 10</a></li>
+      </ul>
+    </li>
+    <li><a href="#docker-命令">Docker 命令</a>
+      <ul>
+        <li><a href="#镜像仓库">镜像仓库</a></li>
+        <li><a href="#本地镜像管理">本地镜像管理</a></li>
+        <li><a href="#容器操作">容器操作</a></li>
+        <li><a href="#网络管理">网络管理</a></li>
+      </ul>
+    </li>
+    <li><a href="#docker-compose">Docker-Compose</a>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#简单使用">简单使用</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="docker-安装" class="heading-element"><span>Docker 安装</span>
+  <a href="#docker-%e5%ae%89%e8%a3%85" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>下载： <a href="https://docs.docker.com/get-docker/"target="_blank" rel="external nofollow noopener noreferrer">https://docs.docker.com/get-docker/</a></p>
+<h3 id="win-10家庭版" class="heading-element"><span>Win 10（家庭版）</span>
+  <a href="#win-10%e5%ae%b6%e5%ba%ad%e7%89%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>需要安装<strong>Hyper-V</strong>才可以。将如下代码添加到记事本中，并另存为 <code>Hyper-V.cmd</code> 文件。右键以管理员身份运行，然后等待安装，最后输入 Y 进行重启即可</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">pushd &#34;%~dp0&#34;
+</span></span><span class="line"><span class="cl">dir /b %SystemRoot%\servicing\Packages\*Hyper-V*.mum &gt;hyper-v.txt
+</span></span><span class="line"><span class="cl">for /f %%i in (&#39;findstr /i . hyper-v.txt 2^&gt;nul&#39;) do dism /online /norestart /add-package:&#34;%SystemRoot%\servicing\Packages\%%i&#34;
+</span></span><span class="line"><span class="cl">del hyper-v.txt
+</span></span><span class="line"><span class="cl">Dism /online /enable-feature /featurename:Microsoft-Hyper-V-All /LimitAccess /ALL</span></span></code></pre></td></tr></table>
+</div>
+</div><p>重启完后双击 docker 安装包安装，再次重启，启动 docker，可能提示 wsl 版本低，<code>wsl --update</code></p>
+<h3 id="win-10-专业版" class="heading-element"><span>Win 10 (专业版)</span>
+  <a href="#win-10-%e4%b8%93%e4%b8%9a%e7%89%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>启用<strong>Hyper-V</strong>进行安装：在控制面板—启用或关闭 Windows 功能，勾选<strong>Hyper-V</strong>和<strong>容器</strong>两个选项，两个都要，不然报错。然后重启，双击 exe 文件。</p>
+<p>注意：如果使用安卓虚拟机的话，二者会有冲突。安卓虚拟机需要关闭 Hyper-V，docker 需要开启 Hyper-V。有文章说在控制面板—启用或关闭 Windows 功能—<strong>启用 Windows 虚拟机监控程序平台</strong>，勾选这个可以解决冲突，但我试了没有用。我用夜神模拟器有冲突，改用蓝叠 4 模拟器（hyper-v）版本</p>
+<p><a class="lightgallery" href="images/image-20230220092956278.png?size=large" data-thumbnail="images/image-20230220092956278.png?size=small" data-sub-html="<h2>两个都要选择</h2>"><img loading="lazy" src="images/image-20230220092956278.png" alt="两个都要选择" srcset="images/image-20230220092956278.png?size=small, images/image-20230220092956278.png?size=medium 1.5x, images/image-20230220092956278.png?size=large 2x" data-title="两个都要选择" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>配置阿里云镜像： <a href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors"target="_blank" rel="external nofollow noopener noreferrer">https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors</a></p>
+<p>修改默认位置：默认是在 C 盘</p>
+<p>打开设置，选择存储位置</p>
+<p><a class="lightgallery" href="images/image-20230220093439204.png?size=large" data-thumbnail="images/image-20230220093439204.png?size=small" data-sub-html="<h2>修改镜像位置</h2>"><img loading="lazy" src="images/image-20230220093439204.png" alt="修改镜像位置" srcset="images/image-20230220093439204.png?size=small, images/image-20230220093439204.png?size=medium 1.5x, images/image-20230220093439204.png?size=large 2x" data-title="修改镜像位置" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>之前<strong>眼瞎</strong>没找见设置里的 Disk image location 选项，找了另一篇文章里的方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">C:<span class="se">\U</span>sers<span class="se">\&gt;</span> wsl --list -v  <span class="c1"># 退出docker，用任务管理器杀进程</span>
+</span></span><span class="line"><span class="cl">  NAME                   STATE           VERSION
+</span></span><span class="line"><span class="cl">* docker-desktop         Stopped         <span class="m">2</span>
+</span></span><span class="line"><span class="cl">  docker-desktop-data    Stopped         <span class="m">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">C:<span class="se">\U</span>sers<span class="se">\&gt;</span> wsl --export docker-desktop-data <span class="s2">&#34;D:\\docker-desktop-data.tar&#34;</span> <span class="c1"># 将docker-desktop-data导出到文件中(备份image及相关文件)</span>
+</span></span><span class="line"><span class="cl">正在导出，这可能需要几分钟时间。   
+</span></span><span class="line"><span class="cl">操作成功完成。 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">C:<span class="se">\U</span>sers<span class="se">\&gt;</span> wsl --unregister docker-desktop-data <span class="c1"># 从wsl取消注册docker-desktop-data</span>
+</span></span><span class="line"><span class="cl">正在注销。
+</span></span><span class="line"><span class="cl">操作成功完成。 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">C:<span class="se">\U</span>sers<span class="se">\&gt;</span> wsl --import docker-desktop-data <span class="s2">&#34;E:\\DockerImage\\wsl&#34;</span> <span class="s2">&#34;D:\\docker-desktop-data.tar&#34;</span> --version <span class="m">2</span> <span class="c1"># 将导出的docker-desktop-data再导入回wsl，并设置我们想要的路径，即新的镜像及各种docker使用的文件的挂载目录，我这里设置到E:\\DockerImage\\wsl</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>参考： <a href="https://blog.csdn.net/u013948858/article/details/111464534"target="_blank" rel="external nofollow noopener noreferrer">https://blog.csdn.net/u013948858/article/details/111464534</a></p>
+<h3 id="debian-10" class="heading-element"><span>Debian 10</span>
+  <a href="#debian-10" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="安装-docker" class="heading-element"><span>安装 Docker</span>
+  <a href="#%e5%ae%89%e8%a3%85-docker" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>1）直接使用脚本安装：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">curl -sSL https://get.docker.com/ <span class="p">|</span> sh
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用阿里镜像源</span>
+</span></span><span class="line"><span class="cl">curl -fsSL https://get.docker.com <span class="p">|</span> bash -s docker --mirror Aliyun</span></span></code></pre></td></tr></table>
+</div>
+</div><p>2）执行以下步骤从 Docker 的存储库安装最新的稳定 Docker 版本。<strong>root 用户下执行</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">apt update
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装通过 HTTPS 添加新存储库所需的软件包：</span>
+</span></span><span class="line"><span class="cl">apt install apt-transport-https ca-certificates curl software-properties-common gnupg2
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用以下 curl 命令导入存储库的 GPG 密钥；成功后，命令将返回 OK 。</span>
+</span></span><span class="line"><span class="cl">curl -fsSL https://download.docker.com/linux/debian/gpg <span class="p">|</span> sudo apt-key add -
+</span></span><span class="line"><span class="cl"><span class="c1"># 将稳定的 Docker APT 存储库添加到系统的软件存储库列表中：</span>
+</span></span><span class="line"><span class="cl">add-apt-repository <span class="s2">&#34;deb [arch=amd64] https://download.docker.com/linux/debian </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> stable&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 更新 apt 软件包列表并安装最新版本的 Docker CE (Community Edition) </span>
+</span></span><span class="line"><span class="cl">apt update
+</span></span><span class="line"><span class="cl">apt install docker-ce</span></span></code></pre></td></tr></table>
+</div>
+</div><p>3）离线安装</p>
+<p>因网络问题，导致 docker 无法联网安装，所以使用离线安装的方式。直接参考这个文章： <a href="https://blog.csdn.net/weixin_42571882/article/details/134015815"target="_blank" rel="external nofollow noopener noreferrer">https://blog.csdn.net/weixin_42571882/article/details/134015815</a></p>
+<p>下载 docker 安装包： <a href="https://download.docker.com/linux/static/stable/x86_64/"target="_blank" rel="external nofollow noopener noreferrer">https://download.docker.com/linux/static/stable/x86_64/</a> ，网盘下载：<a href="https://lanhuli.lanzoul.com/iVWJy23lwoqj"target="_blank" rel="external nofollow noopener noreferrer">docker-25.0.5.tgz</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 注意从网盘下载的文件后缀名为docker-25.0.5.tgz.zip，需要先改为docker-25.0.5.tgz</span>
+</span></span><span class="line"><span class="cl">mv docker-25.0.5.tgz.zip docker-25.0.5.tgz  <span class="c1"># 改后缀</span>
+</span></span><span class="line"><span class="cl">tar -zxvf docker-25.0.5.tgz  <span class="c1"># 解压docker安装包</span>
+</span></span><span class="line"><span class="cl">cp docker/* /usr/bin/        <span class="c1"># 将解压后的文件复制到/usr/bin/目录下</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>赋予文件执行权限</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 赋予文件执行权限，可以先赋予，在复制到/usr/bin/目录下</span>
+</span></span><span class="line"><span class="cl">chmod +x /usr/bin/docker*
+</span></span><span class="line"><span class="cl">查看是否有执行权限
+</span></span><span class="line"><span class="cl">ls -l /usr/bin/docker*</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将 docker 注册成系统服务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">vim /etc/systemd/system/docker.service</span></span></code></pre></td></tr></table>
+</div>
+</div><p>添加如下内容，然后保存退出（我也不知道这些内容的具体含义，反正目前用着没问题）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">[Unit]
+</span></span><span class="line"><span class="cl">Description=Docker Application Container Engine
+</span></span><span class="line"><span class="cl">Documentation=https://docs.docker.com
+</span></span><span class="line"><span class="cl">After=network-online.target firewalld.service
+</span></span><span class="line"><span class="cl">Wants=network-online.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Service]
+</span></span><span class="line"><span class="cl">Type=notify
+</span></span><span class="line"><span class="cl">ExecStart=/usr/bin/dockerd
+</span></span><span class="line"><span class="cl">ExecReload=/bin/kill -s HUP $MAINPID
+</span></span><span class="line"><span class="cl">LimitNOFILE=infinity
+</span></span><span class="line"><span class="cl">LimitNPROC=infinity
+</span></span><span class="line"><span class="cl">TimeoutStartSec=0
+</span></span><span class="line"><span class="cl">Delegate=yes
+</span></span><span class="line"><span class="cl">KillMode=process
+</span></span><span class="line"><span class="cl">Restart=on-failure
+</span></span><span class="line"><span class="cl">StartLimitBurst=3
+</span></span><span class="line"><span class="cl">StartLimitInterval=60s
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[Install]
+</span></span><span class="line"><span class="cl">WantedBy=multi-user.target</span></span></code></pre></td></tr></table>
+</div>
+</div><p>赋予文件执行权限</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">chmod +x /etc/systemd/system/docker.service
+</span></span><span class="line"><span class="cl">systemctl daemon-reload
+</span></span><span class="line"><span class="cl">systemctl start docker</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="修改-docker-的存储路径" class="heading-element"><span>修改 docker 的存储路径</span>
+  <a href="#%e4%bf%ae%e6%94%b9-docker-%e7%9a%84%e5%ad%98%e5%82%a8%e8%b7%af%e5%be%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>方法一：使用软连接(个人常用)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 查看现在的存储路径，默认是 /var/lib/docker</span>
+</span></span><span class="line"><span class="cl">docker info <span class="p">|</span> grep <span class="s2">&#34;Root Dir
+</span></span></span><span class="line"><span class="cl"><span class="s2"># 将这个目录复制到/opt目录下，名字任意
+</span></span></span><span class="line"><span class="cl"><span class="s2">cp -r /var/lib/docker /opt/docker_images
+</span></span></span><span class="line"><span class="cl"><span class="s2"># 删除原来的目录
+</span></span></span><span class="line"><span class="cl"><span class="s2">rm -r /var/lib/docker
+</span></span></span><span class="line"><span class="cl"><span class="s2"># 创建软链接
+</span></span></span><span class="line"><span class="cl"><span class="s2">ln -s /opt/docker_images /var/lib/docker
+</span></span></span><span class="line"><span class="cl"><span class="s2"># 记得重启docker或系统</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>方法二：修改配置文件</p>
+<p>因为我这里没有 <code>/etc/docker/daemon.json</code> 这个文件，遂放弃。</p>
+<h4 id="安装-docker-compose" class="heading-element"><span>安装 docker-compose</span>
+  <a href="#%e5%ae%89%e8%a3%85-docker-compose" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 从github下载docker-compose二进制文件，这可能需要一段时间</span>
+</span></span><span class="line"><span class="cl">curl -L <span class="s2">&#34;https://github.com/docker/compose/releases/download/1.26.2/docker-compose-</span><span class="k">$(</span>uname -s<span class="k">)</span><span class="s2">-</span><span class="k">$(</span>uname -m<span class="k">)</span><span class="s2">&#34;</span> -o /usr/local/bin/docker-compose
+</span></span><span class="line"><span class="cl"><span class="c1"># 给予运行权限</span>
+</span></span><span class="line"><span class="cl">chmod +x /usr/local/bin/docker-compose
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看安装版本</span>
+</span></span><span class="line"><span class="cl">docker-compose -v</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="docker-命令" class="heading-element"><span>Docker 命令</span>
+  <a href="#docker-%e5%91%bd%e4%bb%a4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>参考：<a href="https://www.runoob.com/docker/docker-command-manual.html"target="_blank" rel="external nofollow noopener noreferrer">Docker 命令大全|菜鸟教程</a></p>
+<h3 id="镜像仓库" class="heading-element"><span>镜像仓库</span>
+  <a href="#%e9%95%9c%e5%83%8f%e4%bb%93%e5%ba%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="loginlogout" class="heading-element"><span>login/logout</span>
+  <a href="#loginlogout" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker login -u 用户名 -p 密码   <span class="c1"># 登陆到一个Docker镜像仓库，如果未指定镜像仓库地址，默认为官方仓库 Docker Hub</span>
+</span></span><span class="line"><span class="cl">docker <span class="nb">logout</span>  <span class="c1"># 登出Docker Hub</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="search" class="heading-element"><span>search</span>
+  <a href="#search" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><a class="lightgallery" href="images/image-20230219223022609.png?size=large" data-thumbnail="images/image-20230219223022609.png?size=small" data-sub-html="<h2>images/image-20230219223022609.png</h2>"><img loading="lazy" src="images/image-20230219223022609.png" alt="images/image-20230219223022609.png" srcset="images/image-20230219223022609.png?size=small, images/image-20230219223022609.png?size=medium 1.5x, images/image-20230219223022609.png?size=large 2x" data-title="images/image-20230219223022609.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>参数说明：</p>
+<p><strong>NAME:</strong> 镜像仓库源的名称</p>
+<p><strong>DESCRIPTION:</strong> 镜像的描述</p>
+<p><strong>OFFICIAL:</strong> 是否 docker 官方发布</p>
+<p><strong>stars:</strong> 类似 Github 里面的 star，表示点赞、喜欢的意思。</p>
+<p><strong>AUTOMATED:</strong> 自动构建。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">--automated :只列出 automated build类型的镜像；  
+</span></span><span class="line"><span class="cl">--no-trunc :显示完整的镜像DESCRIPTION(描述)，不省略；  
+</span></span><span class="line"><span class="cl">-f &lt;过滤条件&gt;:列出收藏数(点赞)不小于指定值的镜像。  
+</span></span><span class="line"><span class="cl">--limit 5:列出前5个镜像</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="build" class="heading-element"><span>build</span>
+  <a href="#build" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker build</strong>：用于使用 Dockerfile 创建镜像</p>
+<p>&ndash;tag，-t：镜像的名字及标签</p>
+<p>-f：指定要使用的 Dockerfile 路径</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker build -t bluelotus_xss_docker:2.0 .</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意：最后要加路径，这里最后有个空格和点，代表上下文路径。</p>
+<h4 id="pull" class="heading-element"><span>pull</span>
+  <a href="#pull" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>语法：docker pull [OPTIONS] NAME[:TAG|@DIGEST]</p>
+<p>OPTIONS 选项：</p>
+<p><strong>–all-tags, -a：</strong> 用于下载该存储库中具有不同标签的所有镜像。</p>
+<p><strong>–disable-content-trust：</strong> 它会在拉取之前跳过镜像验证。</p>
+<p><strong>–platform：</strong> 用于设置平台。</p>
+<p><strong>–quiet, -q：</strong> 用于<strong>静默拉</strong>取镜像（不冗长）。</p>
+<p><strong>–help：</strong> 了解更多有关命令的信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker pull citizenstig/dvwa  <span class="c1"># 默认tag是:latest，更多tag需要再hub中查看</span>
+</span></span><span class="line"><span class="cl">docker pull mysql:5.7
+</span></span><span class="line"><span class="cl">docker pull centos:centos6.8</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="push" class="heading-element"><span>push</span>
+  <a href="#push" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>注意：发布镜像时，需要将 image 重新命名，命名格式应为: <strong>dockerhub 用户名/镜像名</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker tag bluelotus_xss_docker:1.0 bluefoxqaq/bluelotus_xss_docker:1.0
+</span></span><span class="line"><span class="cl">docker login -u admin -p <span class="m">123456</span>
+</span></span><span class="line"><span class="cl">docker push bluefoxqaq/bluelotus_xss_docker:1.0</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="本地镜像管理" class="heading-element"><span>本地镜像管理</span>
+  <a href="#%e6%9c%ac%e5%9c%b0%e9%95%9c%e5%83%8f%e7%ae%a1%e7%90%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="images" class="heading-element"><span>images</span>
+  <a href="#images" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker images</strong>：列出本地镜像。</p>
+<p>语法：docker images [OPTIONS] [REPOSITORY[: TAG]]</p>
+<p>OPTIONS 说明：</p>
+<ul>
+<li><strong>-a :</strong> 列出本地所有的镜像（含中间映像层，默认情况下，过滤掉中间映像层）；</li>
+<li><strong>&ndash;digests :</strong> 显示镜像的摘要信息；</li>
+<li><strong>-f :</strong> 显示满足条件的镜像；</li>
+<li><strong>&ndash;format :</strong> 指定返回值的模板文件；</li>
+<li><strong>&ndash;no-trunc :</strong> 显示完整的镜像信息；</li>
+<li><strong>-q :</strong> 只显示镜像 ID。</li>
+</ul>
+<h4 id="rmi" class="heading-element"><span>rmi</span>
+  <a href="#rmi" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker rmi :</strong> 删除本地一个或多个镜像。</p>
+<p>语法：docker rmi [OPTIONS] IMAGE [IMAGE&hellip;]</p>
+<p>OPTIONS 说明：</p>
+<ul>
+<li><strong>-f :</strong> 强制删除</li>
+<li><strong>&ndash;no-prune :</strong> 不移除该镜像的过程镜像，默认移除</li>
+</ul>
+<p>例如：<code>docker rmi -f runoob/ubuntu:v4</code></p>
+<h4 id="tag" class="heading-element"><span>tag</span>
+  <a href="#tag" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker tag</strong>：为本地镜像添加一个新的标签</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker tag bluelotus_xss_docker:1.0  bluefoxqaq/bluelotus_xss_docker:1.0</span></span></code></pre></td></tr></table>
+</div>
+</div><p><a class="lightgallery" href="images/image-20240215071630079.png?size=large" data-thumbnail="images/image-20240215071630079.png?size=small" data-sub-html="<h2>images/image-20240215071630079.png</h2>"><img loading="lazy" src="images/image-20240215071630079.png" alt="images/image-20240215071630079.png" srcset="images/image-20240215071630079.png?size=small, images/image-20240215071630079.png?size=medium 1.5x, images/image-20240215071630079.png?size=large 2x" data-title="images/image-20240215071630079.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>注意：它们是同一个镜像，只是别名不同而已。</p>
+<h4 id="inspect" class="heading-element"><span>inspect</span>
+  <a href="#inspect" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker inspect</strong>：获取镜像的详细信息，其中，包括创建者，各层的数字摘要等。</p>
+<p>-f ，&ndash;format：指定返回值的模板文件。Go 模板格式化输出</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker inspect debian:12.5
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看镜像的操作系统架构（arm还是x86）</span>
+</span></span><span class="line"><span class="cl">docker inspect --format<span class="o">=</span><span class="s1">&#39;{{.Os}}/{{.Architecture}}&#39;</span> e6bce4a855e5
+</span></span><span class="line"><span class="cl"><span class="c1"># 获取正在运行的容器dvwa的 IP</span>
+</span></span><span class="line"><span class="cl">docker inspect --format<span class="o">=</span><span class="s1">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span> dvwa</span></span></code></pre></td></tr></table>
+</div>
+</div><p><a class="lightgallery" href="images/image-20240215071820770.png?size=large" data-thumbnail="images/image-20240215071820770.png?size=small" data-sub-html="<h2>images/image-20240215071820770.png</h2>"><img loading="lazy" src="images/image-20240215071820770.png" alt="images/image-20240215071820770.png" srcset="images/image-20240215071820770.png?size=small, images/image-20240215071820770.png?size=medium 1.5x, images/image-20240215071820770.png?size=large 2x" data-title="images/image-20240215071820770.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h4 id="save" class="heading-element"><span>save</span>
+  <a href="#save" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker save</strong>：将指定镜像保存成 tar 归档文件。</p>
+<p>-o ：输出到的文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 例如</span>
+</span></span><span class="line"><span class="cl">docker save -o my_ubuntu_v3.tar runoob/ubuntu:v3
+</span></span><span class="line"><span class="cl">docker save -o xss_platfrom_docker.tar  79bb31b88efb</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="load" class="heading-element"><span>load</span>
+  <a href="#load" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker load</strong>：导入使用 docker save 命令导出的镜像。</p>
+<p>-i：指定导入的文件</p>
+<p>-q：精简输出信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker load -i xss_platfrom_docker.tar</span></span></code></pre></td></tr></table>
+</div>
+</div><p>export 和 import 导出的是一个容器的快照, 不是镜像本身, 也就是说没有 layer。你的 dockerfile 里的 workdir, entrypoint 之类的所有东西都会丢失，commit 过的话也会丢失。快照文件将丢弃所有的历史记录和元数据信息（即仅保存容器当时的快照状态），而镜像存储文件将保存完整记录，体积也更大。</p>
+<p>docker save 保存的是镜像（image），docker export 保存的是容器（container）；docker load 用来载入镜像包，docker import 用来载入容器包，但两者都会恢复为镜像；docker load 不能对载入的镜像重命名，而 docker import 可以为镜像指定新名称。</p>
+<h3 id="容器操作" class="heading-element"><span>容器操作</span>
+  <a href="#%e5%ae%b9%e5%99%a8%e6%93%8d%e4%bd%9c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="ps" class="heading-element"><span>ps</span>
+  <a href="#ps" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker ps :</strong> 列出容器</p>
+<ul>
+<li><strong>-a :</strong> 显示所有的容器，包括未运行的。</li>
+<li><strong>-f :</strong> 根据条件过滤显示的内容。</li>
+<li><strong>&ndash;format :</strong> 指定返回值的模板文件。</li>
+<li><strong>-l :</strong> 显示最近创建的容器。</li>
+<li><strong>-n :</strong> 列出最近创建的 n 个容器。</li>
+<li><strong>&ndash;no-trunc :</strong> 不截断输出。</li>
+<li><strong>-q :</strong> 静默模式，只显示容器编号。</li>
+<li><strong>-s :</strong> 显示总的文件大小。</li>
+</ul>
+<h4 id="run" class="heading-element"><span>run</span>
+  <a href="#run" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker run ：</strong> 创建一个新的容器并运行一个命令</p>
+<ul>
+<li>-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；</li>
+<li><strong>-d:</strong> 后台运行容器，并返回容器 ID；</li>
+<li><strong>-i:</strong> 以交互模式运行容器，通常与 -t 同时使用；</li>
+<li><strong>-P:</strong> 随机端口映射，容器内部端口<strong>随机</strong>映射到主机的端口</li>
+<li><strong>-p:</strong> 指定端口映射，格式为：<strong>主机 (宿主)端口: 容器端口</strong></li>
+<li><strong>-t:</strong> 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</li>
+<li><strong>&ndash;name=&ldquo;nginx-lb&rdquo;:</strong> 为容器指定一个名称；</li>
+<li>&ndash;dns 8.8.8.8: 指定容器使用的 DNS 服务器，默认和宿主一致；</li>
+<li>&ndash;dns-search example. com: 指定容器 DNS 搜索域名，默认和宿主一致；</li>
+<li>-h &ldquo;mars&rdquo;: 指定容器的 hostname；</li>
+<li>-e username=&ldquo;ritchie&rdquo;: 设置环境变量；</li>
+<li>&ndash;env-file=[]: 从指定文件读入环境变量；</li>
+<li>&ndash;cpuset=&ldquo;0-2&rdquo; or &ndash;cpuset=&ldquo;0,1,2&rdquo;: 绑定容器到指定 CPU 运行；</li>
+<li><strong>-m :</strong> 设置容器使用内存最大值；</li>
+<li>&ndash;network=&ldquo;bridge&rdquo;: 指定容器的网络连接类型，支持 bridge/host/none/container: 四种类型；</li>
+<li>**&ndash;link=[]: 添加链接到另一个容器；</li>
+<li>&ndash;expose=[]: 开放一个端口或一组端口；</li>
+<li><strong>&ndash;volume , -v:</strong> 绑定一个卷</li>
+</ul>
+<h4 id="startstoprestart" class="heading-element"><span>start/stop/restart</span>
+  <a href="#startstoprestart" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker start</strong>：启动一个或多个已经被停止的容器</p>
+<p><strong>docker stop</strong>：停止一个运行中的容器</p>
+<p><strong>docker restart</strong>：重启容器</p>
+<h4 id="exec" class="heading-element"><span>exec</span>
+  <a href="#exec" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker exec</strong> ：在运行的容器中执行命令</p>
+<ul>
+<li><strong>-d :</strong> 分离模式: 在后台运行</li>
+<li>-i : 即使没有附加也保持 STDIN 打开</li>
+<li>-t : 分配一个伪终端</li>
+</ul>
+<p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ docker <span class="nb">exec</span> -i -t  mynginx /bin/bash  // 在容器 mynginx 中开启一个交互模式的终端
+</span></span><span class="line"><span class="cl">$ docker <span class="nb">exec</span> -it 9df70f9a0714 /bin/bash  // 9df70f9a0714 是容器 id
+</span></span><span class="line"><span class="cl">$ docker <span class="nb">exec</span> 9df70f9a0714 service nginx strart</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="cp" class="heading-element"><span>cp</span>
+  <a href="#cp" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker cp</strong> : 用于容器与主机之间的数据拷贝。</p>
+<p>语法：docker cp [OPTIONS] srcPath  destPath</p>
+<p>例如：</p>
+<p>将主机/ www/runoob目录拷贝到容器 <code>96f7f14e99ab</code> 的/ www目录下 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker cp / www/runoob 96f7f14e99ab:/www/</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将主机/ www/runoob目录拷贝到容器 <code>96f7f14e99ab</code> 中，<strong>目录重命名为 www</strong> 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker cp / www/runoob 96f7f14e99ab:/www</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将容器 <code>96f7f14e99ab</code> 的/ www目录拷贝到主机的/tmp目录中 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker cp  96f7f14e99ab:/ www /tmp/</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="rm" class="heading-element"><span>rm</span>
+  <a href="#rm" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker rm</strong>：删除一个或多个容器。</p>
+<p>强制删除容器 <code>db01</code>、<code>db02</code>：<code>docker rm -f db01 db02</code></p>
+<h4 id="update" class="heading-element"><span>update</span>
+  <a href="#update" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker update</strong>：更新一个或多个容器的配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker update --restart<span class="o">=</span>always 容器 ID <span class="o">(</span>或者容器名<span class="o">)</span>  <span class="c1"># 容器开机自启</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="rename" class="heading-element"><span>rename</span>
+  <a href="#rename" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>将容器重命名</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker rename 原容器名称新容器名称</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="logs" class="heading-element"><span>logs</span>
+  <a href="#logs" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><strong>docker logs :</strong> 获取容器的日志</p>
+<p>&ndash;since：显示某个开始时间的所有日志</p>
+<p>-t：显示时间戳</p>
+<p>&ndash;tail：仅列出最新 N 条容器日志</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 查看某时间之后最新的 100 条日志：</span>
+</span></span><span class="line"><span class="cl">docker logs -t --since<span class="o">=</span><span class="s2">&#34;2021-08-18T11:46:37&#34;</span> --tail<span class="o">=</span><span class="m">100</span> CONTAINER_ID）</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="网络管理" class="heading-element"><span>网络管理</span>
+  <a href="#%e7%bd%91%e7%bb%9c%e7%ae%a1%e7%90%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>docker network create：创建一个 docker 局域网络</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker network create mynetwork
+</span></span><span class="line"><span class="cl">docker network create --subnet 172.16.7.0/24 mynetwork <span class="c1"># 指定网段</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>docker network connnet：将某个容器连接到一个 docker 网络</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">docker network connect mynetwork nginx
+</span></span><span class="line"><span class="cl">docker network connect mynetwork 镜像 id
+</span></span><span class="line"><span class="cl"><span class="c1"># 在 docker run 时配置网络信息</span>
+</span></span><span class="line"><span class="cl">docker run --name mynginx --network mynetwork --network-alias nginx --ip 172.16.7.2    xxxxxxxx
+</span></span><span class="line"><span class="cl"><span class="c1"># --network ：加入 docker 内部网络</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --network-alias ：配置容器在内部局域网的网络别名</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --ip：配置在内部局域网的 ip 地址  172.172.0.1 是网关</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 一个名为 mynginx 的容器，加入到 mynetwork 的网络当中，他的网络名为 nginx。</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 Docker 容器的时候，使用默认的网络是不支持指派固定 IP 的</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>docker network disconnect：将某个容器退出某个局域网络</p>
+<p>docker network ls：显示所有 docker 局域网络</p>
+<p><a class="lightgallery" href="images/image-20240412122951384.png?size=large" data-thumbnail="images/image-20240412122951384.png?size=small" data-sub-html="<h2>images/image-20240412122951384.png</h2>"><img loading="lazy" src="images/image-20240412122951384.png" alt="images/image-20240412122951384.png" srcset="images/image-20240412122951384.png?size=small, images/image-20240412122951384.png?size=medium 1.5x, images/image-20240412122951384.png?size=large 2x" data-title="images/image-20240412122951384.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>docker network inspect：显示某个局域网络信息</p>
+<p><a class="lightgallery" href="images/image-20240412122916271.png?size=large" data-thumbnail="images/image-20240412122916271.png?size=small" data-sub-html="<h2>images/image-20240412122916271.png</h2>"><img loading="lazy" src="images/image-20240412122916271.png" alt="images/image-20240412122916271.png" srcset="images/image-20240412122916271.png?size=small, images/image-20240412122916271.png?size=medium 1.5x, images/image-20240412122916271.png?size=large 2x" data-title="images/image-20240412122916271.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>docker network rm：删除 docker 网络</p>
+<p>docker network prune：删除所有未引用的 docker 局域网络</p>
+<h2 id="docker-compose" class="heading-element"><span>Docker-Compose</span>
+  <a href="#docker-compose" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Docker-Compose 项目是 Docker 官方的开源项目，负责实现对 Docker 容器集群的快速编排。</p>
+<h3 id="安装" class="heading-element"><span>安装</span>
+  <a href="#%e5%ae%89%e8%a3%85" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 从 github 下载 docker-compose 二进制文件，这可能需要一段时间</span>
+</span></span><span class="line"><span class="cl">curl -SL https://ghproxy.com/https://github.com/docker/compose/releases/download/v2.15.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 给予运行权限</span>
+</span></span><span class="line"><span class="cl">chmod +x /usr/local/bin/docker-compose
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看安装版本</span>
+</span></span><span class="line"><span class="cl">docker-compose -v</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="简单使用" class="heading-element"><span>简单使用</span>
+  <a href="#%e7%ae%80%e5%8d%95%e4%bd%bf%e7%94%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>docker-compose up</strong> ：该命令可以自动完成包括构建镜像，(重新)创建服务，启动服务，并关联服务相关容器的一系列操作。
+默认情况下，docker-compose up 启动的容器都在前台，控制台将会同时打印所有容器的输出信息，可以很方便进行调试。当通过 Ctrl+c 停止命令时，所有容器将会停止。如果希望在后台启动并运行所有的容器，使用 <code>docker-compose up -d</code>。</p>
+<p><strong>docker-compose ps</strong> ：列出项目中目前的所有容器</p>
+<p><strong>docker-compose pull</strong> ：拉取服务依赖的镜像</p>
+<p><strong>docker-compose restart</strong> ：重启项目中的服务</p>
+<p><strong>docker-compose start</strong> ：启动已经存在的服务容器。</p>
+<p><strong>docker-compose stop</strong> ：停止正在运行的容器，可以通过 docker-compose start 再次启动</p>
+<p><strong>docker-compose rm</strong> ：删除所有（停止状态的）服务容器。选项包括： –f, –force，强制直接删除，包括非停止状态的容器 -v，删除容器所挂载的数据卷</p>
+<p>stop 是只停掉容器不删除；down 是停掉容器然后删除掉<a href="https://cloud.tencent.com/developer/article/2019154"target="_blank" rel="external nofollow noopener noreferrer">二者区别</a></p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-04-17 13:42:00">更新于 2024-04-17&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/docker/" class="post-tag" title="标签 - Docker">Docker</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/443889da05ee/" class="post-nav-item" rel="prev" title="博客网站搭建"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>博客网站搭建</a>
+      <a href="/e70c6a493b0d/" class="post-nav-item" rel="next" title="Java Swing学习">Java Swing学习<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.132.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.9"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">蓝狐狸</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"enable":false},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.9"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

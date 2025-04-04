@@ -1,0 +1,24 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Nginx - 标签 - 蓝狐狸的博客</title>
+    <link>https://example.org/tags/nginx/</link>
+    <description>Nginx - 标签 | 蓝狐狸的博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 01 Mar 2024 11:59:29 &#43;0800</lastBuildDate><atom:link href="https://example.org/tags/nginx/" rel="self" type="application/rss+xml" /><item>
+  <title>debian系统安装服务软件</title>
+  <link>https://example.org/8e7beb29bf97/</link>
+  <pubDate>Fri, 01 Mar 2024 11:59:29 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/8e7beb29bf97/</guid>
+  <description><![CDATA[linux编译安装指令
+configure、make、make install 命令
+configure：配置，是用来检测你的安装平台的目标特征的。比如它会检测你是不是有 CC 或 GCC，并不是需要 CC 或 GCC，它是个 shell 脚本。configure 脚本负责在使用的系统上准备好软件的构建环境。确保接下来的构建和安装过程所需要的依赖准备好，并且搞清楚使用这些依赖需要的东西。
+make：构建，用来编译，它从 Makefile 中读取指令，然后编译。下载的源码包一般没有一个最终的 Makefile 文件，一般是一个模版文件，然后 configure 根据系统的参数生成一个定制化的 Makefile 文件。这个过程会执行在 Makefile 文件中定义的一系列任务将软件源代码编译成可执行文件。
+make install：安装，它也从 Makefile 中读取指令，安装到指定的位置。make install 命令就是将可执行文件、第三方依赖包和文档复制到正确的路径。
+清除 make 生成的文件：make clean
+清除 make 和 configure 生成的文件，包括 Makefile：make distclean
+apt 源安装 php 由于 debian 11 带的 php 版本是 7.4，有点老，所以我们可以使用 debian 开发者 Ondřej Surý 维护的 php 源 deb.sury.org 。
+注意：以下方式还可以安装 php 5.6 版本
+1 2 3 4 5 6 7 8 9 10 11 12 13 # 首先，使用下面的命令安装所须的软件包： apt install ca-certificates apt-transport-https software-properties-common -y # 安装所须软件包后，使用以下命令将 Sury 存储库添加到 APT： echo &#34;deb [https://packages.]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>关于Linux环境变量配置文件 - 蓝狐狸的博客</title><meta name="author" content="蓝狐狸">
+<meta name="author-link" content="">
+<meta name="description" content="环境变量相关的配置文件 /etc/profile：此文件为系统的每个用户设置环境信息。
+/etc/bashrc或 /etc/bash.bashrc：为每一个运行 bash shell 的用户执行此文件.当 bash shell 被打开时,该文件被读取。
+~/.bashrc：该文件包含专用于你的 bash shell 的 bash 信息,当登录时以及每次打开新的 shell 时,该文件被读取。
+~/.bash_profile 或 ~/.bash_login 或 ~/.profile：属于使用者个人配置，需要修改自己的数据，就写入这些文件！（ps1：其实 bash 的 login shell 配置只会读取上面三个文件的其中一个，而读取的顺序则是依照上面的顺序。ps2：这三个文件一般没啥人修改的，因为它们最终都是去调用读取~/.bashrc 这个文件。ps3：这三个文件不一定存在，我的 debian11.9 系统中就没有看到这三个文件，只有~/.bashrc）
+以上文件中，其实只有/etc/profile 和~/.bashrc 这两个是常用的、重要的。其他的几乎不用管，没有必要去深入了解。
+如果你设置的变量只针对你或其他一个用户，那就修改~/.bashrc，如果是针对所有用户，就修改/etc/profile。
+交互式 shell 和非交互式 shell 交互式 shell：顾名思义，这种 shell 中的命令时由用户从键盘交互式地输入的，运行的结果也能够输出到终端显示给用户看。例如我们平常在终端输入的 cd 命令、vi 命令、mv 等都属于交互式的。
+非交互式 shell：这种 shell 可能由某些自动化过程启动，不能直接从请求用户的输入，也不能直接输出结果给终端用户看。通常我们写的 shell 脚本都是非交互式的，通过 sh 直接运行该脚本文件。
+login shell 和 non-login shell login shell：取得 bash 时需要完整的登陆流程的，就称为 login shell。举例来说，我们登陆 tty1 ~ tty6 时，需要输入用户的账号与密码，此时取得的 bash 就称为 login shell" /><meta name="keywords" content='默认标签' />
+  <meta itemprop="name" content="关于Linux环境变量配置文件">
+  <meta itemprop="description" content="环境变量相关的配置文件 /etc/profile：此文件为系统的每个用户设置环境信息。
+/etc/bashrc或 /etc/bash.bashrc：为每一个运行 bash shell 的用户执行此文件.当 bash shell 被打开时,该文件被读取。
+~/.bashrc：该文件包含专用于你的 bash shell 的 bash 信息,当登录时以及每次打开新的 shell 时,该文件被读取。
+~/.bash_profile 或 ~/.bash_login 或 ~/.profile：属于使用者个人配置，需要修改自己的数据，就写入这些文件！（ps1：其实 bash 的 login shell 配置只会读取上面三个文件的其中一个，而读取的顺序则是依照上面的顺序。ps2：这三个文件一般没啥人修改的，因为它们最终都是去调用读取~/.bashrc 这个文件。ps3：这三个文件不一定存在，我的 debian11.9 系统中就没有看到这三个文件，只有~/.bashrc）
+以上文件中，其实只有/etc/profile 和~/.bashrc 这两个是常用的、重要的。其他的几乎不用管，没有必要去深入了解。
+如果你设置的变量只针对你或其他一个用户，那就修改~/.bashrc，如果是针对所有用户，就修改/etc/profile。
+交互式 shell 和非交互式 shell 交互式 shell：顾名思义，这种 shell 中的命令时由用户从键盘交互式地输入的，运行的结果也能够输出到终端显示给用户看。例如我们平常在终端输入的 cd 命令、vi 命令、mv 等都属于交互式的。
+非交互式 shell：这种 shell 可能由某些自动化过程启动，不能直接从请求用户的输入，也不能直接输出结果给终端用户看。通常我们写的 shell 脚本都是非交互式的，通过 sh 直接运行该脚本文件。
+login shell 和 non-login shell login shell：取得 bash 时需要完整的登陆流程的，就称为 login shell。举例来说，我们登陆 tty1 ~ tty6 时，需要输入用户的账号与密码，此时取得的 bash 就称为 login shell">
+  <meta itemprop="datePublished" content="2024-10-16T20:58:02+08:00">
+  <meta itemprop="dateModified" content="2024-10-16T21:15:02+08:00">
+  <meta itemprop="wordCount" content="187">
+  <meta itemprop="keywords" content="默认标签"><meta property="og:url" content="https://example.org/6e0e33a32ed0/">
+  <meta property="og:site_name" content="蓝狐狸的博客">
+  <meta property="og:title" content="关于Linux环境变量配置文件">
+  <meta property="og:description" content="环境变量相关的配置文件 /etc/profile：此文件为系统的每个用户设置环境信息。
+/etc/bashrc或 /etc/bash.bashrc：为每一个运行 bash shell 的用户执行此文件.当 bash shell 被打开时,该文件被读取。
+~/.bashrc：该文件包含专用于你的 bash shell 的 bash 信息,当登录时以及每次打开新的 shell 时,该文件被读取。
+~/.bash_profile 或 ~/.bash_login 或 ~/.profile：属于使用者个人配置，需要修改自己的数据，就写入这些文件！（ps1：其实 bash 的 login shell 配置只会读取上面三个文件的其中一个，而读取的顺序则是依照上面的顺序。ps2：这三个文件一般没啥人修改的，因为它们最终都是去调用读取~/.bashrc 这个文件。ps3：这三个文件不一定存在，我的 debian11.9 系统中就没有看到这三个文件，只有~/.bashrc）
+以上文件中，其实只有/etc/profile 和~/.bashrc 这两个是常用的、重要的。其他的几乎不用管，没有必要去深入了解。
+如果你设置的变量只针对你或其他一个用户，那就修改~/.bashrc，如果是针对所有用户，就修改/etc/profile。
+交互式 shell 和非交互式 shell 交互式 shell：顾名思义，这种 shell 中的命令时由用户从键盘交互式地输入的，运行的结果也能够输出到终端显示给用户看。例如我们平常在终端输入的 cd 命令、vi 命令、mv 等都属于交互式的。
+非交互式 shell：这种 shell 可能由某些自动化过程启动，不能直接从请求用户的输入，也不能直接输出结果给终端用户看。通常我们写的 shell 脚本都是非交互式的，通过 sh 直接运行该脚本文件。
+login shell 和 non-login shell login shell：取得 bash 时需要完整的登陆流程的，就称为 login shell。举例来说，我们登陆 tty1 ~ tty6 时，需要输入用户的账号与密码，此时取得的 bash 就称为 login shell">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-16T20:58:02+08:00">
+    <meta property="article:modified_time" content="2024-10-16T21:15:02+08:00">
+    <meta property="article:tag" content="默认标签">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="关于Linux环境变量配置文件">
+  <meta name="twitter:description" content="环境变量相关的配置文件 /etc/profile：此文件为系统的每个用户设置环境信息。
+/etc/bashrc或 /etc/bash.bashrc：为每一个运行 bash shell 的用户执行此文件.当 bash shell 被打开时,该文件被读取。
+~/.bashrc：该文件包含专用于你的 bash shell 的 bash 信息,当登录时以及每次打开新的 shell 时,该文件被读取。
+~/.bash_profile 或 ~/.bash_login 或 ~/.profile：属于使用者个人配置，需要修改自己的数据，就写入这些文件！（ps1：其实 bash 的 login shell 配置只会读取上面三个文件的其中一个，而读取的顺序则是依照上面的顺序。ps2：这三个文件一般没啥人修改的，因为它们最终都是去调用读取~/.bashrc 这个文件。ps3：这三个文件不一定存在，我的 debian11.9 系统中就没有看到这三个文件，只有~/.bashrc）
+以上文件中，其实只有/etc/profile 和~/.bashrc 这两个是常用的、重要的。其他的几乎不用管，没有必要去深入了解。
+如果你设置的变量只针对你或其他一个用户，那就修改~/.bashrc，如果是针对所有用户，就修改/etc/profile。
+交互式 shell 和非交互式 shell 交互式 shell：顾名思义，这种 shell 中的命令时由用户从键盘交互式地输入的，运行的结果也能够输出到终端显示给用户看。例如我们平常在终端输入的 cd 命令、vi 命令、mv 等都属于交互式的。
+非交互式 shell：这种 shell 可能由某些自动化过程启动，不能直接从请求用户的输入，也不能直接输出结果给终端用户看。通常我们写的 shell 脚本都是非交互式的，通过 sh 直接运行该脚本文件。
+login shell 和 non-login shell login shell：取得 bash 时需要完整的登陆流程的，就称为 login shell。举例来说，我们登陆 tty1 ~ tty6 时，需要输入用户的账号与密码，此时取得的 bash 就称为 login shell">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://example.org/6e0e33a32ed0/" /><link rel="prev" href="https://example.org/7cbcb56c25d8/" /><link rel="next" href="https://example.org/36371b0398bc/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "关于Linux环境变量配置文件",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/example.org\/6e0e33a32ed0\/"
+    },"genre": "posts","keywords": "默认标签","wordcount":  187 ,
+    "url": "https:\/\/example.org\/6e0e33a32ed0\/","datePublished": "2024-10-16T20:58:02+08:00","dateModified": "2024-10-16T21:15:02+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "蓝狐狸"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/"
+                
+                
+              ><i class="fa-solid fa-house"></i> 首页</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/"
+                  
+                  
+                ><i class="fa-solid fa-house"></i> 首页</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>关于Linux环境变量配置文件</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - Linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Linux</a></span></div><div class="post-meta-line"><span title="发布于 2024-10-16 20:58:02"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-10-16">2024-10-16</time></span>&nbsp;<span title="更新于 2024-10-16 21:15:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-10-16">2024-10-16</time></span>&nbsp;<span title="187 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#环境变量相关的配置文件">环境变量相关的配置文件</a></li>
+    <li><a href="#交互式-shell-和非交互式-shell">交互式 shell 和非交互式 shell</a></li>
+    <li><a href="#login-shell-和-non-login-shell">login shell 和 non-login shell</a></li>
+    <li><a href="#关于-su-命令">关于 su 命令</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="环境变量相关的配置文件" class="heading-element"><span>环境变量相关的配置文件</span>
+  <a href="#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f%e7%9b%b8%e5%85%b3%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>/etc/profile</strong>：此文件为系统的每个用户设置环境信息。</p>
+<p><strong>/etc/bashrc</strong>或 <strong>/etc/bash.bashrc</strong>：为每一个运行 bash shell 的用户执行此文件.当 bash shell 被打开时,该文件被读取。</p>
+<p><strong>~/.bashrc</strong>：该文件包含专用于你的 bash shell 的 bash 信息,当登录时以及每次打开新的 shell 时,该文件被读取。</p>
+<p><strong>~/.bash_profile</strong> 或 <strong>~/.bash_login</strong> 或 <strong>~/.profile</strong>：属于使用者个人配置，需要修改自己的数据，就写入这些文件！（ps1：其实 bash 的 login shell 配置只会读取上面三个文件的其中一个，而读取的顺序则是依照上面的顺序。ps2：这三个文件一般没啥人修改的，因为它们最终都是去调用读取~/.bashrc 这个文件。ps3：这三个文件不一定存在，我的 debian11.9 系统中就没有看到这三个文件，只有~/.bashrc）</p>
+<p>以上文件中，其实只有/etc/profile 和~/.bashrc 这两个是常用的、重要的。其他的几乎不用管，没有必要去深入了解。</p>
+<p>如果你设置的变量只针对你或其他一个用户，那就修改~/.bashrc，如果是针对所有用户，就修改/etc/profile。</p>
+<h2 id="交互式-shell-和非交互式-shell" class="heading-element"><span>交互式 shell 和非交互式 shell</span>
+  <a href="#%e4%ba%a4%e4%ba%92%e5%bc%8f-shell-%e5%92%8c%e9%9d%9e%e4%ba%a4%e4%ba%92%e5%bc%8f-shell" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>交互式 shell</strong>：顾名思义，这种 shell 中的命令时由用户从键盘交互式地输入的，运行的结果也能够输出到终端显示给用户看。例如我们平常在终端输入的 cd 命令、vi 命令、mv 等都属于交互式的。</p>
+<p><strong>非交互式 shell</strong>：这种 shell 可能由某些自动化过程启动，不能直接从请求用户的输入，也不能直接输出结果给终端用户看。通常我们写的 shell 脚本都是非交互式的，通过 sh 直接运行该脚本文件。</p>
+<h2 id="login-shell-和-non-login-shell" class="heading-element"><span>login shell 和 non-login shell</span>
+  <a href="#login-shell-%e5%92%8c-non-login-shell" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>login shell</strong>：取得 bash 时需要完整的登陆流程的，就称为 login shell。举例来说，我们登陆 tty1 ~ tty6 时，需要输入用户的账号与密码，此时取得的 bash 就称为 login shell</p>
+<p><strong>non-login shell</strong>：取得 bash 接口的方法不需要重复登陆的举动，比如我们登陆 Linux 后，启动终端 Terminal，此时那个终端接口并没有需要再次的输入账号与密码，那个 bash 的环境就称为 non-login shell 了。又或者你在原本的 bash 环境下再次使用 bash 这个命令，建立了一个 bash 子进程，同样的也没有输入账号密码，那第二个 bash (子程序) 也是 non-login shell 。</p>
+<p><strong>注意：non-login shell 不会读取/etc/profile 和~/.bash_profile，而是读取~/.bashrc 来应用新的环境变量。</strong></p>
+<p>判断当前 shell 是 login 还是 non-login shell，可以简单的执行如下命令：<code>echo $0</code></p>
+<ul>
+<li>login shell 输出的结果类似 <strong>-bash 或 -su</strong></li>
+<li>non-login shell 输出的结果类似 <strong>bash 或 su</strong></li>
+</ul>
+<h2 id="关于-su-命令" class="heading-element"><span>关于 su 命令</span>
+  <a href="#%e5%85%b3%e4%ba%8e-su-%e5%91%bd%e4%bb%a4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>su 命令一般是用于切换用户。但是 <code>su root</code> 和 <code>su - root</code> 是有区别的。</p>
+<p>例如：<code>su xjj</code> 和 <code>su -xjj</code> 这两个都是切换到 xjj 用户。但是前者是以 non-login shell 的形式登陆，后者是以 login shell 的形式登录。</p>
+<p>执行 <code>su - xjj</code></p>
+<p><a class="lightgallery" href="images/image-20241016211306070.png?size=large" data-thumbnail="images/image-20241016211306070.png?size=small" data-sub-html="<h2>images/image-20241016211306070.png</h2>"><img loading="lazy" src="images/image-20241016211306070.png" alt="images/image-20241016211306070.png" srcset="images/image-20241016211306070.png?size=small, images/image-20241016211306070.png?size=medium 1.5x, images/image-20241016211306070.png?size=large 2x" data-title="images/image-20241016211306070.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>执行 <code>su xjj</code></p>
+<p><a class="lightgallery" href="images/image-20241016211344270.png?size=large" data-thumbnail="images/image-20241016211344270.png?size=small" data-sub-html="<h2>images/image-20241016211344270.png</h2>"><img loading="lazy" src="images/image-20241016211344270.png" alt="images/image-20241016211344270.png" srcset="images/image-20241016211344270.png?size=small, images/image-20241016211344270.png?size=medium 1.5x, images/image-20241016211344270.png?size=large 2x" data-title="images/image-20241016211344270.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>因为 non-login shell 不会读取/etc/profile 和~/.bash_profile，而是读取~/.bashrc 来应用新的环境变量，所以会缺少一些变量。</p>
+<p><em>我们应该使用 su -、su - root 或者 su -l root 以 login shell 方式切换至 root 用户，而不是 su 或者 su root 以 non-login shell 方式切换至 root 用户</em></p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-10-16 21:15:02">更新于 2024-10-16&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E9%BB%98%E8%AE%A4%E6%A0%87%E7%AD%BE/" class="post-tag" title="标签 - 默认标签">默认标签</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/7cbcb56c25d8/" class="post-nav-item" rel="prev" title="Linux开机启动执行脚本"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Linux开机启动执行脚本</a>
+      <a href="/36371b0398bc/" class="post-nav-item" rel="next" title="华为交换机命令">华为交换机命令<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.132.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.9"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">蓝狐狸</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"enable":false},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.9"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

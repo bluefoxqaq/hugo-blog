@@ -1,0 +1,88 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Linux - 分类 - 蓝狐狸的博客</title>
+    <link>https://example.org/categories/linux/</link>
+    <description>Linux - 分类 | 蓝狐狸的博客</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</lastBuildDate><atom:link href="https://example.org/categories/linux/" rel="self" type="application/rss+xml" /><item>
+  <title>Shell脚本编程</title>
+  <link>https://example.org/02b965210d21/</link>
+  <pubDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/02b965210d21/</guid>
+  <description><![CDATA[参考：Shell教程|菜鸟教程
+shell 环境
+#!/bin/bash：脚本第一行，告诉系统使用什么解释器来执行，即使用哪一个 shell
+注释 单行注释用# 多行注释用 :&lt;&lt; 开头，! 包裹注释内容 1 2 3 4 5 6 # 这是一个单行注释 :&lt;&lt;! 这是多行注释 这是多行注释 这是多行注释 ! 变量 1 2 3 4 # 变量 = 号两侧不能有空格，大小写敏感 my_name=&#34;lanhuli&#34; echo ${my_name} unset my_name # 删除变量 双引号和单引号的区别
+单引号里的任何字符都会原样输出，单引号字符串中的变量是无效的； 单引号字符串中不能出现单独一个的单引号（对单引号使用转义符后也不行），但可成对出现，作为字符串拼接使用。 双引号里可以有变量 双引号里可以出现转义字符 只读变量
+1 2 3 4 myUrl=&#34;https://www.google.com&#34; readonly myUrl myUrl=&#34;https://www.runoob.com&#34; # 执行报错，NAME: This variable is read only. 字符串变量
+1 2 3 4 5 6 7 8 9 10 11 #!]]></description>
+</item>
+<item>
+  <title>关于Linux环境变量配置文件</title>
+  <link>https://example.org/6e0e33a32ed0/</link>
+  <pubDate>Wed, 16 Oct 2024 20:58:02 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/6e0e33a32ed0/</guid>
+  <description><![CDATA[环境变量相关的配置文件 /etc/profile：此文件为系统的每个用户设置环境信息。
+/etc/bashrc或 /etc/bash.bashrc：为每一个运行 bash shell 的用户执行此文件.当 bash shell 被打开时,该文件被读取。
+~/.bashrc：该文件包含专用于你的 bash shell 的 bash 信息,当登录时以及每次打开新的 shell 时,该文件被读取。
+~/.bash_profile 或 ~/.bash_login 或 ~/.profile：属于使用者个人配置，需要修改自己的数据，就写入这些文件！（ps1：其实 bash 的 login shell 配置只会读取上面三个文件的其中一个，而读取的顺序则是依照上面的顺序。ps2：这三个文件一般没啥人修改的，因为它们最终都是去调用读取~/.bashrc 这个文件。ps3：这三个文件不一定存在，我的 debian11.9 系统中就没有看到这三个文件，只有~/.bashrc）
+以上文件中，其实只有/etc/profile 和~/.bashrc 这两个是常用的、重要的。其他的几乎不用管，没有必要去深入了解。
+如果你设置的变量只针对你或其他一个用户，那就修改~/.bashrc，如果是针对所有用户，就修改/etc/profile。
+交互式 shell 和非交互式 shell 交互式 shell：顾名思义，这种 shell 中的命令时由用户从键盘交互式地输入的，运行的结果也能够输出到终端显示给用户看。例如我们平常在终端输入的 cd 命令、vi 命令、mv 等都属于交互式的。
+非交互式 shell：这种 shell 可能由某些自动化过程启动，不能直接从请求用户的输入，也不能直接输出结果给终端用户看。通常我们写的 shell 脚本都是非交互式的，通过 sh 直接运行该脚本文件。
+login shell 和 non-login shell login shell：取得 bash 时需要完整的登陆流程的，就称为 login shell。举例来说，我们登陆 tty1 ~ tty6 时，需要输入用户的账号与密码，此时取得的 bash 就称为 login shell]]></description>
+</item>
+<item>
+  <title>debian系统安装服务软件</title>
+  <link>https://example.org/8e7beb29bf97/</link>
+  <pubDate>Fri, 01 Mar 2024 11:59:29 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/8e7beb29bf97/</guid>
+  <description><![CDATA[linux编译安装指令
+configure、make、make install 命令
+configure：配置，是用来检测你的安装平台的目标特征的。比如它会检测你是不是有 CC 或 GCC，并不是需要 CC 或 GCC，它是个 shell 脚本。configure 脚本负责在使用的系统上准备好软件的构建环境。确保接下来的构建和安装过程所需要的依赖准备好，并且搞清楚使用这些依赖需要的东西。
+make：构建，用来编译，它从 Makefile 中读取指令，然后编译。下载的源码包一般没有一个最终的 Makefile 文件，一般是一个模版文件，然后 configure 根据系统的参数生成一个定制化的 Makefile 文件。这个过程会执行在 Makefile 文件中定义的一系列任务将软件源代码编译成可执行文件。
+make install：安装，它也从 Makefile 中读取指令，安装到指定的位置。make install 命令就是将可执行文件、第三方依赖包和文档复制到正确的路径。
+清除 make 生成的文件：make clean
+清除 make 和 configure 生成的文件，包括 Makefile：make distclean
+apt 源安装 php 由于 debian 11 带的 php 版本是 7.4，有点老，所以我们可以使用 debian 开发者 Ondřej Surý 维护的 php 源 deb.sury.org 。
+注意：以下方式还可以安装 php 5.6 版本
+1 2 3 4 5 6 7 8 9 10 11 12 13 # 首先，使用下面的命令安装所须的软件包： apt install ca-certificates apt-transport-https software-properties-common -y # 安装所须软件包后，使用以下命令将 Sury 存储库添加到 APT： echo &#34;deb [https://packages.]]></description>
+</item>
+<item>
+  <title>linux磁盘扩容</title>
+  <link>https://example.org/7f17ea35961e/</link>
+  <pubDate>Sat, 12 Aug 2023 08:17:11 &#43;0800</pubDate>
+  <author>蓝狐狸</author>
+  <guid>https://example.org/7f17ea35961e/</guid>
+  <description><![CDATA[前言 最近遇到了Linux磁盘扩容的问题，磁盘扩容有好几种情景，因为之前没涉及到，踩了不少坑。在此记录一下，方便后续查阅。
+假设有一块磁盘A，容量是100G。我分了20G用来安装Linux系统，剩下的没有动。随着时间的增长，20G不够用了，我可以将磁盘A剩下的80G分给Linux系统，也可以在加装一块磁盘B分给Linux。两种方式都可以实现扩容的目的，但是实现的手段可以分为两种：lvm和非lvm
+非lvm方式，就是一般的磁盘挂载，将新硬盘分区并格式化后，挂载到Linux系统的某个文件夹上去，实现磁盘的扩容，但是这种方式一个文件夹只能挂载一个磁盘，如果想要将两块磁盘同时挂载到同一个文件夹上就需要用到lvm进行磁盘管理。
+关于什么是lvm可以百度查询。简单来说，lvm可以将多个磁盘视为一个逻辑磁盘。假如有两块磁盘A和磁盘B，使用lvm的话，可以将这两个磁盘看做是一个逻辑磁盘a，我们只需对逻辑磁盘a进行操作，将其挂载到Linux目录下就行，如果后续要增添一块磁盘C，只需要将磁盘C加入逻辑磁盘a就行。以上说法并不准确，但是便于理解。
+一点基础知识 简单的磁盘相关命令
+1 2 3 df -h # df主要是检查文件系统磁盘占用情况 fdisk -l # fdisk一般用来磁盘分区，也可以用来查看磁盘分区情况。-l,列出所有分区表 lsblk # 用于列出所有可用块设备的信息，而且还能显示他们之间的依赖关系，这个命令很好用，因为可以让电脑上的磁盘和分区信息很清晰。 lvm相关了解
+PV(Physical Volume): 物理卷, 处于LVM最底层, 可以是物理硬盘或者分区;
+PP(Physical Extend): 物理区域, PV中可以用于分配的最小存储单元, 可以在创建PV的时候指定, 如1M, 2M, 4M, 8M…..组成同一VG中所有PV的PE大小应该相同;
+VG(Volume Group): 卷组, 建立在PV之上, 可以含有一个到多个PV;
+LV(Logical Volume): 逻辑卷, 建立在VG之上, 相当于原来分区的概念, 不过大小可以动态改变.
+使用lvm进行磁盘扩容 参考：https://www.cnblogs.com/lijiaman/p/12885649.html，写的很详细，推荐
+注意：在安装Linux系统的时候，有一个配置磁盘分区属性，默认是使用整个磁盘，但是我这里使用的是第二个选项lvm进行的创建。非lvm的磁盘是无法与lvm的磁盘进行逻辑合并的。
+使用fdisk进行分区操作 先查看整体磁盘分区情况
+sda磁盘在系统安装是采用了lvm，所以才有蓝色框选的两个逻辑卷，否则是没有的。
+sdb是未被使用的。将sdb进行分区并格式化
+输入fdisk /dev/sdb，回车，然后输入m，回车
+输入n并回车，n是“new”新建分区的意思
+使用fdisk再次进行查看
+磁盘分区之后，磁盘id为83，如果要使用逻辑卷管理，需要将id改为8e，才能创建物理卷。
+输入fdisk /dev/sdb，回车，然后输入m，回车，输入t，选择分区1，输入id值8e，输入w保存
+最终修改完成
+使用lvm进行 先查看当前的一些信息
+物理卷
+卷组
+逻辑卷
+将sdb1创建物理卷：pvcreate /dev/sda3
+将添加新的物理卷，加载到debian10-vg卷组，使用vgextend debian10-vg /dev/sdb1命令。]]></description>
+</item>
+</channel>
+</rss>

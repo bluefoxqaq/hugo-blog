@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>关于token的一些记录 - 蓝狐狸的博客</title><meta name="author" content="蓝狐狸">
+<meta name="author-link" content="">
+<meta name="description" content="前段时间偶然看到一篇关于accessToken和refreshToken的讨论帖，了解到了这两个Token的区别，还顺带了解了一些关于OAuth2.0标准的内容，简单记录一下，方便后面复习。本文只是写给我自己看的，因为我也是根据网上的文章自己总结的，可能有误，可以直接去看网上写得更详细的文章
+Cookie、Session和Token 参考文章：一文讲透Token与Cookie、Session的区别
+为啥会有这几个东西呢，是因为http协议是无状态的协议，两个http请求之间没有联系，假如有很多个http请求，我们该如何区分这些个请求是属于哪个用户的，这就用到了我们提到的Cookie、Session和Token这些东西了。其实Cookie、Session、Token就是一个身份标识，通过这个身份标识，来区分http请求。
+Cookie、Session和Token这三者的工作原理、区别、优缺点推荐看我上面参考的那篇文章，写得很好，或者自行百度。
+关于Token jwt：jwt只是实现Token的一种方式，你也可以用其他的方式来实现Token。例如对称加密算法或自研的加密算法。
+accessToken和refreshToken是为了解决token在实际使用中的一些问题。关于这二者可以参考：Access Token 与 Refresh Token或自行百度
+accessToken：一个临时的token，有效时间很短，就是我们用来访问服务器资源所使用的那个token。
+refreshToken：用来刷新accessToken的。当accessToken过期或者快要过期的时候，会用refreshToken向服务器获取一个新的accessToken。
+为啥要用两个Token呢，这多麻烦啊。我在知乎上看到这个帖子jwt续签为什么要使用双token,没看明白啊，感觉单个token也可以啊?，或许可以解答这个疑惑。
+以下是我自己的理解：
+1）单独一个Token是可以的（也就是accessToken），token过期后，让用户在重新登录，在给他一个不就好了。这样的话，就需要把token的有效时间设置的长一点，不然用户老是频繁登录很影响使用体验。要避免频繁登录的话，就需要使用到refreshToken了。当accessToken过期后，使用refreshToken重新获取accessToken，将accessToken刷新，这样用户就不用登录了。所以refreshToken的有效时间大于accessToken的有效时间才行。
+2）关于安全方面问题，双token这个东西是在OAuth2.0标准中所用到的。*如果只是在用户（客户端）和服务端两者之间使用的话，它并没有安全防护的作用，或者说，它并不是为了解决token安全问题而被使用的，它是为了解决用户频繁登录而被使用的。*但如果是在OAuth2.0标准中，它确实是为了解决安全问题而被使用的，但它不是解决token的安全问题，而是解决安全授权问题，例如我们常用的第三方登录。
+关于OAuth 建议自行百度看看什么是OAuth标准，推荐：白话让你理解什么是oAuth2协议和非常详细！深入理解OAuth原理和实践细节两篇文章，写得很好。
+画了个简单的图
+这个授权流程在OAuth 2中被称为授权码模式（authorization code grant），其命名的原因是，应用程序使用授权码来向授权服务器申请访问令牌/刷新令牌。
+有几点需要注意：
+1）第三方授权服务器给的token令牌就是：accessToken和refreshToken
+2）refreshToken可以获取新的accessToken，所以为了安全，refreshToken一般只在服务器之间使用安全的https进行传递。怎么个意思呢，就是应用APP那里其实是两个部分，一个是APP的客户端（前端），一个是APP的后端，它们之间的请求是APP前端-APP后端-授权服务器，refreshToken自授权服务器传递到APP后端服务器上，就不往APP客户端传了，降低refreshToken被泄露的风险。
+OAuth2.0有四种模式，最主要的还是授权码模式，其它三种感觉只是变了变主体，还是同一个思路。理解授权码模式就可以了。
+其实整个应用码授权模式还有很多知识没有详细说明，比如3.2中app的认证信息是什么，如何具体实现这个流程，有哪些条件等等，建议看看非常详细！深入理解OAuth原理和实践细节这篇文章，利用第三方github登录详细解释了整个过程，值得一看。我就是看这个明白的。
+最后 以上内容比较粗糙，因为我只是记个大概就行，真要详细去学的话还是去看看RFC文档或者其他人的文章吧。
+参考文章：
+https://zhuanlan.zhihu.com/p/625995458
+https://www.cnblogs.com/blowing00/p/4524132.html
+https://www.zhihu.com/question/506320859/answer/2913603859
+https://zhuanlan.zhihu.com/p/92051359
+https://zhuanlan.zhihu.com/p/380561372
+https://www.cnblogs.com/Nyan-Workflow-FC/p/11082590.html" /><meta name="keywords" content='默认标签' />
+  <meta itemprop="name" content="关于token的一些记录">
+  <meta itemprop="description" content="前段时间偶然看到一篇关于accessToken和refreshToken的讨论帖，了解到了这两个Token的区别，还顺带了解了一些关于OAuth2.0标准的内容，简单记录一下，方便后面复习。本文只是写给我自己看的，因为我也是根据网上的文章自己总结的，可能有误，可以直接去看网上写得更详细的文章
+Cookie、Session和Token 参考文章：一文讲透Token与Cookie、Session的区别
+为啥会有这几个东西呢，是因为http协议是无状态的协议，两个http请求之间没有联系，假如有很多个http请求，我们该如何区分这些个请求是属于哪个用户的，这就用到了我们提到的Cookie、Session和Token这些东西了。其实Cookie、Session、Token就是一个身份标识，通过这个身份标识，来区分http请求。
+Cookie、Session和Token这三者的工作原理、区别、优缺点推荐看我上面参考的那篇文章，写得很好，或者自行百度。
+关于Token jwt：jwt只是实现Token的一种方式，你也可以用其他的方式来实现Token。例如对称加密算法或自研的加密算法。
+accessToken和refreshToken是为了解决token在实际使用中的一些问题。关于这二者可以参考：Access Token 与 Refresh Token或自行百度
+accessToken：一个临时的token，有效时间很短，就是我们用来访问服务器资源所使用的那个token。
+refreshToken：用来刷新accessToken的。当accessToken过期或者快要过期的时候，会用refreshToken向服务器获取一个新的accessToken。
+为啥要用两个Token呢，这多麻烦啊。我在知乎上看到这个帖子jwt续签为什么要使用双token,没看明白啊，感觉单个token也可以啊?，或许可以解答这个疑惑。
+以下是我自己的理解：
+1）单独一个Token是可以的（也就是accessToken），token过期后，让用户在重新登录，在给他一个不就好了。这样的话，就需要把token的有效时间设置的长一点，不然用户老是频繁登录很影响使用体验。要避免频繁登录的话，就需要使用到refreshToken了。当accessToken过期后，使用refreshToken重新获取accessToken，将accessToken刷新，这样用户就不用登录了。所以refreshToken的有效时间大于accessToken的有效时间才行。
+2）关于安全方面问题，双token这个东西是在OAuth2.0标准中所用到的。*如果只是在用户（客户端）和服务端两者之间使用的话，它并没有安全防护的作用，或者说，它并不是为了解决token安全问题而被使用的，它是为了解决用户频繁登录而被使用的。*但如果是在OAuth2.0标准中，它确实是为了解决安全问题而被使用的，但它不是解决token的安全问题，而是解决安全授权问题，例如我们常用的第三方登录。
+关于OAuth 建议自行百度看看什么是OAuth标准，推荐：白话让你理解什么是oAuth2协议和非常详细！深入理解OAuth原理和实践细节两篇文章，写得很好。
+画了个简单的图
+这个授权流程在OAuth 2中被称为授权码模式（authorization code grant），其命名的原因是，应用程序使用授权码来向授权服务器申请访问令牌/刷新令牌。
+有几点需要注意：
+1）第三方授权服务器给的token令牌就是：accessToken和refreshToken
+2）refreshToken可以获取新的accessToken，所以为了安全，refreshToken一般只在服务器之间使用安全的https进行传递。怎么个意思呢，就是应用APP那里其实是两个部分，一个是APP的客户端（前端），一个是APP的后端，它们之间的请求是APP前端-APP后端-授权服务器，refreshToken自授权服务器传递到APP后端服务器上，就不往APP客户端传了，降低refreshToken被泄露的风险。
+OAuth2.0有四种模式，最主要的还是授权码模式，其它三种感觉只是变了变主体，还是同一个思路。理解授权码模式就可以了。
+其实整个应用码授权模式还有很多知识没有详细说明，比如3.2中app的认证信息是什么，如何具体实现这个流程，有哪些条件等等，建议看看非常详细！深入理解OAuth原理和实践细节这篇文章，利用第三方github登录详细解释了整个过程，值得一看。我就是看这个明白的。
+最后 以上内容比较粗糙，因为我只是记个大概就行，真要详细去学的话还是去看看RFC文档或者其他人的文章吧。
+参考文章：
+https://zhuanlan.zhihu.com/p/625995458
+https://www.cnblogs.com/blowing00/p/4524132.html
+https://www.zhihu.com/question/506320859/answer/2913603859
+https://zhuanlan.zhihu.com/p/92051359
+https://zhuanlan.zhihu.com/p/380561372
+https://www.cnblogs.com/Nyan-Workflow-FC/p/11082590.html">
+  <meta itemprop="datePublished" content="2023-10-01T12:10:40+08:00">
+  <meta itemprop="dateModified" content="2023-10-01T15:34:00+08:00">
+  <meta itemprop="wordCount" content="39">
+  <meta itemprop="keywords" content="默认标签"><meta property="og:url" content="https://example.org/e08af3f827e9/">
+  <meta property="og:site_name" content="蓝狐狸的博客">
+  <meta property="og:title" content="关于token的一些记录">
+  <meta property="og:description" content="前段时间偶然看到一篇关于accessToken和refreshToken的讨论帖，了解到了这两个Token的区别，还顺带了解了一些关于OAuth2.0标准的内容，简单记录一下，方便后面复习。本文只是写给我自己看的，因为我也是根据网上的文章自己总结的，可能有误，可以直接去看网上写得更详细的文章
+Cookie、Session和Token 参考文章：一文讲透Token与Cookie、Session的区别
+为啥会有这几个东西呢，是因为http协议是无状态的协议，两个http请求之间没有联系，假如有很多个http请求，我们该如何区分这些个请求是属于哪个用户的，这就用到了我们提到的Cookie、Session和Token这些东西了。其实Cookie、Session、Token就是一个身份标识，通过这个身份标识，来区分http请求。
+Cookie、Session和Token这三者的工作原理、区别、优缺点推荐看我上面参考的那篇文章，写得很好，或者自行百度。
+关于Token jwt：jwt只是实现Token的一种方式，你也可以用其他的方式来实现Token。例如对称加密算法或自研的加密算法。
+accessToken和refreshToken是为了解决token在实际使用中的一些问题。关于这二者可以参考：Access Token 与 Refresh Token或自行百度
+accessToken：一个临时的token，有效时间很短，就是我们用来访问服务器资源所使用的那个token。
+refreshToken：用来刷新accessToken的。当accessToken过期或者快要过期的时候，会用refreshToken向服务器获取一个新的accessToken。
+为啥要用两个Token呢，这多麻烦啊。我在知乎上看到这个帖子jwt续签为什么要使用双token,没看明白啊，感觉单个token也可以啊?，或许可以解答这个疑惑。
+以下是我自己的理解：
+1）单独一个Token是可以的（也就是accessToken），token过期后，让用户在重新登录，在给他一个不就好了。这样的话，就需要把token的有效时间设置的长一点，不然用户老是频繁登录很影响使用体验。要避免频繁登录的话，就需要使用到refreshToken了。当accessToken过期后，使用refreshToken重新获取accessToken，将accessToken刷新，这样用户就不用登录了。所以refreshToken的有效时间大于accessToken的有效时间才行。
+2）关于安全方面问题，双token这个东西是在OAuth2.0标准中所用到的。*如果只是在用户（客户端）和服务端两者之间使用的话，它并没有安全防护的作用，或者说，它并不是为了解决token安全问题而被使用的，它是为了解决用户频繁登录而被使用的。*但如果是在OAuth2.0标准中，它确实是为了解决安全问题而被使用的，但它不是解决token的安全问题，而是解决安全授权问题，例如我们常用的第三方登录。
+关于OAuth 建议自行百度看看什么是OAuth标准，推荐：白话让你理解什么是oAuth2协议和非常详细！深入理解OAuth原理和实践细节两篇文章，写得很好。
+画了个简单的图
+这个授权流程在OAuth 2中被称为授权码模式（authorization code grant），其命名的原因是，应用程序使用授权码来向授权服务器申请访问令牌/刷新令牌。
+有几点需要注意：
+1）第三方授权服务器给的token令牌就是：accessToken和refreshToken
+2）refreshToken可以获取新的accessToken，所以为了安全，refreshToken一般只在服务器之间使用安全的https进行传递。怎么个意思呢，就是应用APP那里其实是两个部分，一个是APP的客户端（前端），一个是APP的后端，它们之间的请求是APP前端-APP后端-授权服务器，refreshToken自授权服务器传递到APP后端服务器上，就不往APP客户端传了，降低refreshToken被泄露的风险。
+OAuth2.0有四种模式，最主要的还是授权码模式，其它三种感觉只是变了变主体，还是同一个思路。理解授权码模式就可以了。
+其实整个应用码授权模式还有很多知识没有详细说明，比如3.2中app的认证信息是什么，如何具体实现这个流程，有哪些条件等等，建议看看非常详细！深入理解OAuth原理和实践细节这篇文章，利用第三方github登录详细解释了整个过程，值得一看。我就是看这个明白的。
+最后 以上内容比较粗糙，因为我只是记个大概就行，真要详细去学的话还是去看看RFC文档或者其他人的文章吧。
+参考文章：
+https://zhuanlan.zhihu.com/p/625995458
+https://www.cnblogs.com/blowing00/p/4524132.html
+https://www.zhihu.com/question/506320859/answer/2913603859
+https://zhuanlan.zhihu.com/p/92051359
+https://zhuanlan.zhihu.com/p/380561372
+https://www.cnblogs.com/Nyan-Workflow-FC/p/11082590.html">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-10-01T12:10:40+08:00">
+    <meta property="article:modified_time" content="2023-10-01T15:34:00+08:00">
+    <meta property="article:tag" content="默认标签">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="关于token的一些记录">
+  <meta name="twitter:description" content="前段时间偶然看到一篇关于accessToken和refreshToken的讨论帖，了解到了这两个Token的区别，还顺带了解了一些关于OAuth2.0标准的内容，简单记录一下，方便后面复习。本文只是写给我自己看的，因为我也是根据网上的文章自己总结的，可能有误，可以直接去看网上写得更详细的文章
+Cookie、Session和Token 参考文章：一文讲透Token与Cookie、Session的区别
+为啥会有这几个东西呢，是因为http协议是无状态的协议，两个http请求之间没有联系，假如有很多个http请求，我们该如何区分这些个请求是属于哪个用户的，这就用到了我们提到的Cookie、Session和Token这些东西了。其实Cookie、Session、Token就是一个身份标识，通过这个身份标识，来区分http请求。
+Cookie、Session和Token这三者的工作原理、区别、优缺点推荐看我上面参考的那篇文章，写得很好，或者自行百度。
+关于Token jwt：jwt只是实现Token的一种方式，你也可以用其他的方式来实现Token。例如对称加密算法或自研的加密算法。
+accessToken和refreshToken是为了解决token在实际使用中的一些问题。关于这二者可以参考：Access Token 与 Refresh Token或自行百度
+accessToken：一个临时的token，有效时间很短，就是我们用来访问服务器资源所使用的那个token。
+refreshToken：用来刷新accessToken的。当accessToken过期或者快要过期的时候，会用refreshToken向服务器获取一个新的accessToken。
+为啥要用两个Token呢，这多麻烦啊。我在知乎上看到这个帖子jwt续签为什么要使用双token,没看明白啊，感觉单个token也可以啊?，或许可以解答这个疑惑。
+以下是我自己的理解：
+1）单独一个Token是可以的（也就是accessToken），token过期后，让用户在重新登录，在给他一个不就好了。这样的话，就需要把token的有效时间设置的长一点，不然用户老是频繁登录很影响使用体验。要避免频繁登录的话，就需要使用到refreshToken了。当accessToken过期后，使用refreshToken重新获取accessToken，将accessToken刷新，这样用户就不用登录了。所以refreshToken的有效时间大于accessToken的有效时间才行。
+2）关于安全方面问题，双token这个东西是在OAuth2.0标准中所用到的。*如果只是在用户（客户端）和服务端两者之间使用的话，它并没有安全防护的作用，或者说，它并不是为了解决token安全问题而被使用的，它是为了解决用户频繁登录而被使用的。*但如果是在OAuth2.0标准中，它确实是为了解决安全问题而被使用的，但它不是解决token的安全问题，而是解决安全授权问题，例如我们常用的第三方登录。
+关于OAuth 建议自行百度看看什么是OAuth标准，推荐：白话让你理解什么是oAuth2协议和非常详细！深入理解OAuth原理和实践细节两篇文章，写得很好。
+画了个简单的图
+这个授权流程在OAuth 2中被称为授权码模式（authorization code grant），其命名的原因是，应用程序使用授权码来向授权服务器申请访问令牌/刷新令牌。
+有几点需要注意：
+1）第三方授权服务器给的token令牌就是：accessToken和refreshToken
+2）refreshToken可以获取新的accessToken，所以为了安全，refreshToken一般只在服务器之间使用安全的https进行传递。怎么个意思呢，就是应用APP那里其实是两个部分，一个是APP的客户端（前端），一个是APP的后端，它们之间的请求是APP前端-APP后端-授权服务器，refreshToken自授权服务器传递到APP后端服务器上，就不往APP客户端传了，降低refreshToken被泄露的风险。
+OAuth2.0有四种模式，最主要的还是授权码模式，其它三种感觉只是变了变主体，还是同一个思路。理解授权码模式就可以了。
+其实整个应用码授权模式还有很多知识没有详细说明，比如3.2中app的认证信息是什么，如何具体实现这个流程，有哪些条件等等，建议看看非常详细！深入理解OAuth原理和实践细节这篇文章，利用第三方github登录详细解释了整个过程，值得一看。我就是看这个明白的。
+最后 以上内容比较粗糙，因为我只是记个大概就行，真要详细去学的话还是去看看RFC文档或者其他人的文章吧。
+参考文章：
+https://zhuanlan.zhihu.com/p/625995458
+https://www.cnblogs.com/blowing00/p/4524132.html
+https://www.zhihu.com/question/506320859/answer/2913603859
+https://zhuanlan.zhihu.com/p/92051359
+https://zhuanlan.zhihu.com/p/380561372
+https://www.cnblogs.com/Nyan-Workflow-FC/p/11082590.html">
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://example.org/e08af3f827e9/" /><link rel="prev" href="https://example.org/7f17ea35961e/" /><link rel="next" href="https://example.org/4013e4eb4949/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "关于token的一些记录",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/example.org\/e08af3f827e9\/"
+    },"genre": "posts","keywords": "默认标签","wordcount":  39 ,
+    "url": "https:\/\/example.org\/e08af3f827e9\/","datePublished": "2023-10-01T12:10:40+08:00","dateModified": "2023-10-01T15:34:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "蓝狐狸"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/"
+                
+                
+              ><i class="fa-solid fa-house"></i> 首页</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags"></i> 标签</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/collections/"
+                
+                
+              ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="蓝狐狸的博客"><span class="header-title-text">蓝狐狸的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/"
+                  
+                  
+                ><i class="fa-solid fa-house"></i> 首页</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class="fa-solid fa-box-archive"></i> 归档</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags"></i> 标签</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-folder-tree"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/collections/"
+                  
+                  
+                ><i class="fa-solid fa-layer-group"></i> 合集</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>关于token的一些记录</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/" class="post-category" title="分类 - 默认分类"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 默认分类</a></span></div><div class="post-meta-line"><span title="发布于 2023-10-01 12:10:40"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-10-01">2023-10-01</time></span>&nbsp;<span title="更新于 2023-10-01 15:34:00"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-10-01">2023-10-01</time></span>&nbsp;<span title="39 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#cookiesession和token">Cookie、Session和Token</a></li>
+    <li><a href="#关于token">关于Token</a></li>
+    <li><a href="#关于oauth">关于OAuth</a></li>
+    <li><a href="#最后">最后</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-10-01，文中内容可能已过时。</div>
+      </div>
+    </div><p>前段时间偶然看到一篇关于accessToken和refreshToken的讨论帖，了解到了这两个Token的区别，还顺带了解了一些关于<code>OAuth2.0</code>标准的内容，简单记录一下，方便后面复习。<strong>本文只是写给我自己看的，因为我也是根据网上的文章自己总结的，可能有误，可以直接去看网上写得更详细的文章</strong></p>
+<h2 id="cookiesession和token" class="heading-element"><span>Cookie、Session和Token</span>
+  <a href="#cookiesession%e5%92%8ctoken" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>参考文章：<a href="https://zhuanlan.zhihu.com/p/625995458"target="_blank" rel="external nofollow noopener noreferrer">一文讲透Token与Cookie、Session的区别</a></p>
+<p>为啥会有这几个东西呢，是因为http协议是无状态的协议，两个http请求之间没有联系，假如有很多个http请求，我们该如何区分这些个请求是属于哪个用户的，这就用到了我们提到的Cookie、Session和Token这些东西了。其实Cookie、Session、Token就是一个身份标识，通过这个身份标识，来区分http请求。</p>
+<p>Cookie、Session和Token这三者的工作原理、区别、优缺点推荐看我上面参考的那篇文章，写得很好，或者自行百度。</p>
+<h2 id="关于token" class="heading-element"><span>关于Token</span>
+  <a href="#%e5%85%b3%e4%ba%8etoken" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>jwt：<strong>jwt只是实现Token的一种方式</strong>，你也可以用其他的方式来实现Token。例如对称加密算法或自研的加密算法。</p>
+<p>accessToken和refreshToken是为了解决token在实际使用中的一些问题。关于这二者可以参考：<a href="https://www.cnblogs.com/blowing00/p/4524132.html"target="_blank" rel="external nofollow noopener noreferrer">Access Token 与 Refresh Token</a>或自行百度</p>
+<p>accessToken：一个临时的token，有效时间很短，就是我们用来访问服务器资源所使用的那个token。</p>
+<p>refreshToken：用来刷新accessToken的。当accessToken过期或者快要过期的时候，会用refreshToken向服务器获取一个新的accessToken。</p>
+<p>为啥要用两个Token呢，这多麻烦啊。我在知乎上看到这个帖子<a href="https://www.zhihu.com/question/506320859/answer/2913603859"target="_blank" rel="external nofollow noopener noreferrer">jwt续签为什么要使用双token,没看明白啊，感觉单个token也可以啊?</a>，或许可以解答这个疑惑。</p>
+<p>以下是我自己的理解：</p>
+<p>1）单独一个Token是可以的（也就是accessToken），token过期后，让用户在重新登录，在给他一个不就好了。这样的话，就需要把token的有效时间设置的长一点，不然用户老是频繁登录很影响使用体验。要避免频繁登录的话，就需要使用到refreshToken了。当accessToken过期后，使用refreshToken重新获取accessToken，将accessToken刷新，这样用户就不用登录了。所以refreshToken的有效时间大于accessToken的有效时间才行。</p>
+<p>2）关于安全方面问题，双token这个东西是在<code>OAuth2.0</code>标准中所用到的。*如果只是在用户（客户端）和服务端两者之间使用的话，它并没有安全防护的作用，或者说，它并不是为了解决token安全问题而被使用的，它是为了解决用户频繁登录而被使用的。*但如果是在<code>OAuth2.0</code>标准中，它确实是为了解决安全问题而被使用的，但它不是解决token的安全问题，而是解决安全授权问题，例如我们常用的第三方登录。</p>
+<h2 id="关于oauth" class="heading-element"><span>关于OAuth</span>
+  <a href="#%e5%85%b3%e4%ba%8eoauth" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>建议自行百度看看什么是OAuth标准，推荐：<a href="https://zhuanlan.zhihu.com/p/92051359"target="_blank" rel="external nofollow noopener noreferrer">白话让你理解什么是oAuth2协议</a>和<a href="https://zhuanlan.zhihu.com/p/380561372"target="_blank" rel="external nofollow noopener noreferrer">非常详细！深入理解OAuth原理和实践细节</a>两篇文章，写得很好。</p>
+<p>画了个简单的图</p>
+<p><a class="lightgallery" href="images/OAuth2%e6%a0%87%e5%87%86%e6%b5%81%e7%a8%8b.png?size=large" data-thumbnail="images/OAuth2标准流程.png?size=small" data-sub-html="<h2>OAuth2标准流程</h2>"><img loading="lazy" src="images/OAuth2%e6%a0%87%e5%87%86%e6%b5%81%e7%a8%8b.png" alt="OAuth2标准流程" srcset="images/OAuth2%e6%a0%87%e5%87%86%e6%b5%81%e7%a8%8b.png?size=small, images/OAuth2%e6%a0%87%e5%87%86%e6%b5%81%e7%a8%8b.png?size=medium 1.5x, images/OAuth2%e6%a0%87%e5%87%86%e6%b5%81%e7%a8%8b.png?size=large 2x" data-title="OAuth2标准流程" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>这个授权流程在OAuth 2中被称为授权码模式（authorization code grant），其命名的原因是，应用程序使用授权码来向授权服务器申请访问令牌/刷新令牌。</p>
+<p>有几点需要注意：</p>
+<p>1）第三方授权服务器给的token令牌就是：accessToken和refreshToken</p>
+<p>2）refreshToken可以获取新的accessToken，所以为了安全，refreshToken一般只在服务器之间使用安全的https进行传递。怎么个意思呢，就是应用APP那里其实是两个部分，一个是APP的客户端（前端），一个是APP的后端，它们之间的请求是<code>APP前端-APP后端-授权服务器</code>，refreshToken自授权服务器传递到APP后端服务器上，就不往APP客户端传了，降低refreshToken被泄露的风险。</p>
+<p><code>OAuth2.0</code>有四种模式，最主要的还是授权码模式，其它三种感觉只是变了变主体，还是同一个思路。理解授权码模式就可以了。</p>
+<p>其实整个应用码授权模式还有很多知识没有详细说明，比如3.2中app的认证信息是什么，如何具体实现这个流程，有哪些条件等等，建议看看<a href="https://zhuanlan.zhihu.com/p/380561372"target="_blank" rel="external nofollow noopener noreferrer">非常详细！深入理解OAuth原理和实践细节</a>这篇文章，利用第三方github登录详细解释了整个过程，值得一看。我就是看这个明白的。</p>
+<h2 id="最后" class="heading-element"><span>最后</span>
+  <a href="#%e6%9c%80%e5%90%8e" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>以上内容比较粗糙，因为我只是记个大概就行，真要详细去学的话还是去看看RFC文档或者其他人的文章吧。</p>
+<p>参考文章：</p>
+<p><a href="https://zhuanlan.zhihu.com/p/625995458"target="_blank" rel="external nofollow noopener noreferrer">https://zhuanlan.zhihu.com/p/625995458</a></p>
+<p><a href="https://www.cnblogs.com/blowing00/p/4524132.html"target="_blank" rel="external nofollow noopener noreferrer">https://www.cnblogs.com/blowing00/p/4524132.html</a></p>
+<p><a href="https://www.zhihu.com/question/506320859/answer/2913603859"target="_blank" rel="external nofollow noopener noreferrer">https://www.zhihu.com/question/506320859/answer/2913603859</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/92051359"target="_blank" rel="external nofollow noopener noreferrer">https://zhuanlan.zhihu.com/p/92051359</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/380561372"target="_blank" rel="external nofollow noopener noreferrer">https://zhuanlan.zhihu.com/p/380561372</a></p>
+<p><a href="https://www.cnblogs.com/Nyan-Workflow-FC/p/11082590.html"target="_blank" rel="external nofollow noopener noreferrer">https://www.cnblogs.com/Nyan-Workflow-FC/p/11082590.html</a></p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-10-01 15:34:00">更新于 2023-10-01&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E9%BB%98%E8%AE%A4%E6%A0%87%E7%AD%BE/" class="post-tag" title="标签 - 默认标签">默认标签</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/7f17ea35961e/" class="post-nav-item" rel="prev" title="Linux磁盘扩容"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Linux磁盘扩容</a>
+      <a href="/4013e4eb4949/" class="post-nav-item" rel="next" title="设置虚拟机静态ip保持不变">设置虚拟机静态ip保持不变<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.132.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.9"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">蓝狐狸</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":50},"comment":{"enable":false},"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.9"};</script><script src="/js/theme.min.js" defer></script></body>
+</html>
