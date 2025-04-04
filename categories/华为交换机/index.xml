@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>华为交换机 - 分类 - 蓝狐狸的博客</title>
-    <link>https://example.org/categories/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/</link>
+    <link>https://github.lanhuli.top/hugo-blog/categories/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/</link>
     <description>华为交换机 - 分类 | 蓝狐狸的博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 17 Oct 2024 07:22:37 &#43;0800</lastBuildDate><atom:link href="https://example.org/categories/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 17 Oct 2024 07:22:37 &#43;0800</lastBuildDate><atom:link href="https://github.lanhuli.top/hugo-blog/categories/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/" rel="self" type="application/rss+xml" /><item>
   <title>华为交换机命令</title>
-  <link>https://example.org/36371b0398bc/</link>
+  <link>https://github.lanhuli.top/hugo-blog/36371b0398bc/</link>
   <pubDate>Thu, 17 Oct 2024 07:22:37 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://example.org/36371b0398bc/</guid>
+  <guid>https://github.lanhuli.top/hugo-blog/36371b0398bc/</guid>
   <description><![CDATA[简单命令 undo shutdown //激活接口
 display current-configuration // 查看当前的配置（内存中）
 display saved-configuration // 查看保存的配置（Flash 中）

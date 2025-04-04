@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Swing - 标签 - 蓝狐狸的博客</title>
-    <link>https://example.org/tags/swing/</link>
+    <link>https://github.lanhuli.top/hugo-blog/tags/swing/</link>
     <description>Swing - 标签 | 蓝狐狸的博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 30 Jul 2023 03:18:10 &#43;0800</lastBuildDate><atom:link href="https://example.org/tags/swing/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 30 Jul 2023 03:18:10 &#43;0800</lastBuildDate><atom:link href="https://github.lanhuli.top/hugo-blog/tags/swing/" rel="self" type="application/rss+xml" /><item>
   <title>java swing学习</title>
-  <link>https://example.org/e70c6a493b0d/</link>
+  <link>https://github.lanhuli.top/hugo-blog/e70c6a493b0d/</link>
   <pubDate>Sun, 30 Jul 2023 03:18:10 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://example.org/e70c6a493b0d/</guid>
+  <guid>https://github.lanhuli.top/hugo-blog/e70c6a493b0d/</guid>
   <description><![CDATA[Swing包括了图形用户界面（GUI）器件如：文本框，按钮，分隔窗格和表。我在学习Swing时遇到了许多困惑，在这里记录一下，以便后续回顾。
 JFrame和JPanel详解 刚学习的时候，跟着老师敲，但没有理解这两个东西，导致后面一直搞不清楚Swing的逻辑，查了些资料，现在有点明白了。
 举一个不太准确的例子：假设Swing编程就像是我们在画画，我们画的圆圈，方块，文字就相当于Swing中的一个个组件。JFrame相当于一块透明的玻璃板，我们是没有办法在上面直接画画，JPanel相当于一张白纸，把这张白纸放到玻璃板上，就可以在纸上画出圆圈，方块和文字了。

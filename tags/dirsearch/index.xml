@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Dirsearch - 标签 - 蓝狐狸的博客</title>
-    <link>https://example.org/tags/dirsearch/</link>
+    <link>https://github.lanhuli.top/hugo-blog/tags/dirsearch/</link>
     <description>Dirsearch - 标签 | 蓝狐狸的博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 23 Jan 2023 13:28:09 &#43;0800</lastBuildDate><atom:link href="https://example.org/tags/dirsearch/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 23 Jan 2023 13:28:09 &#43;0800</lastBuildDate><atom:link href="https://github.lanhuli.top/hugo-blog/tags/dirsearch/" rel="self" type="application/rss+xml" /><item>
   <title>dirsearch使用</title>
-  <link>https://example.org/ad81d17c7375/</link>
+  <link>https://github.lanhuli.top/hugo-blog/ad81d17c7375/</link>
   <pubDate>Mon, 23 Jan 2023 13:28:09 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://example.org/ad81d17c7375/</guid>
+  <guid>https://github.lanhuli.top/hugo-blog/ad81d17c7375/</guid>
   <description><![CDATA[1. 下载安装 下载地址： https://github.com/maurosoria/dirsearch
 进入下载解压后的目录中，打开cmd，运行安装脚本
 1 python setup.py install 运行如下命令安装用到的python库，可能需要先升级pip

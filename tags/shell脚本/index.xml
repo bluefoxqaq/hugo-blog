@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Shell脚本 - 标签 - 蓝狐狸的博客</title>
-    <link>https://example.org/tags/shell%E8%84%9A%E6%9C%AC/</link>
+    <link>https://github.lanhuli.top/hugo-blog/tags/shell%E8%84%9A%E6%9C%AC/</link>
     <description>Shell脚本 - 标签 | 蓝狐狸的博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</lastBuildDate><atom:link href="https://example.org/tags/shell%E8%84%9A%E6%9C%AC/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</lastBuildDate><atom:link href="https://github.lanhuli.top/hugo-blog/tags/shell%E8%84%9A%E6%9C%AC/" rel="self" type="application/rss+xml" /><item>
   <title>Shell脚本编程</title>
-  <link>https://example.org/02b965210d21/</link>
+  <link>https://github.lanhuli.top/hugo-blog/02b965210d21/</link>
   <pubDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://example.org/02b965210d21/</guid>
+  <guid>https://github.lanhuli.top/hugo-blog/02b965210d21/</guid>
   <description><![CDATA[参考：Shell教程|菜鸟教程
 shell 环境
 #!/bin/bash：脚本第一行，告诉系统使用什么解释器来执行，即使用哪一个 shell
