@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>默认分类 - 分类 - 蓝狐狸的博客</title>
-    <link>https://github.lanhuli.top/hugo-blog/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/</link>
+    <link>https://hugo.lanhuli.top/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/</link>
     <description>默认分类 - 分类 | 蓝狐狸的博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 20 Sep 2024 11:42:54 &#43;0800</lastBuildDate><atom:link href="https://github.lanhuli.top/hugo-blog/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 20 Sep 2024 11:42:54 &#43;0800</lastBuildDate><atom:link href="https://hugo.lanhuli.top/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/" rel="self" type="application/rss+xml" /><item>
   <title>Linux开机启动执行脚本</title>
-  <link>https://github.lanhuli.top/hugo-blog/7cbcb56c25d8/</link>
+  <link>https://hugo.lanhuli.top/7cbcb56c25d8/</link>
   <pubDate>Fri, 20 Sep 2024 11:42:54 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/7cbcb56c25d8/</guid>
+  <guid>https://hugo.lanhuli.top/7cbcb56c25d8/</guid>
   <description><![CDATA[方法 1：rc.local 文件位置在 /etc/rc.local。比较简单的方法，但是有些 linux 版本不支持，例如 debian 默认没有 rc.local 这个文件，但是有这个服务，并且这个服务是关闭的。
 注意：/etc/rc.local 和/etc/rc.d/rc.local 区别在于，/etc/rc.local 是/etc/rc.d/rc.local 的软连接
 1）使用方式 1 2 3 4 5 # 先赋予文件执行权限，有就不用了 chmod +x /etc/rc.d/rc.local # 查看是否有执行权限 ls -l /etc/rc.d/rc.local # 将想要执行的命令添加到 rc.local 文件末尾即可，也可以执行 .sh 文件 2）简单测试一下 先创建一个文件：touch /root/111.txt，在 rc.local 文件后面添加命令 /bin/echo &quot;abc11&quot; &gt; /root/111.txt，重启验证，查看命令是否执行。
@@ -19,10 +19,10 @@
 </item>
 <item>
   <title>自建yum源和apt源</title>
-  <link>https://github.lanhuli.top/hugo-blog/d27d0995f4f9/</link>
+  <link>https://hugo.lanhuli.top/d27d0995f4f9/</link>
   <pubDate>Wed, 18 Sep 2024 15:37:53 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/d27d0995f4f9/</guid>
+  <guid>https://hugo.lanhuli.top/d27d0995f4f9/</guid>
   <description><![CDATA[老版本 linux 系统的安装源都不维护消失了，没有源安装一些常用软件比较麻烦，可以使用 iso 镜像文件搭建简易安装源，安装常用软件包
 参考文章：yum源的三种搭建方式，CentOS 使用iso镜像安装本地 yum 源 ，使用iso镜像设置Ubuntu系统本地apt源，Debian如何配置局域网APT软件仓库
 yum 源：网络搭建 这里以 Centos7 为例
@@ -35,10 +35,10 @@ yum 源：网络搭建 这里以 Centos7 为例
 </item>
 <item>
   <title>博客迁移</title>
-  <link>https://github.lanhuli.top/hugo-blog/8f5c6a2be833/</link>
+  <link>https://hugo.lanhuli.top/8f5c6a2be833/</link>
   <pubDate>Mon, 24 Jun 2024 00:42:28 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/8f5c6a2be833/</guid>
+  <guid>https://hugo.lanhuli.top/8f5c6a2be833/</guid>
   <description><![CDATA[从hexo转到hugo hugo的环境安装比hexo要简单，hugo下个二进制文件就行，hexo还要下载nodeJS和一堆npm包，而且下载的时候因为网络问题还慢，所以就换了hugo。
 之前用hexo时用的主题是butterfly，配置起来挺简单，文档全，也挺好看的。换了hugo之后，找了不少主题，最终选择用了FixIt
 FixIt主题很简洁，简单，够用，而且还有中文文档，上手挺快的。
@@ -47,10 +47,10 @@ Hugo常用命令
 </item>
 <item>
   <title>xss盲打平台bluelotus搭建</title>
-  <link>https://github.lanhuli.top/hugo-blog/e4880266d50b/</link>
+  <link>https://hugo.lanhuli.top/e4880266d50b/</link>
   <pubDate>Sat, 17 Feb 2024 03:38:13 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/e4880266d50b/</guid>
+  <guid>https://hugo.lanhuli.top/e4880266d50b/</guid>
   <description><![CDATA[项目地址： https://github.com/firesunCN/BlueLotus_XSSReceiver
 自己做成了一个 docker 镜像，可以直接使用。
 1 2 3 4 docker pull bluefoxqaq/bluelotus_xss_docker:2.0 # 这里映射宿主机的80端口，其它端口有问题，admin.php页面会不断刷新。80端口就没事 docker run -d -p 80:80 -it --name=bluelotus bluefoxqaq/bluelotus_xss_docker:2.0 # 访问ip:80即可 登录时需要完整的地址，例如：http://ip/login.php ，这个login.php不会自动添加。
@@ -62,10 +62,10 @@ Hugo常用命令
 </item>
 <item>
   <title>win10关闭自动更新</title>
-  <link>https://github.lanhuli.top/hugo-blog/0c18f16dae35/</link>
+  <link>https://hugo.lanhuli.top/0c18f16dae35/</link>
   <pubDate>Fri, 06 Oct 2023 03:09:41 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/0c18f16dae35/</guid>
+  <guid>https://hugo.lanhuli.top/0c18f16dae35/</guid>
   <description><![CDATA[关闭 win 10 (专业版) 系统更新，只在专业版win10测试过可行。其它版本不清楚。
 打开组策略，按图找到 Windows 更新。
 有三个配置需要更改
@@ -76,10 +76,10 @@ Hugo常用命令
 </item>
 <item>
   <title>设置虚拟机静态ip保持不变</title>
-  <link>https://github.lanhuli.top/hugo-blog/4013e4eb4949/</link>
+  <link>https://hugo.lanhuli.top/4013e4eb4949/</link>
   <pubDate>Thu, 05 Oct 2023 14:07:30 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/4013e4eb4949/</guid>
+  <guid>https://hugo.lanhuli.top/4013e4eb4949/</guid>
   <description><![CDATA[设置虚拟机静态ip保持不变 宿主机更换网络后，ip 地址变动，同时虚拟机也会变动 ip 地址，如果是笔记本的话，频繁更换网络导致虚拟机地址也要频繁修改，很麻烦。
 虚拟机在桥接模式下，通过 dhcp 获得一个和宿主机同网段的一个 ip，二者可以互通，可以正常访问互联网。但是如果宿主机换了一个网络，例如从 192.168.31.96 变成了 192.168.32.196，那么虚拟机的 ip 地址也要变为同 32 网段的 ip 地址才可以进行互通和上网。每次宿主机切换网络，虚拟机的地址也要跟着变动，这很麻烦，因为每次都有重新确认虚拟机新分配的 ip 地址。
 我希望虚拟机的 ip 地址不变，同时还可以正常互通和上网。无论宿主机如何切换网络，虚拟机的地址永远都不会变动。
@@ -101,10 +101,10 @@ Hugo常用命令
 </item>
 <item>
   <title>关于token的一些记录</title>
-  <link>https://github.lanhuli.top/hugo-blog/e08af3f827e9/</link>
+  <link>https://hugo.lanhuli.top/e08af3f827e9/</link>
   <pubDate>Sun, 01 Oct 2023 12:10:40 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/e08af3f827e9/</guid>
+  <guid>https://hugo.lanhuli.top/e08af3f827e9/</guid>
   <description><![CDATA[前段时间偶然看到一篇关于accessToken和refreshToken的讨论帖，了解到了这两个Token的区别，还顺带了解了一些关于OAuth2.0标准的内容，简单记录一下，方便后面复习。本文只是写给我自己看的，因为我也是根据网上的文章自己总结的，可能有误，可以直接去看网上写得更详细的文章
 Cookie、Session和Token 参考文章：一文讲透Token与Cookie、Session的区别
 为啥会有这几个东西呢，是因为http协议是无状态的协议，两个http请求之间没有联系，假如有很多个http请求，我们该如何区分这些个请求是属于哪个用户的，这就用到了我们提到的Cookie、Session和Token这些东西了。其实Cookie、Session、Token就是一个身份标识，通过这个身份标识，来区分http请求。
@@ -136,10 +136,10 @@ https://www.cnblogs.com/Nyan-Workflow-FC/p/11082590.html]]></description>
 </item>
 <item>
   <title>zsh的安装和配置</title>
-  <link>https://github.lanhuli.top/hugo-blog/13a9176d44b5/</link>
+  <link>https://hugo.lanhuli.top/13a9176d44b5/</link>
   <pubDate>Mon, 31 Jul 2023 12:54:21 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/13a9176d44b5/</guid>
+  <guid>https://hugo.lanhuli.top/13a9176d44b5/</guid>
   <description><![CDATA[安装zsh（Debian10） 查看当前 shell：echo $SHELL
 查看系统中安装了哪些 shell：cat /etc/shells
 切换 shell 环境：chsh -s /bin/zsh
@@ -149,10 +149,10 @@ https://www.cnblogs.com/Nyan-Workflow-FC/p/11082590.html]]></description>
 </item>
 <item>
   <title>java swing学习</title>
-  <link>https://github.lanhuli.top/hugo-blog/e70c6a493b0d/</link>
+  <link>https://hugo.lanhuli.top/e70c6a493b0d/</link>
   <pubDate>Sun, 30 Jul 2023 03:18:10 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/e70c6a493b0d/</guid>
+  <guid>https://hugo.lanhuli.top/e70c6a493b0d/</guid>
   <description><![CDATA[Swing包括了图形用户界面（GUI）器件如：文本框，按钮，分隔窗格和表。我在学习Swing时遇到了许多困惑，在这里记录一下，以便后续回顾。
 JFrame和JPanel详解 刚学习的时候，跟着老师敲，但没有理解这两个东西，导致后面一直搞不清楚Swing的逻辑，查了些资料，现在有点明白了。
 举一个不太准确的例子：假设Swing编程就像是我们在画画，我们画的圆圈，方块，文字就相当于Swing中的一个个组件。JFrame相当于一块透明的玻璃板，我们是没有办法在上面直接画画，JPanel相当于一张白纸，把这张白纸放到玻璃板上，就可以在纸上画出圆圈，方块和文字了。
@@ -163,10 +163,10 @@ JFrame是不能直接放置组件的，因为JFrame 不是一个容器，它只�
 </item>
 <item>
   <title>博客网站搭建</title>
-  <link>https://github.lanhuli.top/hugo-blog/443889da05ee/</link>
+  <link>https://hugo.lanhuli.top/443889da05ee/</link>
   <pubDate>Sun, 23 Jul 2023 22:14:15 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/443889da05ee/</guid>
+  <guid>https://hugo.lanhuli.top/443889da05ee/</guid>
   <description><![CDATA[安装部署 安装NodeJs：https://nodejs.org/en/download
 安装Git：https://git-scm.com/download/win
 安装hexo，输入以下命令

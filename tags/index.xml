@@ -1,86 +1,86 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Tags - 标签 - 蓝狐狸的博客</title>
-    <link>https://github.lanhuli.top/hugo-blog/tags/</link>
+    <link>https://hugo.lanhuli.top/tags/</link>
     <description>Tags - 标签 | 蓝狐狸的博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</lastBuildDate><atom:link href="https://github.lanhuli.top/hugo-blog/tags/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</lastBuildDate><atom:link href="https://hugo.lanhuli.top/tags/" rel="self" type="application/rss+xml" /><item>
   <title>Shell脚本</title>
-  <link>https://github.lanhuli.top/hugo-blog/tags/shell%E8%84%9A%E6%9C%AC/</link>
+  <link>https://hugo.lanhuli.top/tags/shell%E8%84%9A%E6%9C%AC/</link>
   <pubDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/tags/shell%E8%84%9A%E6%9C%AC/</guid>
+  <guid>https://hugo.lanhuli.top/tags/shell%E8%84%9A%E6%9C%AC/</guid>
   <description><![CDATA[]]></description>
 </item>
 <item>
   <title>华为交换机</title>
-  <link>https://github.lanhuli.top/hugo-blog/tags/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/</link>
+  <link>https://hugo.lanhuli.top/tags/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/</link>
   <pubDate>Thu, 17 Oct 2024 07:22:37 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/tags/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/</guid>
+  <guid>https://hugo.lanhuli.top/tags/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA/</guid>
   <description><![CDATA[]]></description>
 </item>
 <item>
   <title>默认标签</title>
-  <link>https://github.lanhuli.top/hugo-blog/tags/%E9%BB%98%E8%AE%A4%E6%A0%87%E7%AD%BE/</link>
+  <link>https://hugo.lanhuli.top/tags/%E9%BB%98%E8%AE%A4%E6%A0%87%E7%AD%BE/</link>
   <pubDate>Wed, 16 Oct 2024 20:58:02 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/tags/%E9%BB%98%E8%AE%A4%E6%A0%87%E7%AD%BE/</guid>
+  <guid>https://hugo.lanhuli.top/tags/%E9%BB%98%E8%AE%A4%E6%A0%87%E7%AD%BE/</guid>
   <description><![CDATA[]]></description>
 </item>
 <item>
   <title>Blog</title>
-  <link>https://github.lanhuli.top/hugo-blog/tags/blog/</link>
+  <link>https://hugo.lanhuli.top/tags/blog/</link>
   <pubDate>Mon, 24 Jun 2024 00:42:28 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/tags/blog/</guid>
+  <guid>https://hugo.lanhuli.top/tags/blog/</guid>
   <description><![CDATA[]]></description>
 </item>
 <item>
   <title>Docker</title>
-  <link>https://github.lanhuli.top/hugo-blog/tags/docker/</link>
+  <link>https://hugo.lanhuli.top/tags/docker/</link>
   <pubDate>Wed, 17 Apr 2024 12:34:29 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/tags/docker/</guid>
+  <guid>https://hugo.lanhuli.top/tags/docker/</guid>
   <description><![CDATA[]]></description>
 </item>
 <item>
   <title>Mysql</title>
-  <link>https://github.lanhuli.top/hugo-blog/tags/mysql/</link>
+  <link>https://hugo.lanhuli.top/tags/mysql/</link>
   <pubDate>Fri, 01 Mar 2024 11:59:29 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/tags/mysql/</guid>
+  <guid>https://hugo.lanhuli.top/tags/mysql/</guid>
   <description><![CDATA[]]></description>
 </item>
 <item>
   <title>Nginx</title>
-  <link>https://github.lanhuli.top/hugo-blog/tags/nginx/</link>
+  <link>https://hugo.lanhuli.top/tags/nginx/</link>
   <pubDate>Fri, 01 Mar 2024 11:59:29 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/tags/nginx/</guid>
+  <guid>https://hugo.lanhuli.top/tags/nginx/</guid>
   <description><![CDATA[]]></description>
 </item>
 <item>
   <title>Php</title>
-  <link>https://github.lanhuli.top/hugo-blog/tags/php/</link>
+  <link>https://hugo.lanhuli.top/tags/php/</link>
   <pubDate>Fri, 01 Mar 2024 11:59:29 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/tags/php/</guid>
+  <guid>https://hugo.lanhuli.top/tags/php/</guid>
   <description><![CDATA[]]></description>
 </item>
 <item>
   <title>Webmin</title>
-  <link>https://github.lanhuli.top/hugo-blog/tags/webmin/</link>
+  <link>https://hugo.lanhuli.top/tags/webmin/</link>
   <pubDate>Sat, 28 Oct 2023 21:22:50 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/tags/webmin/</guid>
+  <guid>https://hugo.lanhuli.top/tags/webmin/</guid>
   <description><![CDATA[]]></description>
 </item>
 <item>
   <title>Zsh</title>
-  <link>https://github.lanhuli.top/hugo-blog/tags/zsh/</link>
+  <link>https://hugo.lanhuli.top/tags/zsh/</link>
   <pubDate>Mon, 31 Jul 2023 12:54:21 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://github.lanhuli.top/hugo-blog/tags/zsh/</guid>
+  <guid>https://hugo.lanhuli.top/tags/zsh/</guid>
   <description><![CDATA[]]></description>
 </item>
 </channel>
