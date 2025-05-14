@@ -28,7 +28,7 @@ yum 源：网络搭建 这里以 Centos7 为例
 1 2 3 4 5 6 7 8 9 10 #yum仓库名，可自定义 [http] #yum仓库的描述信息 name=repo_for_http #yum源的网络访问地址。url链接不要填错 baseurl=http://192.168.0.211/repo/ #启用仓库 enabled=1 # 不进行红帽标签检查 gpgcheck=0 至于删除的那些文件的作用和内容，有兴趣可以自行百度或查看上述参考文章。">
   <meta itemprop="datePublished" content="2024-09-18T15:37:53+08:00">
   <meta itemprop="dateModified" content="2025-05-15T00:05:00+08:00">
-  <meta itemprop="wordCount" content="316">
+  <meta itemprop="wordCount" content="475">
   <meta itemprop="keywords" content="默认标签"><meta property="og:url" content="https://lanhuli.top/d27d0995f4f9/">
   <meta property="og:site_name" content="蓝狐狸的博客">
   <meta property="og:title" content="自建yum源和apt源">
@@ -73,7 +73,7 @@ yum 源：网络搭建 这里以 Centos7 为例
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/lanhuli.top\/d27d0995f4f9\/"
-    },"genre": "posts","keywords": "默认标签","wordcount":  316 ,
+    },"genre": "posts","keywords": "默认标签","wordcount":  475 ,
     "url": "https:\/\/lanhuli.top\/d27d0995f4f9\/","datePublished": "2024-09-18T15:37:53+08:00","dateModified": "2025-05-15T00:05:00+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
@@ -209,7 +209,7 @@ yum 源：网络搭建 这里以 Centos7 为例
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>自建yum源和apt源</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/" class="post-category" title="分类 - 默认分类"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 默认分类</a></span></div><div class="post-meta-line"><span title="发布于 2024-09-18 15:37:53"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-09-18">2024-09-18</time></span>&nbsp;<span title="更新于 2025-05-15 00:05:00"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="316 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/" class="post-category" title="分类 - 默认分类"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 默认分类</a></span></div><div class="post-meta-line"><span title="发布于 2024-09-18 15:37:53"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-09-18">2024-09-18</time></span>&nbsp;<span title="更新于 2025-05-15 00:05:00"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-05-15">2025-05-15</time></span>&nbsp;<span title="475 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -223,6 +223,7 @@ yum 源：网络搭建 这里以 Centos7 为例
     <li><a href="#服务器重启后挂载失效">服务器重启后挂载失效</a></li>
     <li><a href="#apt-源的配置文件说明">apt 源的配置文件说明</a></li>
     <li><a href="#查找软件包是否在-iso-镜像中">查找软件包是否在 iso 镜像中</a></li>
+    <li><a href="#使用-rsync-同步镜像源">使用 rsync 同步镜像源</a></li>
   </ul>
 </nav></div>
       </div><div class="content" id="content"><p>老版本 linux 系统的安装源都不维护消失了，没有源安装一些常用软件比较麻烦，可以使用 iso 镜像文件搭建简易安装源，安装常用软件包</p>
@@ -432,7 +433,143 @@ yum 源：网络搭建 这里以 Centos7 为例
 <p><a class="lightgallery" href="images/image-20250515001531036.png?size=large" data-thumbnail="images/image-20250515001531036.png?size=small" data-sub-html="<h2>image-20250515001531036</h2>"><img loading="lazy" src="images/image-20250515001531036.png" alt="image-20250515001531036" srcset="images/image-20250515001531036.png?size=small, images/image-20250515001531036.png?size=medium 1.5x, images/image-20250515001531036.png?size=large 2x" data-title="image-20250515001531036" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
 <p>结果</p>
 <p><a class="lightgallery" href="images/image-20250515001610523.png?size=large" data-thumbnail="images/image-20250515001610523.png?size=small" data-sub-html="<h2>image-20250515001610523</h2>"><img loading="lazy" src="images/image-20250515001610523.png" alt="image-20250515001610523" srcset="images/image-20250515001610523.png?size=small, images/image-20250515001610523.png?size=medium 1.5x, images/image-20250515001610523.png?size=large 2x" data-title="image-20250515001610523" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
-</div><div class="post-footer" id="post-footer">
+<h2 id="使用-rsync-同步镜像源" class="heading-element"><span>使用 rsync 同步镜像源</span>
+  <a href="#%e4%bd%bf%e7%94%a8-rsync-%e5%90%8c%e6%ad%a5%e9%95%9c%e5%83%8f%e6%ba%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li><strong>rsync</strong> 是一个高效的远程文件同步工具，支持增量同步（仅传输差异部分），常用于镜像大型仓库。</li>
+<li><strong>手动同步</strong>：通过 <code>rsync</code> 命令直接同步远程仓库到本地，但需自行处理元数据更新和仓库维护。</li>
+<li><strong>适用场景</strong>：
+<ul>
+<li>需要灵活控制同步内容（如过滤特定目录或软件包）。</li>
+<li>官方镜像站提供 <code>rsync</code> 访问支持（如 Debian、Ubuntu、CentOS 官方镜像）。</li>
+</ul>
+</li>
+</ul>
+<p>1）准备一个服务器</p>
+<ul>
+<li>安装rsync</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># Debian/Ubuntu</span>
+</span></span><span class="line"><span class="cl">sudo apt install rsync
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># CentOS/RHEL</span>
+</span></span><span class="line"><span class="cl">sudo yum install rsync</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>创建本地仓库目录</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># APT 仓库</span>
+</span></span><span class="line"><span class="cl">sudo mkdir -p /var/www/repos/apt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># YUM 仓库</span>
+</span></span><span class="line"><span class="cl">sudo mkdir -p /var/www/repos/yum</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>启动 http 服务器（如 Nginx）</li>
+</ul>
+<p>将两个本地仓库目录分别设置为设置为 http 网站的根目录</p>
+<p>2）同步仓库</p>
+<ul>
+<li>apt 仓库</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo rsync -avzH <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --delete <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --progress <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --exclude<span class="o">=</span><span class="s2">&#34;indices/&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --exclude<span class="o">=</span><span class="s2">&#34;*.diff&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --exclude<span class="o">=</span><span class="s2">&#34;*.gz&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    rsync://mirrors.ustc.edu.cn/ubuntu/ /var/www/repos/apt/</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>参数解析</strong>：</p>
+<ul>
+<li><code>-avzH</code>：归档模式、保留属性、压缩传输、保留硬链接。</li>
+<li><code>--delete</code>：删除本地多余文件（保持与远程严格一致）。</li>
+<li><code>--progress</code>：显示同步进度。</li>
+<li><code>--exclude</code>：排除临时文件或索引（后续需手动生成）。</li>
+</ul>
+<p><strong>注意：这里的镜像源地址必须支持 rsync 访问</strong></p>
+<p>生成 apt 仓库元数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> /var/www/repos/apt
+</span></span><span class="line"><span class="cl">apt-ftparchive packages . &gt; Packages
+</span></span><span class="line"><span class="cl">gzip -k Packages
+</span></span><span class="line"><span class="cl">apt-ftparchive release . &gt; Release</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>yum 仓库</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo rsync -avzH <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --delete <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --progress <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --exclude<span class="o">=</span><span class="s2">&#34;repodata/&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --exclude<span class="o">=</span><span class="s2">&#34;*.tmp&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    rsync://mirrors.ustc.edu.cn/centos/8/AppStream/x86_64/os/ /var/www/repos/yum/centos/8/AppStream/x86_64/os/</span></span></code></pre></td></tr></table>
+</div>
+</div><p>生成 yum 仓库元数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 安装 createrepo</span>
+</span></span><span class="line"><span class="cl">sudo yum install createrepo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 生成元数据</span>
+</span></span><span class="line"><span class="cl">sudo createrepo /var/www/repos/yum/centos/8/AppStream/x86_64/os/</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
