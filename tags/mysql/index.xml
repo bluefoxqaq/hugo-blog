@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Mysql - 标签 - 蓝狐狸的博客</title>
-    <link>https://hugo.lanhuli.top/tags/mysql/</link>
+    <link>https://lanhuli.top/tags/mysql/</link>
     <description>Mysql - 标签 | 蓝狐狸的博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 01 Mar 2024 11:59:29 &#43;0800</lastBuildDate><atom:link href="https://hugo.lanhuli.top/tags/mysql/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 01 Mar 2024 11:59:29 &#43;0800</lastBuildDate><atom:link href="https://lanhuli.top/tags/mysql/" rel="self" type="application/rss+xml" /><item>
   <title>debian系统安装服务软件</title>
-  <link>https://hugo.lanhuli.top/8e7beb29bf97/</link>
+  <link>https://lanhuli.top/8e7beb29bf97/</link>
   <pubDate>Fri, 01 Mar 2024 11:59:29 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/8e7beb29bf97/</guid>
+  <guid>https://lanhuli.top/8e7beb29bf97/</guid>
   <description><![CDATA[linux编译安装指令
 configure、make、make install 命令
 configure：配置，是用来检测你的安装平台的目标特征的。比如它会检测你是不是有 CC 或 GCC，并不是需要 CC 或 GCC，它是个 shell 脚本。configure 脚本负责在使用的系统上准备好软件的构建环境。确保接下来的构建和安装过程所需要的依赖准备好，并且搞清楚使用这些依赖需要的东西。

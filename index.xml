@@ -1,16 +1,16 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>蓝狐狸的博客</title>
-    <link>https://hugo.lanhuli.top/</link>
+    <link>https://lanhuli.top/</link>
     <description>蓝狐狸的博客</description>
     <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</lastBuildDate>
-      <atom:link href="https://hugo.lanhuli.top/index.xml" rel="self" type="application/rss+xml" />
+      <atom:link href="https://lanhuli.top/index.xml" rel="self" type="application/rss+xml" />
     <item>
   <title>Shell脚本编程</title>
-  <link>https://hugo.lanhuli.top/02b965210d21/</link>
+  <link>https://lanhuli.top/02b965210d21/</link>
   <pubDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/02b965210d21/</guid>
+  <guid>https://lanhuli.top/02b965210d21/</guid>
   <description><![CDATA[参考：Shell教程|菜鸟教程
 shell 环境
 #!/bin/bash：脚本第一行，告诉系统使用什么解释器来执行，即使用哪一个 shell
@@ -21,10 +21,10 @@ shell 环境
 </item>
 <item>
   <title>华为交换机命令</title>
-  <link>https://hugo.lanhuli.top/36371b0398bc/</link>
+  <link>https://lanhuli.top/36371b0398bc/</link>
   <pubDate>Thu, 17 Oct 2024 07:22:37 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/36371b0398bc/</guid>
+  <guid>https://lanhuli.top/36371b0398bc/</guid>
   <description><![CDATA[简单命令 undo shutdown //激活接口
 display current-configuration // 查看当前的配置（内存中）
 display saved-configuration // 查看保存的配置（Flash 中）
@@ -39,10 +39,10 @@ display saved-configuration // 查看保存的配置（Flash 中）
 </item>
 <item>
   <title>关于Linux环境变量配置文件</title>
-  <link>https://hugo.lanhuli.top/6e0e33a32ed0/</link>
+  <link>https://lanhuli.top/6e0e33a32ed0/</link>
   <pubDate>Wed, 16 Oct 2024 20:58:02 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/6e0e33a32ed0/</guid>
+  <guid>https://lanhuli.top/6e0e33a32ed0/</guid>
   <description><![CDATA[环境变量相关的配置文件 /etc/profile：此文件为系统的每个用户设置环境信息。
 /etc/bashrc或 /etc/bash.bashrc：为每一个运行 bash shell 的用户执行此文件.当 bash shell 被打开时,该文件被读取。
 ~/.bashrc：该文件包含专用于你的 bash shell 的 bash 信息,当登录时以及每次打开新的 shell 时,该文件被读取。
@@ -55,10 +55,10 @@ login shell 和 non-login shell login shell：取得 bash 时需要完整的登�
 </item>
 <item>
   <title>Linux开机启动执行脚本</title>
-  <link>https://hugo.lanhuli.top/7cbcb56c25d8/</link>
+  <link>https://lanhuli.top/7cbcb56c25d8/</link>
   <pubDate>Fri, 20 Sep 2024 11:42:54 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/7cbcb56c25d8/</guid>
+  <guid>https://lanhuli.top/7cbcb56c25d8/</guid>
   <description><![CDATA[方法 1：rc.local 文件位置在 /etc/rc.local。比较简单的方法，但是有些 linux 版本不支持，例如 debian 默认没有 rc.local 这个文件，但是有这个服务，并且这个服务是关闭的。
 注意：/etc/rc.local 和/etc/rc.d/rc.local 区别在于，/etc/rc.local 是/etc/rc.d/rc.local 的软连接
 1）使用方式 1 2 3 4 5 # 先赋予文件执行权限，有就不用了 chmod +x /etc/rc.d/rc.local # 查看是否有执行权限 ls -l /etc/rc.d/rc.local # 将想要执行的命令添加到 rc.local 文件末尾即可，也可以执行 .sh 文件 2）简单测试一下 先创建一个文件：touch /root/111.txt，在 rc.local 文件后面添加命令 /bin/echo &quot;abc11&quot; &gt; /root/111.txt，重启验证，查看命令是否执行。
@@ -69,10 +69,10 @@ login shell 和 non-login shell login shell：取得 bash 时需要完整的登�
 </item>
 <item>
   <title>自建yum源和apt源</title>
-  <link>https://hugo.lanhuli.top/d27d0995f4f9/</link>
+  <link>https://lanhuli.top/d27d0995f4f9/</link>
   <pubDate>Wed, 18 Sep 2024 15:37:53 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/d27d0995f4f9/</guid>
+  <guid>https://lanhuli.top/d27d0995f4f9/</guid>
   <description><![CDATA[老版本 linux 系统的安装源都不维护消失了，没有源安装一些常用软件比较麻烦，可以使用 iso 镜像文件搭建简易安装源，安装常用软件包
 参考文章：yum源的三种搭建方式，CentOS 使用iso镜像安装本地 yum 源 ，使用iso镜像设置Ubuntu系统本地apt源，Debian如何配置局域网APT软件仓库
 yum 源：网络搭建 这里以 Centos7 为例
@@ -85,10 +85,10 @@ yum 源：网络搭建 这里以 Centos7 为例
 </item>
 <item>
   <title>博客迁移</title>
-  <link>https://hugo.lanhuli.top/8f5c6a2be833/</link>
+  <link>https://lanhuli.top/8f5c6a2be833/</link>
   <pubDate>Mon, 24 Jun 2024 00:42:28 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/8f5c6a2be833/</guid>
+  <guid>https://lanhuli.top/8f5c6a2be833/</guid>
   <description><![CDATA[从hexo转到hugo hugo的环境安装比hexo要简单，hugo下个二进制文件就行，hexo还要下载nodeJS和一堆npm包，而且下载的时候因为网络问题还慢，所以就换了hugo。
 之前用hexo时用的主题是butterfly，配置起来挺简单，文档全，也挺好看的。换了hugo之后，找了不少主题，最终选择用了FixIt
 FixIt主题很简洁，简单，够用，而且还有中文文档，上手挺快的。
@@ -97,18 +97,18 @@ Hugo常用命令
 </item>
 <item>
   <title>docker镜像仓库</title>
-  <link>https://hugo.lanhuli.top/d72b8614ae35/</link>
+  <link>https://lanhuli.top/d72b8614ae35/</link>
   <pubDate>Wed, 17 Apr 2024 12:34:29 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/d72b8614ae35/</guid>
+  <guid>https://lanhuli.top/d72b8614ae35/</guid>
   <description><![CDATA[靶场镜像 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 # dvwa docker run -d -p 43301:3306 -p 48881:80 --restart=always --name=dvwa sagikazarmark/dvwa # pikachu docker run -d -p 43302:3306 -p 48882:80 --restart=always --name=pikachu area39/pikachu # sqli-labs docker run -d -p 43303:3306 -p 48883:80 --restart=always --name=sqli-labs acgpiano/sqli-labs # xss-labs docker run -d -p 43304:3306 -p 48884:80 --restart=always --name=xss-labs vulfocus/xss-labs # ssrf-labs docker run -d -p 43305:3306 -p 48885:80 --restart=always --name=ssrf-labs anhkhoa14592/ssrf-labs # webgoat 安装 docker run -d -p 48887:8080 -p 49091:9090 -e TZ=Asia/Shanghai --restart=always --name=webgoat webgoat/webgoat # bluelotus_xss 安装 docker run -d -p 48888:80 --restart=always --name=bluelotus_xss tanyiqu/bluelotus_xss_receiver 对于某些课程，您需要在同一时区运行容器。为此，您可以设置 TZ 环境变量。 https://hub.]]></description>
 </item>
 <item>
   <title>debian系统安装服务软件</title>
-  <link>https://hugo.lanhuli.top/8e7beb29bf97/</link>
+  <link>https://lanhuli.top/8e7beb29bf97/</link>
   <pubDate>Fri, 01 Mar 2024 11:59:29 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/8e7beb29bf97/</guid>
+  <guid>https://lanhuli.top/8e7beb29bf97/</guid>
   <description><![CDATA[linux编译安装指令
 configure、make、make install 命令
 configure：配置，是用来检测你的安装平台的目标特征的。比如它会检测你是不是有 CC 或 GCC，并不是需要 CC 或 GCC，它是个 shell 脚本。configure 脚本负责在使用的系统上准备好软件的构建环境。确保接下来的构建和安装过程所需要的依赖准备好，并且搞清楚使用这些依赖需要的东西。
@@ -122,10 +122,10 @@ apt 源安装 php 由于 debian 11 带的 php 版本是 7.4，有点老，所以
 </item>
 <item>
   <title>xss盲打平台bluelotus搭建</title>
-  <link>https://hugo.lanhuli.top/e4880266d50b/</link>
+  <link>https://lanhuli.top/e4880266d50b/</link>
   <pubDate>Sat, 17 Feb 2024 03:38:13 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/e4880266d50b/</guid>
+  <guid>https://lanhuli.top/e4880266d50b/</guid>
   <description><![CDATA[项目地址： https://github.com/firesunCN/BlueLotus_XSSReceiver
 自己做成了一个 docker 镜像，可以直接使用。
 1 2 3 4 docker pull bluefoxqaq/bluelotus_xss_docker:2.0 # 这里映射宿主机的80端口，其它端口有问题，admin.php页面会不断刷新。80端口就没事 docker run -d -p 80:80 -it --name=bluelotus bluefoxqaq/bluelotus_xss_docker:2.0 # 访问ip:80即可 登录时需要完整的地址，例如：http://ip/login.php ，这个login.php不会自动添加。
@@ -137,10 +137,10 @@ apt 源安装 php 由于 debian 11 带的 php 版本是 7.4，有点老，所以
 </item>
 <item>
   <title>Dockerfile文件</title>
-  <link>https://hugo.lanhuli.top/4b704cc713a3/</link>
+  <link>https://lanhuli.top/4b704cc713a3/</link>
   <pubDate>Sat, 17 Feb 2024 03:05:28 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/4b704cc713a3/</guid>
+  <guid>https://lanhuli.top/4b704cc713a3/</guid>
   <description><![CDATA[Dockerfile常用指令 Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。
 Dockerfile 的指令是从上到下依次执行。其实跟我们直接敲命令差不多。
 1 2 3 4 5 6 7 # 一些常见指令 FROM：指定基础镜像，必须 WORKDIR ：设置指令的工作目录 COPY ：将文件或目录复制到镜像中，第一个参数是宿主机文件，第二个是容器 RUN ：镜像创建阶段中执行的命令 CMD ：容器创建阶段中执行的命令，可以被覆盖。例如在docker run 镜像id xxxx时 EXPOSE ：声明端口号 RUN 和 CMD 的区别：RUN 是在创建镜像时执行的命令，一般是安装、下载、创建文件之类的。CMD 是在创建容器时才会执行的命令，一般是启动程序的命令。

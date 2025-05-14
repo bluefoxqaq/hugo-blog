@@ -1,7 +1,7 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Collections - 合集 - 蓝狐狸的博客</title>
-    <link>https://hugo.lanhuli.top/collections/</link>
+    <link>https://lanhuli.top/collections/</link>
     <description>Collections - 合集 | 蓝狐狸的博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://hugo.lanhuli.top/collections/" rel="self" type="application/rss+xml" /></channel>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://lanhuli.top/collections/" rel="self" type="application/rss+xml" /></channel>
 </rss>

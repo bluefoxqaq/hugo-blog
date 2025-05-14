@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Zsh - 标签 - 蓝狐狸的博客</title>
-    <link>https://hugo.lanhuli.top/tags/zsh/</link>
+    <link>https://lanhuli.top/tags/zsh/</link>
     <description>Zsh - 标签 | 蓝狐狸的博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 31 Jul 2023 12:54:21 &#43;0800</lastBuildDate><atom:link href="https://hugo.lanhuli.top/tags/zsh/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 31 Jul 2023 12:54:21 &#43;0800</lastBuildDate><atom:link href="https://lanhuli.top/tags/zsh/" rel="self" type="application/rss+xml" /><item>
   <title>zsh的安装和配置</title>
-  <link>https://hugo.lanhuli.top/13a9176d44b5/</link>
+  <link>https://lanhuli.top/13a9176d44b5/</link>
   <pubDate>Mon, 31 Jul 2023 12:54:21 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/13a9176d44b5/</guid>
+  <guid>https://lanhuli.top/13a9176d44b5/</guid>
   <description><![CDATA[安装zsh（Debian10） 查看当前 shell：echo $SHELL
 查看系统中安装了哪些 shell：cat /etc/shells
 切换 shell 环境：chsh -s /bin/zsh

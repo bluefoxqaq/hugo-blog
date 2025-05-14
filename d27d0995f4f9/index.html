@@ -28,8 +28,8 @@ yum 源：网络搭建 这里以 Centos7 为例
 1 2 3 4 5 6 7 8 9 10 #yum仓库名，可自定义 [http] #yum仓库的描述信息 name=repo_for_http #yum源的网络访问地址。url链接不要填错 baseurl=http://192.168.0.211/repo/ #启用仓库 enabled=1 # 不进行红帽标签检查 gpgcheck=0 至于删除的那些文件的作用和内容，有兴趣可以自行百度或查看上述参考文章。">
   <meta itemprop="datePublished" content="2024-09-18T15:37:53+08:00">
   <meta itemprop="dateModified" content="2024-09-18T15:37:53+08:00">
-  <meta itemprop="wordCount" content="249">
-  <meta itemprop="keywords" content="默认标签"><meta property="og:url" content="https://hugo.lanhuli.top/d27d0995f4f9/">
+  <meta itemprop="wordCount" content="287">
+  <meta itemprop="keywords" content="默认标签"><meta property="og:url" content="https://lanhuli.top/d27d0995f4f9/">
   <meta property="og:site_name" content="蓝狐狸的博客">
   <meta property="og:title" content="自建yum源和apt源">
   <meta property="og:description" content="老版本 linux 系统的安装源都不维护消失了，没有源安装一些常用软件比较麻烦，可以使用 iso 镜像文件搭建简易安装源，安装常用软件包
@@ -62,7 +62,7 @@ yum 源：网络搭建 这里以 Centos7 为例
 <meta name="application-name" content="FixIt">
 <meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://hugo.lanhuli.top/d27d0995f4f9/" /><link rel="prev" href="https://hugo.lanhuli.top/8f5c6a2be833/" /><link rel="next" href="https://hugo.lanhuli.top/7cbcb56c25d8/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://lanhuli.top/d27d0995f4f9/" /><link rel="prev" href="https://lanhuli.top/8f5c6a2be833/" /><link rel="next" href="https://lanhuli.top/7cbcb56c25d8/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
   {
@@ -72,9 +72,9 @@ yum 源：网络搭建 这里以 Centos7 为例
     "inLanguage": "zh-cn",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https:\/\/hugo.lanhuli.top\/d27d0995f4f9\/"
-    },"genre": "posts","keywords": "默认标签","wordcount":  249 ,
-    "url": "https:\/\/hugo.lanhuli.top\/d27d0995f4f9\/","datePublished": "2024-09-18T15:37:53+08:00","dateModified": "2024-09-18T15:37:53+08:00","publisher": {
+      "@id": "https:\/\/lanhuli.top\/d27d0995f4f9\/"
+    },"genre": "posts","keywords": "默认标签","wordcount":  287 ,
+    "url": "https:\/\/lanhuli.top\/d27d0995f4f9\/","datePublished": "2024-09-18T15:37:53+08:00","dateModified": "2024-09-18T15:37:53+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -209,7 +209,7 @@ yum 源：网络搭建 这里以 Centos7 为例
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>自建yum源和apt源</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/" class="post-category" title="分类 - 默认分类"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 默认分类</a></span></div><div class="post-meta-line"><span title="发布于 2024-09-18 15:37:53"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-09-18">2024-09-18</time></span>&nbsp;<span title="249 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="/images/author.jpg" alt="蓝狐狸" data-title="蓝狐狸" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;蓝狐狸</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/" class="post-category" title="分类 - 默认分类"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 默认分类</a></span></div><div class="post-meta-line"><span title="发布于 2024-09-18 15:37:53"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-09-18">2024-09-18</time></span>&nbsp;<span title="287 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -219,6 +219,7 @@ yum 源：网络搭建 这里以 Centos7 为例
   <ul>
     <li><a href="#yum-源网络搭建">yum 源：网络搭建</a></li>
     <li><a href="#apt-源网络搭建">apt 源：网络搭建</a></li>
+    <li><a href="#apt-源本地搭建">apt 源：本地搭建</a></li>
     <li><a href="#服务器重启后挂载失效">服务器重启后挂载失效</a></li>
     <li><a href="#apt-源的配置文件说明">apt 源的配置文件说明</a></li>
   </ul>
@@ -319,13 +320,48 @@ yum 源：网络搭建 这里以 Centos7 为例
 </span></span><span class="line"><span class="cl">deb <span class="o">[</span><span class="nv">trusted</span><span class="o">=</span>yes<span class="o">]</span> http://192.168.0.211/debian9/ stretch main contrib
 </span></span><span class="line"><span class="cl"><span class="c1"># [trusted=yes]代表直接信任</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># http://192.168.0.211/debian9/ ：软件仓库URL</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># stretch：版本代号</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># stretch：系统版本代号</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># main contrib：光盘上软件的组织结构</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>成功，这样就可以安装软件了，仅限 iso 镜像中自带的软件包</p>
 <p><a class="lightgallery" href="images/image-20240916182651799.png?size=large" data-thumbnail="images/image-20240916182651799.png?size=small" data-sub-html="<h2>images/image-20240916182651799.png</h2>"><img loading="lazy" src="images/image-20240916182651799.png" alt="images/image-20240916182651799.png" srcset="images/image-20240916182651799.png?size=small, images/image-20240916182651799.png?size=medium 1.5x, images/image-20240916182651799.png?size=large 2x" data-title="images/image-20240916182651799.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
 <p>5）例如没有 vim，就可以从自己搭建的网络 apt 源进行安装，当然，仅限 iso 镜像中自带的软件包</p>
 <p><a class="lightgallery" href="images/image-20240916182943230.png?size=large" data-thumbnail="images/image-20240916182943230.png?size=small" data-sub-html="<h2>images/image-20240916182943230.png</h2>"><img loading="lazy" src="images/image-20240916182943230.png" alt="images/image-20240916182943230.png" srcset="images/image-20240916182943230.png?size=small, images/image-20240916182943230.png?size=medium 1.5x, images/image-20240916182943230.png?size=large 2x" data-title="images/image-20240916182943230.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<h2 id="apt-源本地搭建" class="heading-element"><span>apt 源：本地搭建</span>
+  <a href="#apt-%e6%ba%90%e6%9c%ac%e5%9c%b0%e6%90%ad%e5%bb%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>如果只是本地主机使用，没有其他网络主机使用，可以直接将 iso 镜像挂载到本地目录，不使用http服务器。</p>
+<p>这里以 Debian11 服务器为例子</p>
+<p>1）创建目录<code>ubuntu</code>，名字随意</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mkdir /mnt/ubuntu</span></span></code></pre></td></tr></table>
+</div>
+</div><p>2）上传 iso 镜像文件，并挂载至 <code>ubuntu</code> 目录</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mount -o loop debian-11.11.0-amd64-DVD-1.iso /mnt/ubuntu/</span></span></code></pre></td></tr></table>
+</div>
+</div><p>3）修改本地主机的<code>/etc/apt/sources.list</code> 文件，注释掉其他源</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">deb <span class="o">[</span><span class="nv">trusted</span><span class="o">=</span>yes<span class="o">]</span> file:///mnt/source1 bullseye contrib main
+</span></span><span class="line"><span class="cl"><span class="c1"># bullseye：Debian的版本号。版本不同版号也不一致，注意修改</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><a class="lightgallery" href="images/image-20250514224521965.png?size=large" data-thumbnail="images/image-20250514224521965.png?size=small" data-sub-html="<h2>image-20250514224521965</h2>"><img loading="lazy" src="images/image-20250514224521965.png" alt="image-20250514224521965" srcset="images/image-20250514224521965.png?size=small, images/image-20250514224521965.png?size=medium 1.5x, images/image-20250514224521965.png?size=large 2x" data-title="image-20250514224521965" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
+<p>4）运行 <code>apt update</code>命令</p>
+<p><a class="lightgallery" href="images/image-20250514224610921.png?size=large" data-thumbnail="images/image-20250514224610921.png?size=small" data-sub-html="<h2>image-20250514224610921</h2>"><img loading="lazy" src="images/image-20250514224610921.png" alt="image-20250514224610921" srcset="images/image-20250514224610921.png?size=small, images/image-20250514224610921.png?size=medium 1.5x, images/image-20250514224610921.png?size=large 2x" data-title="image-20250514224610921" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
 <h2 id="服务器重启后挂载失效" class="heading-element"><span>服务器重启后挂载失效</span>
   <a href="#%e6%9c%8d%e5%8a%a1%e5%99%a8%e9%87%8d%e5%90%af%e5%90%8e%e6%8c%82%e8%bd%bd%e5%a4%b1%e6%95%88" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>

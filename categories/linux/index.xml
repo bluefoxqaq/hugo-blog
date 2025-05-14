@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Linux - 分类 - 蓝狐狸的博客</title>
-    <link>https://hugo.lanhuli.top/categories/linux/</link>
+    <link>https://lanhuli.top/categories/linux/</link>
     <description>Linux - 分类 | 蓝狐狸的博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</lastBuildDate><atom:link href="https://hugo.lanhuli.top/categories/linux/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</lastBuildDate><atom:link href="https://lanhuli.top/categories/linux/" rel="self" type="application/rss+xml" /><item>
   <title>Shell脚本编程</title>
-  <link>https://hugo.lanhuli.top/02b965210d21/</link>
+  <link>https://lanhuli.top/02b965210d21/</link>
   <pubDate>Sat, 07 Dec 2024 14:24:06 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/02b965210d21/</guid>
+  <guid>https://lanhuli.top/02b965210d21/</guid>
   <description><![CDATA[参考：Shell教程|菜鸟教程
 shell 环境
 #!/bin/bash：脚本第一行，告诉系统使用什么解释器来执行，即使用哪一个 shell
@@ -19,10 +19,10 @@ shell 环境
 </item>
 <item>
   <title>关于Linux环境变量配置文件</title>
-  <link>https://hugo.lanhuli.top/6e0e33a32ed0/</link>
+  <link>https://lanhuli.top/6e0e33a32ed0/</link>
   <pubDate>Wed, 16 Oct 2024 20:58:02 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/6e0e33a32ed0/</guid>
+  <guid>https://lanhuli.top/6e0e33a32ed0/</guid>
   <description><![CDATA[环境变量相关的配置文件 /etc/profile：此文件为系统的每个用户设置环境信息。
 /etc/bashrc或 /etc/bash.bashrc：为每一个运行 bash shell 的用户执行此文件.当 bash shell 被打开时,该文件被读取。
 ~/.bashrc：该文件包含专用于你的 bash shell 的 bash 信息,当登录时以及每次打开新的 shell 时,该文件被读取。
@@ -35,10 +35,10 @@ login shell 和 non-login shell login shell：取得 bash 时需要完整的登�
 </item>
 <item>
   <title>debian系统安装服务软件</title>
-  <link>https://hugo.lanhuli.top/8e7beb29bf97/</link>
+  <link>https://lanhuli.top/8e7beb29bf97/</link>
   <pubDate>Fri, 01 Mar 2024 11:59:29 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/8e7beb29bf97/</guid>
+  <guid>https://lanhuli.top/8e7beb29bf97/</guid>
   <description><![CDATA[linux编译安装指令
 configure、make、make install 命令
 configure：配置，是用来检测你的安装平台的目标特征的。比如它会检测你是不是有 CC 或 GCC，并不是需要 CC 或 GCC，它是个 shell 脚本。configure 脚本负责在使用的系统上准备好软件的构建环境。确保接下来的构建和安装过程所需要的依赖准备好，并且搞清楚使用这些依赖需要的东西。
@@ -52,10 +52,10 @@ apt 源安装 php 由于 debian 11 带的 php 版本是 7.4，有点老，所以
 </item>
 <item>
   <title>linux磁盘扩容</title>
-  <link>https://hugo.lanhuli.top/7f17ea35961e/</link>
+  <link>https://lanhuli.top/7f17ea35961e/</link>
   <pubDate>Sat, 12 Aug 2023 08:17:11 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/7f17ea35961e/</guid>
+  <guid>https://lanhuli.top/7f17ea35961e/</guid>
   <description><![CDATA[前言 最近遇到了Linux磁盘扩容的问题，磁盘扩容有好几种情景，因为之前没涉及到，踩了不少坑。在此记录一下，方便后续查阅。
 假设有一块磁盘A，容量是100G。我分了20G用来安装Linux系统，剩下的没有动。随着时间的增长，20G不够用了，我可以将磁盘A剩下的80G分给Linux系统，也可以在加装一块磁盘B分给Linux。两种方式都可以实现扩容的目的，但是实现的手段可以分为两种：lvm和非lvm
 非lvm方式，就是一般的磁盘挂载，将新硬盘分区并格式化后，挂载到Linux系统的某个文件夹上去，实现磁盘的扩容，但是这种方式一个文件夹只能挂载一个磁盘，如果想要将两块磁盘同时挂载到同一个文件夹上就需要用到lvm进行磁盘管理。

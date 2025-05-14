@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Blog - 标签 - 蓝狐狸的博客</title>
-    <link>https://hugo.lanhuli.top/tags/blog/</link>
+    <link>https://lanhuli.top/tags/blog/</link>
     <description>Blog - 标签 | 蓝狐狸的博客</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 24 Jun 2024 00:42:28 &#43;0800</lastBuildDate><atom:link href="https://hugo.lanhuli.top/tags/blog/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 24 Jun 2024 00:42:28 &#43;0800</lastBuildDate><atom:link href="https://lanhuli.top/tags/blog/" rel="self" type="application/rss+xml" /><item>
   <title>博客迁移</title>
-  <link>https://hugo.lanhuli.top/8f5c6a2be833/</link>
+  <link>https://lanhuli.top/8f5c6a2be833/</link>
   <pubDate>Mon, 24 Jun 2024 00:42:28 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/8f5c6a2be833/</guid>
+  <guid>https://lanhuli.top/8f5c6a2be833/</guid>
   <description><![CDATA[从hexo转到hugo hugo的环境安装比hexo要简单，hugo下个二进制文件就行，hexo还要下载nodeJS和一堆npm包，而且下载的时候因为网络问题还慢，所以就换了hugo。
 之前用hexo时用的主题是butterfly，配置起来挺简单，文档全，也挺好看的。换了hugo之后，找了不少主题，最终选择用了FixIt
 FixIt主题很简洁，简单，够用，而且还有中文文档，上手挺快的。
@@ -17,10 +17,10 @@ Hugo常用命令
 </item>
 <item>
   <title>博客网站搭建</title>
-  <link>https://hugo.lanhuli.top/443889da05ee/</link>
+  <link>https://lanhuli.top/443889da05ee/</link>
   <pubDate>Sun, 23 Jul 2023 22:14:15 &#43;0800</pubDate>
   <author>蓝狐狸</author>
-  <guid>https://hugo.lanhuli.top/443889da05ee/</guid>
+  <guid>https://lanhuli.top/443889da05ee/</guid>
   <description><![CDATA[安装部署 安装NodeJs：https://nodejs.org/en/download
 安装Git：https://git-scm.com/download/win
 安装hexo，输入以下命令
